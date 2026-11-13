@@ -1,0 +1,140 @@
+/*
+  CANVAS EFFECTS
+  The special "design tool" looks that are awkward to write as Tailwind classes:
+  dotted canvas, ruler, selection boxes and their keyframes.
+*/
+
+/* 1. Dotted canvas across the whole page: one tiny dot repeated every 22px. */
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+
+/* 2. Ruler under the navbar. Tick marks are a repeating gradient; the colored
+      bar's width follows --p (0 to 1), which useScrollProgress updates on scroll. */
+.ruler {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 6px;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 12px);
+  background-size: 100% 5px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+.ruler-fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: calc(var(--p, 0) * 100%);
+  background: var(--tgrad);
+}
+
+/* 3. Selection handles: the little squares on the corners of a selection box. */
+.handle {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--surface);
+  border: 1.5px solid var(--sel);
+}
+.handle-tl {
+  top: -5px;
+  left: -5px;
+}
+.handle-tr {
+  top: -5px;
+  right: -5px;
+}
+.handle-bl {
+  bottom: -5px;
+  left: -5px;
+}
+.handle-br {
+  bottom: -5px;
+  right: -5px;
+}
+.handle-tm {
+  top: -5px;
+  left: calc(50% - 4.5px);
+}
+.handle-bm {
+  bottom: -5px;
+  left: calc(50% - 4.5px);
+}
+.handle-ml {
+  left: -5px;
+  top: calc(50% - 4.5px);
+}
+.handle-mr {
+  right: -5px;
+  top: calc(50% - 4.5px);
+}
+
+/* 4. Section titles ("frames"). The heading text is always visible; only the box
+      around it animates. "armed" = waiting off-screen, "in" = draw the box now. */
+.frame-box {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--sel);
+  pointer-events: none;
+}
+.frame-title.armed .frame-box {
+  clip-path: inset(0 100% 100% 0);
+}
+.frame-title.armed .handle {
+  transform: scale(0);
+}
+.frame-title.in .frame-box {
+  animation: draw 0.75s cubic-bezier(0.6, 0, 0.2, 1) both;
+}
+.frame-title.in .handle {
+  animation: pop 0.3s ease-out 0.65s both;
+}
+
+@keyframes draw {
+  from {
+    clip-path: inset(0 100% 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* 5. Underline under the navbar link of the section you are reading. */
+.nav-link[aria-current='true']::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tgrad);
+}
+
+/* Respect "reduce motion": everything jumps straight to its final state. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

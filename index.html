@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will R. Bitoy · IT Student and Developer · Palompon, Leyte</title>
+    <meta
+      name="description"
+      content="Portfolio of Will R. Bitoy, a 3rd-year BS Information Technology student at Western Leyte College in Palompon, Leyte, who designs and builds web and mobile systems."
+    />
+    <meta name="author" content="Will R. Bitoy" />
+    <meta name="theme-color" content="#F7F5FB" />
+    <!-- Preload the fonts used at the top of the page, so the headline doesn't re-wrap when they arrive. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Link preview (Messenger, Facebook, X). The og:image is added in milestone 4. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Will R. Bitoy · IT Student and Developer" />
+    <meta
+      property="og:description"
+      content="I build systems that replace paper. Web and mobile projects by a BSIT student from Palompon, Leyte."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      No-flash script. It runs before the page paints, so the right theme and language
+      are already on <html> when the CSS loads. Order of preference for the theme:
+      1) what the visitor picked before (saved in localStorage), 2) the device setting.
+      localStorage can throw (private mode, blocked storage), so it sits in try/catch.
+    -->
+    <script>
+      ;(function () {
+        var root = document.documentElement
+        var theme = null
+        var lang = null
+        try {
+          theme = localStorage.getItem('wb-theme')
+          lang = localStorage.getItem('wb-lang')
+        } catch (e) {}
+        if (theme !== 'dark' && theme !== 'light') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        root.setAttribute('data-theme', theme)
+        if (lang === 'ceb') root.lang = 'ceb'
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

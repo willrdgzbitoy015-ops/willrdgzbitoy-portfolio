@@ -1,0 +1,32 @@
+# Private project files: never push these to the public repo
+_brief/
+notes/
+.obsidian/
+graphify-out/
+PROMPT-FOR-CLAUDE-CODE.md
+
+# Secrets (the real Web3Forms key lives in .env.local)
+.env
+.env.local
+.env.*.local
+*.local
+.claude/settings.local.json
+
+# Dependencies and build output
+node_modules
+dist
+dist-ssr
+.vercel
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.sw?

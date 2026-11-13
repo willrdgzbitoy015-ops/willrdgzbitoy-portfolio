@@ -1,0 +1,10 @@
+dist
+node_modules
+_brief
+notes
+graphify-out
+.claude
+.obsidian
+package-lock.json
+PROMPT-FOR-CLAUDE-CODE.md
+CLAUDE.md
