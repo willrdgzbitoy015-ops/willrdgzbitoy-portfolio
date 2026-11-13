@@ -72,3 +72,69 @@ export const PlayIcon = (props: IconProps) => (
     <path d="M7 5l12 7-12 7z" />
   </Icon>
 )
+
+export const ArrowRightIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </Icon>
+)
+
+export const ClockIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 7.5V12l3 2" />
+  </Icon>
+)
+
+// About: the four role cards
+export const CodeIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" />
+  </Icon>
+)
+
+export const DatabaseIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <ellipse cx="12" cy="6" rx="7" ry="3" />
+    <path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" />
+  </Icon>
+)
+
+export const HeadsetIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+    <rect x="3" y="14" width="4" height="6" rx="1.5" />
+    <rect x="17" y="14" width="4" height="6" rx="1.5" />
+  </Icon>
+)
+
+export const SteeringWheelIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="12" r="8.5" />
+    <circle cx="12" cy="12" r="2" />
+    <path d="M12 14v6.5M10.1 11.3L4 9.5M13.9 11.3L20 9.5" />
+  </Icon>
+)
+
+// Projects: card thumbnails
+export const ShirtIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M8.5 3.5L4 6l1.5 4.5L7 10v10.5h10V10l1.5.5L20 6l-4.5-2.5c-.6 1.5-1.9 2.5-3.5 2.5S9.1 5 8.5 3.5z" />
+    <path d="M10 14h4M10 17h2.5" />
+  </Icon>
+)
+
+export const CameraIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+    <circle cx="12" cy="12.5" r="3.5" />
+  </Icon>
+)
+
+export const CalendarHeartIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <rect x="3" y="5" width="18" height="16" rx="3" />
+    <path d="M3 10h18M8 3v4M16 3v4" />
+    <path d="M12 18.2s-3.2-1.9-3.2-3.8a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 1.9-3.2 3.8-3.2 3.8z" />
+  </Icon>
+)

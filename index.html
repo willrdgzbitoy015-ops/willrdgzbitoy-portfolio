@@ -25,6 +25,16 @@
       crossorigin
       href="/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2"
     />
+    <!-- Preload the hero photo: it is the largest thing on the first screen. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/images/hero-800.webp"
+      imagesrcset="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-800.webp 800w, /images/hero-1195.webp 1195w"
+      imagesizes="(min-width: 500px) 365px, 78vw"
+      fetchpriority="high"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Link preview (Messenger, Facebook, X). The og:image is added in milestone 4. -->

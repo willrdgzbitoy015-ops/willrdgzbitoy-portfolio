@@ -14,6 +14,9 @@ import '@fontsource/space-grotesk/latin-700.css'
 import '@fontsource/jetbrains-mono/latin-400.css'
 import '@fontsource/jetbrains-mono/latin-500.css'
 import '@fontsource/jetbrains-mono/latin-600.css'
+// latin-ext holds the peso sign. The browser only downloads it where a ₱ is shown.
+import '@fontsource/jetbrains-mono/latin-ext-400.css'
+import '@fontsource/jetbrains-mono/latin-ext-600.css'
 
 import './index.css'
 import App from './App.tsx'
