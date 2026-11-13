@@ -1,0 +1,4 @@
+node_modules/
+dist/
+_brief/photos/
+package-lock.json
