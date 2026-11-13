@@ -8,7 +8,6 @@ export const en = {
   'nav.about': 'About',
   'nav.skills': 'Skills',
   'nav.projects': 'Projects',
-  'nav.demo': 'Try SmartFine',
   'nav.contact': 'Contact',
   'nav.resume': 'Resume',
   'nav.home': 'Will R. Bitoy, back to top',
@@ -32,21 +31,19 @@ export const en = {
   'hero.h1b': 'replace paper.',
   'hero.sub':
     '3rd-year BS Information Technology student at Western Leyte College, based in Palompon, Leyte. I design and build web and mobile systems.',
-  'cta.try': 'Try SmartFine',
+  'cta.work': 'View my work',
   'cta.resume': 'Download resume',
 
   // Layer names in the frame tags: "Frame 01 · About"
   'frame.about': 'About',
   'frame.skills': 'Skills',
   'frame.projects': 'Projects',
-  'frame.demo': 'Live demo',
   'frame.contact': 'Contact',
 
   // Section titles
   'about.title': 'About me',
   'skills.title': 'Skills',
   'projects.title': 'Projects',
-  'demo.title': 'Try SmartFine',
   'contact.title': 'Submit a ticket',
 
   // Temporary text while the site is being built (removed in later milestones)
@@ -58,12 +55,12 @@ export const en = {
   'footer.elsewhere': 'Elsewhere',
   'footer.backToTop': 'Back to top',
   'footer.built': 'Designed and built by Will R. Bitoy',
-  'footer.status': 'Zoom 100% · 6 frames',
+  'footer.status': 'Zoom 100% · 5 frames',
   'footer.updated': 'Last updated',
   // Hero extras
   'frame.home': 'Home',
-  'hero.statusLabel': 'Currently working on',
-  'hero.statusText': 'A scheduling system for Palompon Hemodialysis Center (capstone)',
+  'hero.statusLabel': 'Latest work',
+  'hero.statusText': "Ruben's Photography, a client website (Nov 2026)",
   'hero.timeIn': 'in Palompon',
   'hero.photoAlt':
     'Will crouching and looking down at the camera, one gloved hand raised toward it.',
@@ -91,7 +88,6 @@ export const en = {
   'role.driver.title': 'Driver',
   'role.driver.desc':
     'Learned to be punctual and reliable, and to get people where they need to go safely.',
-  'timeline.capstone': 'hemodialysis scheduling system (capstone, team of 2)',
   'timeline.rubens': "Ruben's Photography website",
   'timeline.smartfine': 'SmartFine working prototype',
   'timeline.css': 'Computer Systems Servicing NC II',
@@ -160,7 +156,6 @@ export const en = {
   'filter.team': 'Team',
   'projects.details': 'Details',
   'projects.caseStudy': 'Read the case study',
-  'projects.tryDemo': 'Try the live demo',
   'modal.close': 'Close',
   'badge.featured': 'Featured',
   'badge.soloProject': 'Solo project',
@@ -170,10 +165,8 @@ export const en = {
   'badge.testing': 'Core built · in testing',
   'badge.solo': 'Solo',
   'badge.client': 'Client website',
-  'badge.capstone': 'Capstone · team of 2',
-  'badge.planning': 'Planning · 2027',
 
-  // Phone mockup on the SmartFine card (reused by the live demo)
+  // Phone mockup on the SmartFine card
   'phone.student': 'Student',
   'phone.unpaidBalance': 'Unpaid balance',
   'phone.myFines': 'My fines',
@@ -198,8 +191,6 @@ export const en = {
   'm.team': 'Team',
   'm.brief': 'The brief',
   'm.built': 'What I built',
-  'm.plan': 'The plan',
-  'm.myRole': 'My role',
 
   // SmartFine
   'sf.hook': 'From paper logbooks to a QR scan.',
@@ -274,19 +265,6 @@ export const en = {
   'rp.built3': 'Every "Book" button opens Messenger, so quotes happen in a real conversation',
   'rp.built4': 'Light and dark themes and a short loading intro',
   'rp.status': 'Built November 2026. Live at [link once deployed].',
-
-  // Hemodialysis Scheduling System
-  'hd.desc':
-    'Palompon Hemodialysis Center books sessions and checks free slots in Excel. Our capstone replaces that with a system where staff book patients and see open slots at a glance.',
-  'hd.note': 'My role: programming and documentation, shared with my teammate',
-  'hd.techChip': 'Tech stack: to be decided',
-  'hd.problem':
-    'Palompon Hemodialysis Center books sessions and checks which slots are free in Excel sheets, which is slow and easy to get wrong.',
-  'hd.plan':
-    'A scheduling system where staff book patients into sessions and see open slots at a glance.',
-  'hd.role': 'We are a team of two. We share the programming and the documentation.',
-  'hd.techBody': "To be decided. We haven't started coding yet.",
-  'hd.status': 'Planning stage. Expected to finish in 2027.',
 } as const
 
 /** Every valid key, e.g. 'nav.about'. Using a key that doesn't exist is a compile error. */

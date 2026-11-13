@@ -23,10 +23,9 @@ export const SECTIONS = [
     navKey: 'nav.projects',
     titleKey: 'projects.title',
   },
-  { id: 'demo', number: '04', frameKey: 'frame.demo', navKey: 'nav.demo', titleKey: 'demo.title' },
   {
     id: 'contact',
-    number: '05',
+    number: '04',
     frameKey: 'frame.contact',
     navKey: 'nav.contact',
     titleKey: 'contact.title',

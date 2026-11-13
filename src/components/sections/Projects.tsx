@@ -6,14 +6,13 @@ import { useLanguage } from '../../i18n/LanguageContext'
 import { renderRich } from '../../lib/richText'
 import { Badge, TechChip } from '../ui/Badge'
 import { Button } from '../ui/Button'
-import { ArrowRightIcon, CalendarHeartIcon, CameraIcon, ShirtIcon } from '../ui/icons'
+import { CameraIcon, ShirtIcon } from '../ui/icons'
 import { FineRow, Phone } from '../ui/Phone'
 import { Section } from '../ui/Section'
 
 const THUMB_ICONS: Partial<Record<ProjectId, ReactNode>> = {
   underground: <ShirtIcon />,
   rubens: <CameraIcon />,
-  dialysis: <CalendarHeartIcon />,
 }
 
 interface ProjectsProps {
@@ -55,7 +54,7 @@ export function Projects({ highlighted, onOpenProject }: ProjectsProps) {
         ))}
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)] gap-5 min-[921px]:grid-cols-3">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-5 min-[761px]:grid-cols-2">
         {visible.map((project) =>
           project.featured ? (
             <FeaturedCard
@@ -88,11 +87,9 @@ export function Projects({ highlighted, onOpenProject }: ProjectsProps) {
                 <p className="text-muted text-[11.5px]">{renderRich(t(project.noteKey))}</p>
               )}
               <div className="mt-auto flex flex-wrap gap-1.5">
-                {project.techChipKey ? (
-                  <TechChip>{t(project.techChipKey)}</TechChip>
-                ) : (
-                  project.tech.map((tech) => <TechChip key={tech}>{tech}</TechChip>)
-                )}
+                {project.tech.map((tech) => (
+                  <TechChip key={tech}>{tech}</TechChip>
+                ))}
               </div>
               <div>
                 <Button variant="ghost" size="sm" onClick={() => onOpenProject(project.id)}>
@@ -161,17 +158,7 @@ function FeaturedCard({
           ))}
         </div>
         <div className="mt-6 flex flex-wrap gap-2">
-          <Button href="#demo">
-            {t('projects.tryDemo')}
-            <ArrowRightIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={onOpen}
-            className="!border-feat-line !text-feat-ink !bg-transparent hover:!border-[#C4B5FD]"
-          >
-            {t('projects.caseStudy')}
-          </Button>
+          <Button onClick={onOpen}>{t('projects.caseStudy')}</Button>
         </div>
         <p className="text-feat-muted mt-4 font-mono text-xs [&_.placeholder]:text-[#C4B5FD]">
           {renderRich(t('sf.built'))}

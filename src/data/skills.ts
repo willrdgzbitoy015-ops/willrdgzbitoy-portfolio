@@ -50,7 +50,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
         name: 'System analysis',
         nameKey: 'skill.analysis',
         level: 2,
-        usedIn: ['smartfine', 'underground', 'dialysis'],
+        usedIn: ['smartfine', 'underground'],
       },
     ],
   },
@@ -127,7 +127,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
         name: 'Team collaboration',
         nameKey: 'skill.team',
         level: 3,
-        usedIn: ['underground', 'dialysis'],
+        usedIn: ['underground'],
       },
     ],
   },
@@ -146,5 +146,5 @@ export interface Certification {
 export const CERTIFICATIONS: Certification[] = [
   { seal: 'NC II', titleKey: 'cert.css.title', descKey: 'cert.css.desc' },
   { seal: 'NC II', titleKey: 'cert.bpp.title', descKey: 'cert.bpp.desc' },
-  { seal: '2023', titleKey: 'cert.honors.title', descKey: 'cert.honors.desc' },
+  { seal: '2024', titleKey: 'cert.honors.title', descKey: 'cert.honors.desc' },
 ]

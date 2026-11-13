@@ -7,7 +7,7 @@ import type { TranslationKey } from '../i18n/en'
   Text in [brackets] inside the dictionaries is a placeholder Will still has to fill in.
 */
 
-export type ProjectId = 'smartfine' | 'underground' | 'rubens' | 'dialysis'
+export type ProjectId = 'smartfine' | 'underground' | 'rubens'
 
 /** The filter buttons above the grid. */
 export type ProjectCategory = 'mobile' | 'web' | 'solo' | 'team'
@@ -53,8 +53,6 @@ export interface Project {
   noteKey?: TranslationKey
   /** Tech names (not translated). */
   tech: string[]
-  /** Shown on the card instead of `tech` when the stack isn't chosen yet. */
-  techChipKey?: TranslationKey
   details: DetailSection[]
 }
 
@@ -141,23 +139,6 @@ export const PROJECTS: Project[] = [
       },
       { kind: 'tech', headingKey: 'm.tech' },
       { kind: 'text', headingKey: 'm.status', bodyKey: 'rp.status' },
-    ],
-  },
-  {
-    id: 'dialysis',
-    title: 'Hemodialysis Scheduling System',
-    categories: ['team'],
-    badges: [{ key: 'badge.capstone' }, { key: 'badge.planning', tone: 'warn' }],
-    descKey: 'hd.desc',
-    noteKey: 'hd.note',
-    tech: [],
-    techChipKey: 'hd.techChip',
-    details: [
-      { kind: 'text', headingKey: 'm.problem', bodyKey: 'hd.problem' },
-      { kind: 'text', headingKey: 'm.plan', bodyKey: 'hd.plan' },
-      { kind: 'text', headingKey: 'm.myRole', bodyKey: 'hd.role' },
-      { kind: 'text', headingKey: 'm.tech', bodyKey: 'hd.techBody' },
-      { kind: 'text', headingKey: 'm.status', bodyKey: 'hd.status' },
     ],
   },
 ]

@@ -130,11 +130,3 @@ export const CameraIcon = (props: IconProps) => (
     <circle cx="12" cy="12.5" r="3.5" />
   </Icon>
 )
-
-export const CalendarHeartIcon = (props: IconProps) => (
-  <Icon {...props}>
-    <rect x="3" y="5" width="18" height="16" rx="3" />
-    <path d="M3 10h18M8 3v4M16 3v4" />
-    <path d="M12 18.2s-3.2-1.9-3.2-3.8a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 1.9-3.2 3.8-3.2 3.8z" />
-  </Icon>
-)

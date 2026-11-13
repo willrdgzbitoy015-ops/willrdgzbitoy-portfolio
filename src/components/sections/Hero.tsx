@@ -78,19 +78,26 @@ export function Hero() {
 
           {/* Stacked on small phones: side by side they only just fit, and would jump to two rows when the font loads. */}
           <div className="mt-7.5 flex flex-wrap gap-3 max-[480px]:flex-col max-[480px]:items-start">
-            <Button href="#demo">
-              <span>{t('cta.try')}</span>
+            <Button href="#projects">
+              <span>{t('cta.work')}</span>
               <ArrowRightIcon />
             </Button>
             <ResumeButton variant="ghost" />
           </div>
 
           <div className="mt-7.5 flex flex-wrap gap-2.5">
-            <span className="border-line bg-surface text-muted inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1.5 rounded-[18px] border px-3.5 py-[7px] text-[13px]">
-              <span className="live-dot" aria-hidden="true" />
-              <span>{t('hero.statusLabel')}</span>
-              <b className="text-ink font-semibold">{t('hero.statusText')}</b>
-            </span>
+            {/* Opens the details of the newest project (the #project-... link is handled in App). */}
+            <a
+              href="#project-rubens"
+              className="group border-line bg-surface text-muted hover:border-sel inline-flex max-w-full items-center gap-2.5 rounded-full border py-[5px] pr-3.5 pl-[5px] text-[13px] no-underline transition-colors duration-200"
+            >
+              <span className="bg-ok-bg text-ok inline-flex flex-none items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold">
+                <span className="live-dot" aria-hidden="true" />
+                {t('hero.statusLabel')}
+              </span>
+              <b className="text-ink min-w-0 font-semibold">{t('hero.statusText')}</b>
+              <ArrowRightIcon className="size-3.5 flex-none transition-transform duration-200 group-hover:translate-x-0.5" />
+            </a>
             <span className="border-line bg-surface text-muted inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1.5 rounded-full border px-3.5 py-[7px] text-[13px]">
               <ClockIcon className="size-[15px]" />
               <b className="text-ink font-semibold tabular-nums">{time}</b>

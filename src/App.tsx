@@ -51,14 +51,12 @@ export default function App() {
         <Skills selectedSkillId={selectedSkillId} onSelectSkill={setSelectedSkillId} />
         <Projects highlighted={highlightedProjects} onOpenProject={openProject} />
 
-        {/* Milestone 3 replaces these two empty frames with the live demo and the contact form. */}
-        {(['demo', 'contact'] as const).map((id) => (
-          <Section key={id} id={id}>
-            <p className="border-line bg-surface text-muted rounded-[14px] border border-dashed px-5 py-10 text-center font-mono text-[13px]">
-              {t('shell.comingSoon')}
-            </p>
-          </Section>
-        ))}
+        {/* Milestone 3 replaces this empty frame with the contact form. */}
+        <Section id="contact">
+          <p className="border-line bg-surface text-muted rounded-[14px] border border-dashed px-5 py-10 text-center font-mono text-[13px]">
+            {t('shell.comingSoon')}
+          </p>
+        </Section>
       </main>
 
       <Footer />

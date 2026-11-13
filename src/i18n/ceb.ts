@@ -10,7 +10,6 @@ export const ceb: Dictionary = {
   'nav.about': 'Bahin nako',
   'nav.skills': 'Kahanas',
   'nav.projects': 'Mga proyekto',
-  'nav.demo': 'Sulayi ang SmartFine',
   'nav.contact': 'Kontaka ko',
   'nav.resume': 'Resume',
   'nav.home': 'Will R. Bitoy, balik sa taas',
@@ -34,21 +33,19 @@ export const ceb: Dictionary = {
   'hero.h1b': 'mopuli sa papel.',
   'hero.sub':
     'Ika-3 nga tuig nga estudyante sa BS Information Technology sa Western Leyte College, taga-Palompon, Leyte. Nagdisenyo ug nagbuhat ko og web ug mobile nga mga sistema.',
-  'cta.try': 'Sulayi ang SmartFine',
+  'cta.work': 'Tan-awa ang akong mga gibuhat',
   'cta.resume': 'I-download ang resume',
 
   // Layer names in the frame tags
   'frame.about': 'Bahin nako',
   'frame.skills': 'Kahanas',
   'frame.projects': 'Mga proyekto',
-  'frame.demo': 'Live demo',
   'frame.contact': 'Kontak',
 
   // Section titles
   'about.title': 'Bahin nako',
   'skills.title': 'Mga kahanas',
   'projects.title': 'Mga proyekto',
-  'demo.title': 'Sulayi ang SmartFine',
   'contact.title': 'Padala og tiket',
 
   // Temporary text while the site is being built
@@ -60,12 +57,12 @@ export const ceb: Dictionary = {
   'footer.elsewhere': 'Sa ubang dapit',
   'footer.backToTop': 'Balik sa taas',
   'footer.built': 'Gidisenyo ug gibuhat ni Will R. Bitoy',
-  'footer.status': 'Zoom 100% · 6 ka frame',
+  'footer.status': 'Zoom 100% · 5 ka frame',
   'footer.updated': 'Katapusang gi-update',
   // Hero extras
   'frame.home': 'Home',
-  'hero.statusLabel': 'Gitrabaho karon',
-  'hero.statusText': 'Usa ka scheduling system para sa Palompon Hemodialysis Center (capstone)',
+  'hero.statusLabel': 'Pinakabag-ong gibuhat',
+  'hero.statusText': "Ruben's Photography, website sa kliyente (Nob 2026)",
   'hero.timeIn': 'sa Palompon',
   'hero.photoAlt':
     'Si Will nga nagtikubo ug nagtan-aw sa camera, usa ka kamot nga naka-glove gipataas ngadto niini.',
@@ -94,7 +91,6 @@ export const ceb: Dictionary = {
   'role.driver.title': 'Drayber',
   'role.driver.desc':
     'Nakakat-on nga dili ma-late ug kasaligan, ug ihatod ang mga tawo sa ilang adtoan nga luwas.',
-  'timeline.capstone': 'hemodialysis scheduling system (capstone, grupo sa 2)',
   'timeline.rubens': "website sa Ruben's Photography",
   'timeline.smartfine': 'SmartFine nga prototype nga mogana',
   'timeline.css': 'Computer Systems Servicing NC II',
@@ -164,7 +160,6 @@ export const ceb: Dictionary = {
   'filter.team': 'Grupo',
   'projects.details': 'Mga detalye',
   'projects.caseStudy': 'Basaha ang case study',
-  'projects.tryDemo': 'Sulayi ang live demo',
   'modal.close': 'Sirad-i',
   'badge.featured': 'Pinili',
   'badge.soloProject': 'Solo nga proyekto',
@@ -174,10 +169,8 @@ export const ceb: Dictionary = {
   'badge.testing': 'Nahuman ang kinauyokan · gi-test pa',
   'badge.solo': 'Solo',
   'badge.client': 'Website sa kliyente',
-  'badge.capstone': 'Capstone · grupo sa 2',
-  'badge.planning': 'Nagplano pa · 2027',
 
-  // Phone mockup on the SmartFine card (reused by the live demo)
+  // Phone mockup on the SmartFine card
   'phone.student': 'Estudyante',
   'phone.unpaidBalance': 'Wala pa mabayri',
   'phone.myFines': 'Akong mga multa',
@@ -202,8 +195,6 @@ export const ceb: Dictionary = {
   'm.team': 'Grupo',
   'm.brief': 'Ang hangyo',
   'm.built': 'Unsay akong gibuhat',
-  'm.plan': 'Ang plano',
-  'm.myRole': 'Akong role',
 
   // SmartFine
   'sf.hook': 'Gikan sa papel nga logbook ngadto sa QR scan.',
@@ -280,17 +271,4 @@ export const ceb: Dictionary = {
     'Ang matag "Book" nga button moabli sa Messenger, aron ang presyo mahisgotan sa tinuod nga panag-istorya',
   'rp.built4': 'Light ug dark nga tema ug mubo nga loading intro',
   'rp.status': 'Gibuhat niadtong Nobyembre 2026. Live sa [link kon ma-deploy na].',
-
-  // Hemodialysis Scheduling System
-  'hd.desc':
-    'Ang Palompon Hemodialysis Center nag-book og mga session ug nagsusi sa bakanteng slot gamit ang Excel. Ang among capstone mopuli niana og sistema diin ang mga kawani maka-book og pasyente ug makakita dayon sa mga bakanteng slot.',
-  'hd.note': 'Akong role: programming ug dokumentasyon, gibahin namo sa akong kauban',
-  'hd.techChip': 'Tech stack: pagahukman pa',
-  'hd.problem':
-    'Ang Palompon Hemodialysis Center nag-book og mga session ug nagsusi kon asa ang bakanteng slot gamit ang mga Excel sheet, nga hinay ug sayon masayop.',
-  'hd.plan':
-    'Usa ka scheduling system diin ang mga kawani maka-book og pasyente sa mga session ug makakita dayon sa mga bakanteng slot.',
-  'hd.role': 'Duha mi sa grupo. Gibahin namo ang programming ug ang dokumentasyon.',
-  'hd.techBody': 'Pagahukman pa. Wala pa mi magsugod og coding.',
-  'hd.status': 'Yugto sa pagplano. Gilauman nga mahuman sa 2027.',
 }

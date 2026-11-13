@@ -11,6 +11,11 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 6. **No templates or UI kits** (MUI, Chakra, shadcn/ui, Flowbite, Tailwind UI, DaisyUI, portfolio themes).
 7. After each milestone: run the checks (build, lint, browser at 360/390/768/1024/1440, Lighthouse mobile 90+), update `notes/`, commit, and wait for Will's OK.
 
+## Scope changes that override the brief (Will, 2026-11-14)
+- **No SmartFine live demo** and no "Try SmartFine" link or button anywhere. The site only showcases work. Sections: Home, About, Skills, Projects, Contact.
+- **No Hemodialysis Scheduling System / capstone** anywhere on the site.
+- Will graduated high school in **2024**.
+
 ## Tech stack (final)
 - React 19 + TypeScript + Vite with `@vitejs/plugin-react-swc`; Tailwind CSS v4 via `@tailwindcss/vite`; `src/styles/effects.css` for special effects.
 - ESLint + Prettier (`prettier-plugin-tailwindcss`). Fonts self-hosted with `@fontsource` (Space Grotesk, Inter, JetBrains Mono). `sharp` is dev-only.

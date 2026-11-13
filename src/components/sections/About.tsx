@@ -102,12 +102,7 @@ export function About() {
                     {entry.hash}
                   </span>
                   <span>
-                    <span
-                      className={`font-semibold ${entry.type === 'wip' ? 'text-warn' : 'text-ok'}`}
-                    >
-                      {entry.type}:
-                    </span>{' '}
-                    {t(entry.textKey)}
+                    <span className="text-ok font-semibold">{entry.type}:</span> {t(entry.textKey)}
                   </span>
                   <span className="text-muted whitespace-nowrap">{renderRich(entry.when)}</span>
                 </li>
