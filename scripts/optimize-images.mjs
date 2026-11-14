@@ -18,10 +18,11 @@ const OUT = path.join(root, 'images')
 const WIDTHS = [480, 800, 1200]
 
 const PHOTOS = [
-  // Transparent PNG (alpha is kept): the "reach" photo, already cut out, colour-graded to
-  // the lavender palette and sharpened. The extra 640 step is what most phones pick; 712 is
-  // the cut-out's full width (no upscaling).
-  { file: '2-hero-reach-cutout.png', name: 'hero', quality: 80, widths: [480, 640, 712] },
+  // Transparent PNG (alpha is kept): the gloves photo, already cut out, lightened,
+  // colour-graded to the lavender palette and sharpened. The extra 640 step is what most
+  // phones pick; 1194 is the full width for sharp retina screens. Quality is a bit higher
+  // than the other photos because this is the first thing the judges see.
+  { file: '2-hero-gloves-cutout.png', name: 'hero', quality: 86, widths: [480, 640, 800, 1194] },
   { file: '4-about-sunset.jpg', name: 'about', quality: 78 },
   { file: '3-contact-reach.jpg', name: 'contact', quality: 78 },
 ]

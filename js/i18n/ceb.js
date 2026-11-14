@@ -68,7 +68,7 @@ WB.ceb = {
   'hero.statusText': "Ruben's Photography, website sa kliyente (Nob 2026)",
   'hero.timeIn': 'sa Palompon',
   'hero.photoAlt':
-    'Si Will nga nagtuy-od sa iyang kamot nga naka-glove padulong sa camera, nagtan-aw paubos niini.',
+    'Si Will nga nagtikubo ug nagtan-aw sa camera, usa ka kamot nga naka-glove gipataas ngadto niini.',
 
   // About
   'about.bio1':

@@ -646,14 +646,6 @@ a.chip-link:hover > svg {
   width: 8px;
   height: 8px;
 }
-.mark {
-  position: absolute;
-  top: 4%;
-  right: 4%;
-  width: 13%;
-  aspect-ratio: 1;
-  opacity: 0.95;
-}
 /* The part that gets "dragged in": gradient arch + selection box + photo + pointer. */
 .drag {
   position: absolute;
@@ -724,13 +716,11 @@ a.chip-link:hover > svg {
   inset: 0;
   clip-path: polygon(-20% -60%, 100% -60%, 100% 100%, 0 100%, 0 0, -20% 0);
 }
-/* The "reach" photo is tall and narrow (712x1131). At 86% of the box width its height is
-   about 137% of the box, so the reaching hand rises roughly to the outer frame line. */
 .photo img {
   position: absolute;
   bottom: 0;
-  left: 7%;
-  width: 86%;
+  left: -18%;
+  width: 125%;
   max-width: none;
   height: auto;
 }
@@ -753,58 +743,63 @@ a.chip-link:hover > svg {
   width: 36px;
   height: 36px;
 }
-/* Floating tech tiles. Fixed colors: they are little stickers, the same in Day and Night. */
+/* Floating app tiles (the apps Will edits and builds with). Fixed colors: they are the
+   apps' own icon colors, the same in Day and Night. Each logo fills 60% of its tile. */
 .tile {
   position: absolute;
-  width: 12.8%;
+  width: 13.5%;
   aspect-ratio: 1;
-  border-radius: 26%;
+  border-radius: 24%;
   display: grid;
   place-items: center;
-  font: 600 clamp(10px, 3.2vw, 14px) var(--f-mono);
+  overflow: hidden;
   box-shadow: var(--shadow);
   animation: float 6s ease-in-out infinite;
 }
-.tile.rn {
-  top: 25%;
-  left: 0;
-  background: #1e1733;
-  color: #8ee3cf;
+.tile svg,
+.tile img {
+  width: 60%;
+  height: auto;
 }
-.tile.ts {
-  top: 47%;
-  left: 1.5%;
-  background: #dbeafe;
-  color: #1e40af;
-  animation-delay: -3.7s;
+.tile.alight {
+  top: 5%;
+  left: 2%;
+  background: #1e253a;
 }
-.tile.expo {
-  bottom: 17%;
-  left: 3%;
-  background: #ede9fe;
-  color: #5b21b6;
-  animation-delay: -3s;
+.tile.alight img {
+  width: 84%; /* the arcs sit inside their own padding */
 }
-.tile.peso {
-  top: 22%;
-  right: 1.5%;
-  background: #dcfce7;
-  color: #166534;
+.tile.canva {
+  top: 6%;
+  right: 5%;
+  background: linear-gradient(135deg, #00c4cc 0%, #3e64f2 55%, #7d2ae8 100%);
   animation-delay: -2.2s;
-  font-size: clamp(15px, 4.6vw, 20px);
 }
-.tile.sql {
-  top: 45%;
+.tile.canva svg {
+  width: 74%;
+}
+.tile.vscode {
+  top: 44%;
   right: 0;
-  background: #fce7f3;
-  color: #9d174d;
+  background: #1f1f24;
   animation-delay: -1.5s;
 }
-.tile.js {
+.tile.capcut {
+  bottom: 17%;
+  left: 2%;
+  background: #000;
+  animation-delay: -3s;
+}
+.tile.capcut svg {
+  width: 64%;
+}
+.tile.lightroom {
   bottom: 4%;
   right: 3%;
-  background: #0f172a;
-  color: #fde047;
+  background: #001e36;
+  color: #31a8ff;
+  font: 600 clamp(15px, 4.6vw, 21px) var(--f-display);
+  letter-spacing: -0.02em;
   animation-delay: -4.5s;
 }
 @keyframes float {
