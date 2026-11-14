@@ -77,8 +77,6 @@ WB.ceb = {
   'about.bio2b': 'Mga rekord sa multa nga naa sa papel?',
   'about.bio2c':
     'Mao kana ang sinugdanan sa SmartFine: QR scan, dihadiha nga pahibalo ug bayad sa GCash imbes papel.',
-  'about.bio3':
-    'Nakatrabaho sab ko og part-time sa data entry, customer support ug isip drayber. Kana nga trabaho nagtudlo nako og duha ka butang nga akong gisunod hangtod karon: kinahanglan sakto ang mga rekord, ug ang user dili gyod angay mawala. Gitudloan sab ko niini nga magpadayon ug buhaton ang akong labing maayo kada adlaw, bisan kon ngitngit ang kahimtang, ug nga ang mahinumdoman sa mga tawo kay kon giunsa nimo pagkinabuhi, dili kon pila ang imong kita.',
   'about.photoAlt':
     'Si Will nga nagsul-ob og itom nga hoodie sa sagbuton nga bungtod, nagtan-aw sa dagat samtang nagsalop ang adlaw.',
   'about.whyLabel': 'Nganong IT?',
@@ -103,8 +101,7 @@ WB.ceb = {
   'timeline.grad': 'Isabel National Comprehensive School, with honors',
   'timeline.award': 'Best Home Economics Student ug Best Presenter',
   'timeline.hailey': 'admin sa Facebook page nga Hailey',
-  'timeline.kira': 'editor sa Kira, usa ka page sa anime edits',
-  'timeline.work': 'data entry, customer support ug drayber (part-time)',
+  'timeline.kira': 'editor sa Kira, usa ka anime fan page',
   'facts.based': 'Nagpuyo sa',
   'facts.basedValue': 'Palompon, Leyte, Pilipinas',
   'facts.studying': 'Nagtuon og',
