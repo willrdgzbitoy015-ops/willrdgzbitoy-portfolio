@@ -180,9 +180,7 @@ WB.ceb = {
   'certs.prev.css': 'Tan-awa: Computer Systems Servicing NC II',
   'certs.prev.bpp': 'Tan-awa: Bread and Pastry Production NC II',
   'certs.prev.honors': 'Tan-awa: Migraduwar with honors',
-  'certs.prev.award': 'Tan-awa: Best Home Economics Student ug Best Presenter',
   'certs.art.recognition': 'Sertipiko sa Pag-ila',
-  'certs.art.award': 'Pasidungog',
 
   // Contact
   'contact.eyebrow': 'Makig-uban nako',

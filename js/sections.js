@@ -49,17 +49,15 @@
   applyFilter('all', false)
 
   /* ---------- 2. Certificates ----------
-     Each "Preview" button opens the lightbox on its certificate. All certificates are in
-     one gallery, so the arrow keys move between them. A button with data-full="images/x.webp"
-     shows that scan; without it, the lightbox shows a bigger copy of the paper art. */
+     Each "Preview" button opens the lightbox with a bigger copy of that certificate's paper
+     art (drawn with CSS). All certificates are in one gallery, so the arrow keys move
+     between them. Will keeps his real certificates private: no photos or scans. */
   const certButtons = $$('[data-cert]')
   function certItems() {
     return certButtons.map((button) => {
       const card = button.closest('.cert-card')
       const caption = $('h3', card).textContent + ' · ' + $('.cert-org', card).textContent
-      return button.dataset.full
-        ? { src: button.dataset.full, alt: caption, caption }
-        : { node: $('.cert-art', button), caption }
+      return { node: $('.cert-art', button), caption }
     })
   }
   certButtons.forEach((button, index) => {

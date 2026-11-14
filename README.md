@@ -40,10 +40,11 @@ Project pages are built from `js/data/projects.js`; their words are in `js/i18n/
 
 If a key has no Bisaya line, the English stays and a warning appears in the browser console (F12).
 
-## Adding a screenshot or a certificate scan
+## Adding a project screenshot
 
-- **Project screenshot:** put it in `images/`, then in `js/data/projects.js` give that gallery slot a `src`, for example `{ src: 'images/smartfine-student.webp', captionKey: 'gal.sf1' }`.
-- **Certificate scan:** put it in `images/`, then add `data-full="images/your-scan.webp"` to that certificate's Preview button in `index.html`.
+Put it in `images/`, then in `js/data/projects.js` give that gallery slot a `src`, for example `{ src: 'images/smartfine-student.webp', captionKey: 'gal.sf1' }`.
+
+Certificates never get photos or scans: they stay private. The cards use certificate art drawn with CSS.
 
 ## Optional tools
 

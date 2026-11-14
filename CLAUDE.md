@@ -3,7 +3,7 @@
 Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11-22**.
 
 ## Standing rules
-1. **Only Will's listed facts.** Use only what the brief and `_brief/draft-2.html` say about him. Work history is job titles only, never an employer's name. Missing info becomes a `[placeholder]` and gets reported to Will.
+1. **Only Will's listed facts.** Use only what the brief and `_brief/draft-2.html` say about him. Work history is job titles only, never an employer's name. Missing info becomes a `[placeholder]` and gets reported to Will. **Never put photos or scans of his certificates on the site** (confidential); the certificate cards use CSS-drawn art.
 2. **`_brief/`, `notes/` and `PROMPT-FOR-CLAUDE-CODE.md` are private.** Never delete or overwrite them; they stay in `.gitignore` (with `.obsidian/` and `graphify-out/`).
 3. **Ask first** before creating a GitHub repo, pushing, deploying, creating any account, or adding a library not listed under Tech stack.
 4. **Windows 11 + PowerShell.** Quote paths with spaces. Node v25.

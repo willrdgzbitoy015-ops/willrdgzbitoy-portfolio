@@ -1562,9 +1562,10 @@ ol {
 }
 
 /* ---------- 12. CERTIFICATES ---------- */
+/* auto-fit: the three cards share the full width (no empty fourth column) */
 .cert-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 20px;
 }
 .cert-card {
