@@ -132,12 +132,11 @@ window.WB = window.WB || {}
     for (const listener of langListeners) listener(currentLang)
   }
 
-  /** Our safety net (the job TypeScript used to do): list keys that have no Bisaya line. */
+  /** Our safety net (the job TypeScript used to do): list keys on this page that have no
+      Bisaya line. (Keys used only on the other page are fine, so they aren't reported.) */
   function checkDictionaries() {
     const missing = Object.keys(WB.en).filter((key) => !(key in WB.ceb))
-    const extra = Object.keys(WB.ceb).filter((key) => !(key in WB.en))
     if (missing.length) console.warn('Bisaya is missing these keys:', missing)
-    if (extra.length) console.warn('Bisaya has keys that English does not use:', extra)
   }
 
   /* ---------- 6. Theme ----------
@@ -149,8 +148,9 @@ window.WB = window.WB || {}
   const MOON =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>'
   // Browser toolbar color on phones, matched to --bg of each theme.
-  const TOOLBAR_COLOR = { light: '#F7F5FB', dark: '#140F22' }
+  const TOOLBAR_COLOR = { light: '#F5F6FC', dark: '#070A1A' }
   const deviceDark = window.matchMedia('(prefers-color-scheme: dark)')
+  const deviceLight = window.matchMedia('(prefers-color-scheme: light)')
   const themeButton = $('#theme-btn')
 
   const isDark = () => root.dataset.theme === 'dark'
@@ -178,8 +178,9 @@ window.WB = window.WB || {}
 
   themeButton.addEventListener('click', toggleTheme)
   // Follow the device setting live, but only while the visitor hasn't picked a theme.
-  deviceDark.addEventListener('change', (event) => {
-    if (!load('wb-theme')) setTheme(event.matches ? 'dark' : 'light', false)
+  // (Night is the default look; Day is used when the device asks for light.)
+  deviceDark.addEventListener('change', () => {
+    if (!load('wb-theme')) setTheme(deviceLight.matches ? 'light' : 'dark', false)
   })
 
   for (const button of $$('[data-lang]')) {

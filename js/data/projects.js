@@ -1,24 +1,51 @@
 /*
-  PROJECT DETAILS
-  What the "Details" pop-up shows for each project. The structure lives here; the words
-  live in the dictionaries (each ...Key points at an entry in js/i18n), so every project
-  is available in English and Bisaya. The cards themselves are written in index.html.
+  PROJECTS
+  Everything each project page (project.html?p=<id>) shows. The structure lives here;
+  the words live in the dictionaries (each ...Key points at an entry in js/i18n), so every
+  page is available in English and Bisaya. js/project-page.js builds the page from this.
 
-  Each block in `details` has a `kind`:
-    text   a paragraph                       { headingKey, bodyKey }
-    list   bullets (or numbers if ordered)   { headingKey, itemKeys, ordered }
-    table  term + plain-English meaning      { headingKey, rows: [{ term | termKey, descKey }] }
-    tech   the project's tech chips          { headingKey }
+  Fields:
+    title      the project's name (the same in both languages)
+    tagKey     category label (shown on the cover)
+    leadKey    the short description under the title (also used on the home page card)
+    badges     small labels; tone 'ok' = green, 'warn' = amber
+    tech       tech tags (not translated)
+    repo       public code link, or null when there is none to show
+    cover      which picture to draw: 'phone', 'pos' or an image path
+    sections   the blocks of the page, in order. Each has a `kind`:
+      text        a paragraph                      { headingKey, bodyKey }
+      challenges  three cards                      { headingKey, items: [{ icon, titleKey, textKey }] }
+      list        numbered or bullet list          { headingKey, itemKeys, ordered }
+      table       term + plain-English meaning     { headingKey, rows: [{ term | termKey, descKey }] }
+      gallery     screenshots (lightbox)           { headingKey, shots: [{ src?, captionKey }] }
+                  a shot without src is a slot still waiting for its screenshot
 */
 window.WB = window.WB || {}
 
 WB.PROJECTS = {
   smartfine: {
     title: 'SmartFine',
-    badges: [{ key: 'badge.soloProject' }, { key: 'badge.prototype', tone: 'ok' }],
+    tagKey: 'tag.mobile',
+    leadKey: 'card.sf',
+    badges: [
+      { key: 'badge.soloProject' },
+      { key: 'badge.prototype', tone: 'ok' },
+      { key: 'badge.mobileWeb' },
+    ],
     tech: ['React Native (Expo)', 'SQLite', 'PayMongo', 'bcrypt', 'AES-256-GCM'],
-    details: [
-      { kind: 'text', headingKey: 'm.problem', bodyKey: 'sf.problem' },
+    repo: null, // [public GitHub repo link] still to come from Will
+    cover: 'phone',
+    sections: [
+      { kind: 'text', headingKey: 'm.overview', bodyKey: 'sf.problem' },
+      {
+        kind: 'challenges',
+        headingKey: 'm.challenges',
+        items: [
+          { icon: 'shield', titleKey: 'sf.ch1.t', textKey: 'sf.ch1.d' },
+          { icon: 'users', titleKey: 'sf.ch2.t', textKey: 'sf.ch2.d' },
+          { icon: 'phone', titleKey: 'sf.ch3.t', textKey: 'sf.ch3.d' },
+        ],
+      },
       {
         kind: 'list',
         headingKey: 'm.how',
@@ -38,18 +65,34 @@ WB.PROJECTS = {
           { termKey: 'sf.secT6', descKey: 'sf.sec6' },
         ],
       },
-      { kind: 'tech', headingKey: 'm.tech' },
       { kind: 'text', headingKey: 'm.status', bodyKey: 'sf.status' },
-      { kind: 'text', headingKey: 'm.shots', bodyKey: 'sf.shots' },
+      {
+        kind: 'gallery',
+        headingKey: 'm.gallery',
+        shots: [{ captionKey: 'gal.sf1' }, { captionKey: 'gal.sf2' }, { captionKey: 'gal.sf3' }],
+      },
     ],
   },
 
   underground: {
     title: 'Underground Apparel POS',
+    tagKey: 'tag.web',
+    leadKey: 'card.ug',
     badges: [{ key: 'badge.team2' }, { key: 'badge.testing', tone: 'warn' }],
     tech: ['PHP 8', 'SQLite', 'HTML and CSS', 'JavaScript', 'Git and GitHub'],
-    details: [
-      { kind: 'text', headingKey: 'm.problem', bodyKey: 'ug.problem' },
+    repo: 'https://github.com/kishakylepc-ui/CompAcc_POS',
+    cover: 'pos',
+    sections: [
+      { kind: 'text', headingKey: 'm.overview', bodyKey: 'ug.problem' },
+      {
+        kind: 'challenges',
+        headingKey: 'm.challenges',
+        items: [
+          { icon: 'db', titleKey: 'ug.ch1.t', textKey: 'ug.ch1.d' },
+          { icon: 'shield', titleKey: 'ug.ch2.t', textKey: 'ug.ch2.d' },
+          { icon: 'users', titleKey: 'ug.ch3.t', textKey: 'ug.ch3.d' },
+        ],
+      },
       {
         kind: 'list',
         headingKey: 'm.what',
@@ -61,24 +104,52 @@ WB.PROJECTS = {
         itemKeys: ['ug.part1', 'ug.part2', 'ug.part3', 'ug.part4', 'ug.part5'],
       },
       { kind: 'text', headingKey: 'm.team', bodyKey: 'ug.team' },
-      { kind: 'tech', headingKey: 'm.tech' },
       { kind: 'text', headingKey: 'm.status', bodyKey: 'ug.status' },
+      {
+        kind: 'gallery',
+        headingKey: 'm.gallery',
+        shots: [{ captionKey: 'gal.ug1' }, { captionKey: 'gal.ug2' }, { captionKey: 'gal.ug3' }],
+      },
     ],
   },
 
   rubens: {
     title: "Ruben's Photography",
+    tagKey: 'tag.client',
+    leadKey: 'card.rp',
     badges: [{ key: 'badge.solo' }, { key: 'badge.client', tone: 'ok' }],
     tech: ['Astro', 'Tailwind CSS', 'TypeScript', 'PhotoSwipe'],
-    details: [
+    repo: null, // the repository is private
+    cover: 'images/rubens-home-1200.webp',
+    sections: [
       { kind: 'text', headingKey: 'm.brief', bodyKey: 'rp.brief' },
+      {
+        kind: 'challenges',
+        headingKey: 'm.challenges',
+        items: [
+          { icon: 'mail', titleKey: 'rp.ch1.t', textKey: 'rp.ch1.d' },
+          { icon: 'eye', titleKey: 'rp.ch2.t', textKey: 'rp.ch2.d' },
+          { icon: 'layout', titleKey: 'rp.ch3.t', textKey: 'rp.ch3.d' },
+        ],
+      },
       {
         kind: 'list',
         headingKey: 'm.built',
         itemKeys: ['rp.built1', 'rp.built2', 'rp.built3', 'rp.built4'],
       },
-      { kind: 'tech', headingKey: 'm.tech' },
       { kind: 'text', headingKey: 'm.status', bodyKey: 'rp.status' },
+      {
+        kind: 'gallery',
+        headingKey: 'm.gallery',
+        shots: [
+          { src: 'images/rubens-home-1200.webp', captionKey: 'gal.rp1' },
+          { src: 'images/rubens-work-1200.webp', captionKey: 'gal.rp2' },
+          { src: 'images/rubens-mobile-1200.webp', captionKey: 'gal.rp3' },
+        ],
+      },
     ],
   },
 }
+
+/* The order of the "Next project" link at the bottom of each page. */
+WB.PROJECT_ORDER = ['smartfine', 'underground', 'rubens']

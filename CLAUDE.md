@@ -12,7 +12,8 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 7. After each milestone: run the checks (browser at 360/390/768/1024/1440 in both themes and both languages, no console messages, Lighthouse mobile 90+ once it is on a server), update `notes/`, commit, and wait for Will's OK.
 
 ## Scope changes that override the brief (Will, 2026-11-14)
-- **No SmartFine live demo** and no "Try SmartFine" link or button anywhere. The site only showcases work. Sections: Home, About, Skills, Projects, Contact.
+- **Redesigned after a reference portfolio** (TikTok @dpi1n), every detail except the lanyard / hanging ID card. Spec: `_brief/reference-redesign.md`, frames in `_brief/reference/`. Copy structure and interactions only; all words, photos, projects and the logo stay Will's. The old "Canvas" look (dotted canvas, selection boxes, frame tags, ruler, status-bar footer, git-log timeline, role cards, skill level meters, project modal) is gone.
+- **No SmartFine live demo** and no "Try SmartFine" link or button anywhere. The site only showcases work. Home page sections: Home, About, Skills, Projects, Experience, Certificates, Contact. Each project has its own page: `project.html?p=<id>`.
 - **No Hemodialysis Scheduling System / capstone** anywhere on the site.
 - Will graduated high school in **2024**.
 
@@ -20,18 +21,19 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 
 ## Tech stack (Will's decision, 2026-11-14; overrides the brief's section 3)
 - **Plain HTML + CSS + JavaScript, no build step, no runtime libraries.** The site must work when `index.html` is opened by double-click (`file://`), so: classic `<script defer>` files (no ES modules, no `import`), relative paths only (`images/x.webp`, never `/images/x.webp`), no font preloads.
-- Files: `index.html` (all markup, English text), `css/styles.css` (numbered sections), `css/fonts.css`, `js/core.js` (helpers, toast, language, theme), `js/layout.js` (menu, resume, ruler, active link, frame titles), `js/sections.js` (clock, skills, filter, modal), `js/contact.js` (copy email, form validation, Web3Forms; the key is the `WEB3FORMS_KEY` constant), `js/palette.js` (Ctrl+K), `js/data/projects.js` (modal content), `js/i18n/en.js` + `ceb.js`, `fonts/`, `images/`.
+- Files: `index.html` (home page markup, English text), `project.html` (one shell for every project; its navbar/footer/dialogs are copied from `index.html`, keep them in sync), `css/styles.css` (17 numbered sections), `css/fonts.css`, `js/core.js` (helpers, toast, language, theme), `js/layout.js` (preloader, menu, resume, navbar, fade-up reveal, custom cursor), `js/sections.js` (skill filter pills, certificate previews), `js/lightbox.js` (`WB.openLightbox(items, index)`), `js/project-page.js` (builds a project page from data), `js/contact.js` (copy email, form validation, Web3Forms; the key is the `WEB3FORMS_KEY` constant), `js/palette.js` (Ctrl+K), `js/data/projects.js` (project pages), `js/i18n/en.js` + `ceb.js`, `fonts/`, `images/`.
 - Scripts share one global, `WB` (`WB.t`, `WB.$`, `WB.el`, `WB.toast`, `WB.onLangChange`...). Build DOM with `WB.el` / `textContent`, never `innerHTML` with text.
 - Dev-only npm tools: `prettier` (`npm run format`; `index.html` is hand-formatted and ignored) and `sharp` (`npm run images`). Icons are inline SVG.
 - Contact form: Web3Forms (milestone 3). Hosting: Vercel from a public GitHub repo (`willrdgzbitoy015-ops`), served as static files.
 
-## Design: the "Canvas" concept
-- The site looks like a design-tool workspace: dotted canvas, selection boxes with square handles, ruler progress bar, layer-name tags (`Frame 01 · About`), status-bar footer. Match `_brief/draft-2.html`.
-- **Colors are CSS variables** in `css/styles.css` section 1 (Day "Lavender mist" on `:root`, Night "Ube night" on `:root[data-theme='dark']`). Always use the variables (`var(--surface)`, `var(--ink)`, `var(--line)`...); never write a separate "dark" rule.
-- Gradients (`--grad`, `--tgrad`) are decoration only. Body text stays solid, WCAG AA.
-- Motion: one orchestrated moment (hero drag-in), everything else subtle, never hide content behind an animation, fully respect `prefers-reduced-motion`.
-- **Every visible text and aria label is translatable.** In `index.html` write the English and add `data-i18n="key"` (text), `data-i18n-rich="key"` (text with `**bold**` / `[placeholder]`) or `data-i18n-attr="attr:key"`; add the Bisaya line to `js/i18n/ceb.js`. English that JS builds, and every rich key, also goes in `js/i18n/en.js`. A missing Bisaya key shows a console warning (that warning replaces the old TypeScript check, so keep the console clean). Will does not want a Bisaya review step: write the lines and move on, no review file, no asking.
-- Test by opening `index.html` directly; the navbar breakpoint is 880px.
+## Design: the reference look (2026-11-14, replaces the "Canvas" concept)
+- Deep navy, a soft blue-violet glow behind sections, a violet primary button, the name in a blue → violet → cyan gradient, cyan secondary labels (role line, organisations, issuers), dark rounded cards with thin borders. Centered section headers: letter-spaced eyebrow, big bold H2, muted subtitle.
+- Pieces: first-visit preloader ("Will." + progress line, once per visit via sessionStorage, CSS failsafe), floating glass pill navbar with a filled active pill, custom cursor dot + ring (fine mouse only), fade-up reveal (`.reveal`, only when `html.reveal-on`), skill filter pills, project cards → project pages (overview, challenges, lists, gallery + lightbox, next project), alternating Journey Timeline, certificate cards with a "Preview" lightbox, contact cards + form card, one-row footer.
+- **Colors are CSS variables** in `css/styles.css` section 1 (Day on `:root`, Night on `:root[data-theme='dark']`). Night is the default unless the device asks for light. Always use the variables; never write a separate "dark" rule.
+- Gradients (`--grad`) are decoration only. Body text stays solid, WCAG AA.
+- Motion: subtle, never hide content without JS, fully respect `prefers-reduced-motion` (no preloader, cursor, reveal or floating then).
+- **Every visible text and aria label is translatable.** In `index.html` write the English and add `data-i18n="key"` (text), `data-i18n-rich="key"` (text with `**bold**` / `[placeholder]`) or `data-i18n-attr="attr:key"`; add the Bisaya line to `js/i18n/ceb.js`. For a rich key, write real markup (`<strong>`) in the HTML **and** the `**bold**` version in `js/i18n/en.js`. English that JS builds, and any key a project page uses, goes in `js/i18n/en.js`. A missing Bisaya key shows a console warning, so keep the console clean. Will does not want a Bisaya review step: write the lines and move on, no review file, no asking.
+- Test by opening `index.html` directly; the navbar breakpoint is 1100px (seven links).
 
 ## Project memory (read every session)
 - **Session start:** read `notes/00 Home.md`, `notes/Progress Log.md` and `notes/Open Questions.md`. They're an Obsidian vault with the decisions, progress and what's waiting on Will.

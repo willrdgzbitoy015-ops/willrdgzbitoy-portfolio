@@ -18,10 +18,22 @@
   const openButton = $('#cmdk-btn')
 
   /* ---------- What each kind of command does ---------- */
-  const goTo = (id) => () =>
-    document.getElementById(id).scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' })
+  // On the home page: scroll to the section. On a project page: go to the home page section.
+  const goTo = (id) => () => {
+    const section = document.getElementById(id)
+    if (section) section.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' })
+    else window.location.href = 'index.html#' + id
+  }
   const openProject = (id) => () => {
-    window.location.hash = '#project-' + id // js/sections.js opens the pop-up for this hash
+    window.location.href = 'project.html?p=' + id
+  }
+  // The contact script (home page only) has the full copy-email; elsewhere use the simple way.
+  const copyEmail = () => {
+    if (WB.copyEmail) return WB.copyEmail()
+    navigator.clipboard.writeText('willrdgzbitoy015@gmail.com').then(
+      () => WB.toast(t('toast.copied')),
+      () => WB.toast(t('toast.copyFailed')),
+    )
   }
   // A temporary link is the reliable way to open a new tab from a keyboard action.
   const openLink = (url) => () => {
@@ -43,6 +55,8 @@
       { label: t('cmd.about'), hint: t('hint.section'), run: goTo('about') },
       { label: t('cmd.skills'), hint: t('hint.section'), run: goTo('skills') },
       { label: t('cmd.projects'), hint: t('hint.section'), run: goTo('projects') },
+      { label: t('cmd.experience'), hint: t('hint.section'), run: goTo('experience') },
+      { label: t('cmd.certificates'), hint: t('hint.section'), run: goTo('certificates') },
       { label: t('cmd.contact'), hint: t('hint.section'), run: goTo('contact') },
       ...projects,
       { label: t('cmd.theme'), hint: t('hint.theme'), run: WB.toggleTheme },
@@ -52,7 +66,7 @@
         run: () => WB.setLang(WB.getLang() === 'ceb' ? 'en' : 'ceb'),
       },
       { label: t('cmd.resume'), hint: t('hint.file'), run: WB.downloadResume },
-      { label: t('cmd.copyEmail'), hint: t('hint.contact'), run: WB.copyEmail },
+      { label: t('cmd.copyEmail'), hint: t('hint.contact'), run: copyEmail },
       {
         label: t('cmd.github'),
         hint: t('hint.link'),
@@ -109,9 +123,9 @@
   /* ---------- Open, close, run ---------- */
   function openPalette() {
     if (dialog.open) return
-    WB.closeMenu() // the mobile menu and the project pop-up must not sit underneath
-    const projectModal = $('#modal')
-    if (projectModal.open) projectModal.close()
+    WB.closeMenu() // the mobile menu and the lightbox must not sit underneath
+    const lightbox = $('#lightbox')
+    if (lightbox && lightbox.open) lightbox.close()
     commands = buildCommands()
     input.value = ''
     renderList()
@@ -172,9 +186,6 @@
       else openPalette()
     }
   })
-
-  // Show the right shortcut on the navbar button for Mac visitors.
-  if (/Mac|iPhone|iPad/.test(navigator.platform)) $('kbd', openButton).textContent = '⌘ K'
 
   // If the language is switched while the palette is open, rebuild its labels.
   onLangChange(() => {
