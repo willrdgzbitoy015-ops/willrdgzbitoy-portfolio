@@ -73,6 +73,8 @@
     <script defer src="js/core.js"></script>
     <script defer src="js/layout.js"></script>
     <script defer src="js/sections.js"></script>
+    <script defer src="js/contact.js"></script>
+    <script defer src="js/palette.js"></script>
   </head>
 
   <body>
@@ -728,18 +730,93 @@
         </div>
       </section>
 
-      <!-- ============ CONTACT (built in milestone 3) ============ -->
+      <!-- ============ CONTACT ============ -->
       <section id="contact" class="section" aria-labelledby="contact-title">
-        <div class="wrap">
-          <div class="sec-head">
-            <div class="ftitle">
-              <span class="tag" aria-hidden="true">Frame 04 · <span data-i18n="frame.contact">Contact</span></span>
-              <h2 id="contact-title" data-i18n="contact.title">Submit a ticket</h2>
-              <span class="box" aria-hidden="true"></span>
-              <span class="h tl" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span><span class="h bl" aria-hidden="true"></span><span class="h br" aria-hidden="true"></span>
+        <div class="wrap contact-grid">
+          <div>
+            <div class="sec-head">
+              <div class="ftitle">
+                <span class="tag" aria-hidden="true">Frame 04 · <span data-i18n="frame.contact">Contact</span></span>
+                <h2 id="contact-title" data-i18n="contact.title">Submit a ticket</h2>
+                <span class="box" aria-hidden="true"></span>
+                <span class="h tl" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span><span class="h bl" aria-hidden="true"></span><span class="h br" aria-hidden="true"></span>
+              </div>
+              <p class="lead" data-i18n="contact.lead">Have a project, a question or an opportunity? Open a ticket and I'll reply within a day.</p>
+            </div>
+
+            <!-- Ways to reach me. Whole rows are links, except Email (it has a Copy button) and Location. -->
+            <div class="ways">
+              <div class="way">
+                <span class="k" data-i18n="contact.email">Email</span>
+                <a class="v" id="email-text" href="mailto:willrdgzbitoy015@gmail.com">willrdgzbitoy015@gmail.com</a>
+                <button class="btn btn-ghost btn-sm" type="button" id="copy-email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="11" height="11" rx="2" />
+                    <path d="M5 15V5a1 1 0 0 1 1-1h10" />
+                  </svg>
+                  <span data-i18n="contact.copy">Copy</span><span class="sr-only" data-i18n="contact.copySr">email address</span>
+                </button>
+              </div>
+              <a class="way" href="https://www.facebook.com/willrdrgzbitoy001" target="_blank" rel="noopener"><span class="k">Facebook</span><span class="v">facebook.com/willrdrgzbitoy001</span></a>
+              <a class="way" href="https://www.instagram.com/_cheeze.dogg/" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v">@_cheeze.dogg</span></a>
+              <a class="way" href="https://www.linkedin.com/in/will-bitoy-637305417/" target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">linkedin.com/in/will-bitoy-637305417</span></a>
+              <a class="way" href="https://github.com/willrdgzbitoy015-ops" target="_blank" rel="noopener"><span class="k">GitHub</span><span class="v">willrdgzbitoy015-ops</span></a>
+              <a class="way" href="https://www.youtube.com/@guren.325" target="_blank" rel="noopener"><span class="k">YouTube</span><span class="v">@guren.325</span></a>
+              <div class="way"><span class="k" data-i18n="contact.location">Location</span><span class="v" data-i18n="facts.basedValue">Palompon, Leyte, Philippines</span></div>
             </div>
           </div>
-          <p class="soon" data-i18n="shell.comingSoon">This frame is still empty. Content arrives in the next milestone.</p>
+
+          <!-- The form. "novalidate" switches off the browser's own pop-up messages so
+               js/contact.js can show our translated ones under each field instead. -->
+          <div class="ticket">
+            <div class="panel-head"><span data-i18n="form.head">New ticket</span><span data-i18n="form.priority">Priority: normal</span></div>
+            <form id="ticket-form" novalidate>
+              <div class="field">
+                <label for="t-name" data-i18n="form.name">Your name</label>
+                <input id="t-name" name="name" autocomplete="name" placeholder="Juan Dela Cruz" aria-describedby="e-name" required />
+                <span class="err" id="e-name"></span>
+              </div>
+              <div class="field">
+                <label for="t-email" data-i18n="contact.email">Email</label>
+                <input id="t-email" name="email" type="email" autocomplete="email" placeholder="juan@example.com" aria-describedby="e-email" required />
+                <span class="err" id="e-email"></span>
+              </div>
+              <div class="field full">
+                <label for="t-topic" data-i18n="form.topic">Topic</label>
+                <!-- value = what gets emailed to me (always English); the visible text is translated -->
+                <select id="t-topic" name="topic">
+                  <option value="A project idea" data-i18n="form.topic1">A project idea</option>
+                  <option value="Job or internship" data-i18n="form.topic2">Job or internship</option>
+                  <option value="Question about technologies" data-i18n="form.topic3">Question about technologies</option>
+                  <option value="Just saying hi" data-i18n="form.topic4">Just saying hi</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="t-msg" data-i18n="form.message">Message</label>
+                <textarea id="t-msg" name="message" placeholder="Tell me what you need and when." data-i18n-attr="placeholder:form.messagePh" aria-describedby="e-msg" required></textarea>
+                <span class="err" id="e-msg"></span>
+              </div>
+              <!-- HONEYPOT: a field people never see. Spam bots fill in every field they find,
+                   so if this one has a value, js/contact.js quietly drops the message. -->
+              <div class="hp" aria-hidden="true">
+                <label for="t-company">Company</label>
+                <input id="t-company" name="company" tabindex="-1" autocomplete="off" />
+              </div>
+              <!-- Shown by js/contact.js when sending fails -->
+              <p class="form-error full" id="form-error" role="alert" hidden></p>
+              <div class="form-foot">
+                <p class="form-note" data-i18n="form.note">I only use your details to reply to you.</p>
+                <button class="btn btn-primary" type="submit" id="ticket-send"><span data-i18n="form.send">Submit ticket</span></button>
+              </div>
+            </form>
+            <!-- Replaces the form after a successful send -->
+            <div class="ticket-ok" id="ticket-ok" tabindex="-1" hidden>
+              <span class="sm" data-i18n="form.okLabel">Ticket received</span>
+              <span class="num grad-text" id="ticket-num">#WRB-0000</span>
+              <p data-i18n="form.okText">Thanks! Your message is in my inbox and I'll reply within a day.</p>
+              <button class="btn btn-ghost btn-sm" type="button" id="ticket-again" data-i18n="form.again">Send another</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -781,6 +858,32 @@
         </button>
         <div id="modal-body"></div>
       </div>
+    </dialog>
+
+    <!-- Command palette (Ctrl+K). The list is filled in by js/palette.js. -->
+    <dialog class="cmdk" id="cmdk" aria-label="Command palette" data-i18n-attr="aria-label:cmdk.label">
+      <div class="cmdk-top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="M16 16l4 4" />
+        </svg>
+        <!-- role="combobox": a text box that controls the list below it -->
+        <input
+          id="cmdk-input"
+          type="text"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="cmdk-list"
+          aria-autocomplete="list"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Jump to a section or run a command"
+          aria-label="Command"
+          data-i18n-attr="placeholder:cmdk.placeholder, aria-label:cmdk.inputLabel"
+        />
+      </div>
+      <ul class="cmdk-list" id="cmdk-list" role="listbox" aria-label="Commands" data-i18n-attr="aria-label:cmdk.listLabel"></ul>
+      <div class="cmdk-foot" data-i18n="cmdk.foot">↑ ↓ to move · Enter to run · Esc to close</div>
     </dialog>
 
     <!-- Small message bar. role="status" makes screen readers announce it. -->

@@ -20,6 +20,8 @@ Nothing needs to be installed to view or edit the site.
 | `js/core.js`          | Shared tools: toast, English/Bisaya switch, Day/Night theme              |
 | `js/layout.js`        | Mobile menu, resume buttons, ruler progress bar, active nav link         |
 | `js/sections.js`      | Palompon clock, skill highlighting, project filter, details pop-up       |
+| `js/contact.js`       | Copy-email button and the contact form (checks, sending, success card)   |
+| `js/palette.js`       | The Ctrl+K command palette                                               |
 | `js/data/projects.js` | What each project's details pop-up shows                                 |
 | `js/i18n/en.js`       | English lines that JavaScript builds (the rest is in `index.html`)       |
 | `js/i18n/ceb.js`      | Every Bisaya line                                                        |

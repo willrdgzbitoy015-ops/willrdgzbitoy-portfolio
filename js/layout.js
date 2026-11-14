@@ -1,7 +1,7 @@
 /*
   LAYOUT: the parts around the content.
     1. Mobile menu (hamburger)
-    2. Resume buttons + command palette button
+    2. Resume buttons
     3. Ruler (scroll progress)
     4. Active navbar link
     5. Frame titles that draw themselves
@@ -46,7 +46,7 @@
   onLangChange(() => setMenu(menuIsOpen())) // refresh the button's label in the new language
   setMenu(false)
 
-  /* ---------- 2. Resume + command palette buttons ----------
+  /* ---------- 2. Resume buttons ----------
      When the PDF is added: put it at will-bitoy-resume.pdf (next to index.html)
      and change RESUME_READY to true. Until then the buttons explain that it's missing,
      instead of downloading a broken file. */
@@ -69,8 +69,9 @@
   }
   for (const button of $$('[data-resume]')) button.addEventListener('click', downloadResume)
 
-  // The real command palette arrives in milestone 3.
-  $('#cmdk-btn').addEventListener('click', () => toast(t('toast.paletteSoon')))
+  // Other scripts (the command palette) need these two.
+  WB.downloadResume = downloadResume
+  WB.closeMenu = () => setMenu(false)
 
   /* ---------- 3. Ruler ----------
      Writes --p (0 at the top of the page, 1 at the bottom) onto the ruler; the CSS turns

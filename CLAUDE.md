@@ -20,7 +20,7 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 
 ## Tech stack (Will's decision, 2026-11-14; overrides the brief's section 3)
 - **Plain HTML + CSS + JavaScript, no build step, no runtime libraries.** The site must work when `index.html` is opened by double-click (`file://`), so: classic `<script defer>` files (no ES modules, no `import`), relative paths only (`images/x.webp`, never `/images/x.webp`), no font preloads.
-- Files: `index.html` (all markup, English text), `css/styles.css` (numbered sections), `css/fonts.css`, `js/core.js` (helpers, toast, language, theme), `js/layout.js` (menu, resume, ruler, active link, frame titles), `js/sections.js` (clock, skills, filter, modal), `js/data/projects.js` (modal content), `js/i18n/en.js` + `ceb.js`, `fonts/`, `images/`.
+- Files: `index.html` (all markup, English text), `css/styles.css` (numbered sections), `css/fonts.css`, `js/core.js` (helpers, toast, language, theme), `js/layout.js` (menu, resume, ruler, active link, frame titles), `js/sections.js` (clock, skills, filter, modal), `js/contact.js` (copy email, form validation, Web3Forms; the key is the `WEB3FORMS_KEY` constant), `js/palette.js` (Ctrl+K), `js/data/projects.js` (modal content), `js/i18n/en.js` + `ceb.js`, `fonts/`, `images/`.
 - Scripts share one global, `WB` (`WB.t`, `WB.$`, `WB.el`, `WB.toast`, `WB.onLangChange`...). Build DOM with `WB.el` / `textContent`, never `innerHTML` with text.
 - Dev-only npm tools: `prettier` (`npm run format`; `index.html` is hand-formatted and ignored) and `sharp` (`npm run images`). Icons are inline SVG.
 - Contact form: Web3Forms (milestone 3). Hosting: Vercel from a public GitHub repo (`willrdgzbitoy015-ops`), served as static files.

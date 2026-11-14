@@ -10,7 +10,8 @@
    4. Buttons                       11. Modal + toast
    5. Hero text                     12. Footer
    6. Hero stage (photo)            13. Reduced motion
-   7. Sections + frame titles
+   7. Sections + frame titles       14. Contact + form
+                                    15. Command palette
 */
 
 /* ---------- 1. COLOR TOKENS ----------
@@ -921,16 +922,6 @@ a.chip-link:hover > svg {
   font-size: 18px;
   color: var(--muted);
   max-width: 60ch;
-}
-/* Temporary note in a frame that is not built yet. */
-.soon {
-  border: 1px dashed var(--line);
-  border-radius: var(--r);
-  background: var(--surface);
-  color: var(--muted);
-  padding: 40px 20px;
-  text-align: center;
-  font: 13px var(--f-mono);
 }
 
 /* ---------- 8. ABOUT ---------- */
@@ -1880,4 +1871,280 @@ dialog.modal::backdrop {
 }
 .why blockquote::after {
   content: '\201D';
+}
+
+/* ---------- 14. CONTACT ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 44px;
+  align-items: start;
+}
+.contact-grid .sec-head {
+  margin-bottom: 0;
+}
+.ways {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 26px;
+}
+.way {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14.5px;
+  transition: border-color 0.2s;
+}
+a.way {
+  text-decoration: none;
+  color: inherit;
+}
+.way:hover {
+  border-color: var(--sel);
+}
+.way .k {
+  font: 11px var(--f-mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  width: 84px;
+  flex: none;
+}
+/* overflow-wrap lets a long address break instead of pushing the page wider */
+.way .v {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.way a.v {
+  text-decoration: none;
+}
+.way a.v:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ticket {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.ticket form {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  font: 15px var(--f-body);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.field ::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.field textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--sel);
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--sel);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sel) 30%, transparent);
+}
+/* aria-invalid is set by js/contact.js on a field that failed its check */
+.field [aria-invalid='true'] {
+  border-color: var(--bad);
+}
+.err {
+  font-size: 12.5px;
+  color: var(--bad);
+}
+.err:empty {
+  display: none;
+}
+/* The honeypot: moved far off-screen instead of display:none, which some bots detect */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.form-error {
+  background: var(--bad-bg);
+  color: var(--bad);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.form-error a {
+  font-weight: 600;
+}
+.form-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  max-width: 42ch;
+}
+.btn[disabled] {
+  opacity: 0.65;
+  cursor: progress;
+  transform: none;
+  box-shadow: none;
+}
+.ticket-ok {
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.ticket-ok:focus {
+  outline: none;
+}
+.ticket-ok .sm {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.ticket-ok .num {
+  font: 700 30px var(--f-mono);
+}
+.ticket-ok p {
+  color: var(--muted);
+  max-width: 40ch;
+}
+@media (max-width: 920px) {
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .ticket form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- 15. COMMAND PALETTE (Ctrl+K) ---------- */
+dialog.cmdk {
+  border: 0;
+  padding: 0;
+  margin: 12vh auto auto;
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--ink);
+  width: min(560px, calc(100% - 32px));
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+dialog.cmdk::backdrop {
+  background: var(--backdrop);
+}
+.cmdk-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.cmdk-top svg {
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  flex: none;
+}
+.cmdk-top input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: 16px var(--f-body);
+  color: var(--ink);
+  outline: none;
+}
+.cmdk-top input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.cmdk-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  max-height: min(360px, 55vh);
+  overflow: auto;
+}
+.cmdk-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14.5px;
+}
+.cmdk-list li span {
+  flex: none;
+  font: 11.5px var(--f-mono);
+  color: var(--muted);
+}
+/* The highlighted command (moved with the arrow keys or the mouse) */
+.cmdk-list li[aria-selected='true'] {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--sel);
+}
+.cmdk-list li.cmdk-empty {
+  cursor: default;
+  color: var(--muted);
+  font-size: 14px;
+}
+.cmdk-foot {
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  font: 11.5px var(--f-mono);
+  color: var(--muted);
 }
