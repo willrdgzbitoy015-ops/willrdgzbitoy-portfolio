@@ -18,8 +18,10 @@ const OUT = path.join(root, 'images')
 const WIDTHS = [480, 800, 1200]
 
 const PHOTOS = [
-  // Transparent PNG (alpha is kept). The extra 640 step is what most phones pick.
-  { file: '2-hero-cutout.png', name: 'hero', quality: 76, widths: [480, 640, 800, 1200] },
+  // Transparent PNG (alpha is kept): the "reach" photo, already cut out, colour-graded to
+  // the lavender palette and sharpened. The extra 640 step is what most phones pick; 712 is
+  // the cut-out's full width (no upscaling).
+  { file: '2-hero-reach-cutout.png', name: 'hero', quality: 80, widths: [480, 640, 712] },
   { file: '4-about-sunset.jpg', name: 'about', quality: 78 },
   { file: '3-contact-reach.jpg', name: 'contact', quality: 78 },
 ]

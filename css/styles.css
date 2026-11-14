@@ -724,11 +724,13 @@ a.chip-link:hover > svg {
   inset: 0;
   clip-path: polygon(-20% -60%, 100% -60%, 100% 100%, 0 100%, 0 0, -20% 0);
 }
+/* The "reach" photo is tall and narrow (712x1131). At 86% of the box width its height is
+   about 137% of the box, so the reaching hand rises roughly to the outer frame line. */
 .photo img {
   position: absolute;
   bottom: 0;
-  left: -18%;
-  width: 125%;
+  left: 7%;
+  width: 86%;
   max-width: none;
   height: auto;
 }
