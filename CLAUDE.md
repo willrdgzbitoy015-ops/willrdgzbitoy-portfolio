@@ -30,7 +30,7 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 - **Colors are CSS variables** in `css/styles.css` section 1 (Day "Lavender mist" on `:root`, Night "Ube night" on `:root[data-theme='dark']`). Always use the variables (`var(--surface)`, `var(--ink)`, `var(--line)`...); never write a separate "dark" rule.
 - Gradients (`--grad`, `--tgrad`) are decoration only. Body text stays solid, WCAG AA.
 - Motion: one orchestrated moment (hero drag-in), everything else subtle, never hide content behind an animation, fully respect `prefers-reduced-motion`.
-- **Every visible text and aria label is translatable.** In `index.html` write the English and add `data-i18n="key"` (text), `data-i18n-rich="key"` (text with `**bold**` / `[placeholder]`) or `data-i18n-attr="attr:key"`; add the Bisaya line to `js/i18n/ceb.js`. English that JS builds, and every rich key, also goes in `js/i18n/en.js`. A missing Bisaya key shows a console warning (that warning replaces the old TypeScript check, so keep the console clean). Unsure Bisaya lines go in `_brief/bisaya-review.md`.
+- **Every visible text and aria label is translatable.** In `index.html` write the English and add `data-i18n="key"` (text), `data-i18n-rich="key"` (text with `**bold**` / `[placeholder]`) or `data-i18n-attr="attr:key"`; add the Bisaya line to `js/i18n/ceb.js`. English that JS builds, and every rich key, also goes in `js/i18n/en.js`. A missing Bisaya key shows a console warning (that warning replaces the old TypeScript check, so keep the console clean). Will does not want a Bisaya review step: write the lines and move on, no review file, no asking.
 - Test by opening `index.html` directly; the navbar breakpoint is 880px.
 
 ## Project memory (read every session)
