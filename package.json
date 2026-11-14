@@ -1,41 +1,15 @@
 {
   "name": "will-portfolio",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "Will R. Bitoy's portfolio. Plain HTML, CSS and JavaScript: no build step.",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "format": "prettier --write .",
-    "typecheck": "tsc -b",
-    "images": "node scripts/optimize-images.mjs"
-  },
-  "dependencies": {
-    "@fontsource/inter": "^5.3.0",
-    "@fontsource/jetbrains-mono": "^5.3.0",
-    "@fontsource/space-grotesk": "^5.3.0",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "dev": "python -m http.server 5173",
+    "images": "node scripts/optimize-images.mjs",
+    "format": "prettier --write ."
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.3.5",
-    "@types/node": "^24.19.2",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react-swc": "^4.3.3",
-    "eslint": "^10.14.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.7",
-    "globals": "^17.13.0",
     "prettier": "^3.10.1",
-    "prettier-plugin-tailwindcss": "^0.8.1",
-    "sharp": "^0.35.5",
-    "tailwindcss": "^4.3.5",
-    "typescript": "~6.0.3",
-    "typescript-eslint": "^8.72.1",
-    "vite": "^8.3.6"
+    "sharp": "^0.35.5"
   }
 }

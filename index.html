@@ -10,32 +10,6 @@
     />
     <meta name="author" content="Will R. Bitoy" />
     <meta name="theme-color" content="#F7F5FB" />
-    <!-- Preload the fonts used at the top of the page, so the headline doesn't re-wrap when they arrive. -->
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      crossorigin
-      href="/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2"
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      crossorigin
-      href="/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2"
-    />
-    <!-- Preload the hero photo: it is the largest thing on the first screen. -->
-    <link
-      rel="preload"
-      as="image"
-      type="image/webp"
-      href="/images/hero-800.webp"
-      imagesrcset="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-800.webp 800w, /images/hero-1195.webp 1195w"
-      imagesizes="(min-width: 500px) 365px, 78vw"
-      fetchpriority="high"
-    />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Link preview (Messenger, Facebook, X). The og:image is added in milestone 4. -->
     <meta property="og:type" content="website" />
@@ -47,7 +21,7 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <!--
-      No-flash script. It runs before the page paints, so the right theme and language
+      NO-FLASH SCRIPT. It runs before the page paints, so the right theme and language
       are already on <html> when the CSS loads. Order of preference for the theme:
       1) what the visitor picked before (saved in localStorage), 2) the device setting.
       localStorage can throw (private mode, blocked storage), so it sits in try/catch.
@@ -68,9 +42,733 @@
         if (lang === 'ceb') root.lang = 'ceb'
       })()
     </script>
+
+    <!-- Preload the hero photo: it is the largest thing on the first screen. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/hero-640.webp"
+      imagesrcset="
+        images/hero-480.webp   480w,
+        images/hero-640.webp   640w,
+        images/hero-800.webp   800w,
+        images/hero-1195.webp 1195w
+      "
+      imagesizes="(min-width: 500px) 365px, 78vw"
+      fetchpriority="high"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <!--
+      Scripts. "defer" = download now, run in this order after the HTML is read.
+      Text first (dictionaries), then data, then the code that uses them.
+    -->
+    <script defer src="js/i18n/en.js"></script>
+    <script defer src="js/i18n/ceb.js"></script>
+    <script defer src="js/data/projects.js"></script>
+    <script defer src="js/core.js"></script>
+    <script defer src="js/layout.js"></script>
+    <script defer src="js/sections.js"></script>
   </head>
+
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!--
+      HOW TRANSLATION WORKS IN THIS FILE
+      The English text is written right here. An element with data-i18n="some.key" gets its
+      text swapped for the Bisaya line with the same key (js/i18n/ceb.js) when BIS is on.
+        data-i18n="key"            swaps the text
+        data-i18n-rich="key"       same, but **bold** and [placeholder] markers are styled
+        data-i18n-attr="attr:key"  swaps an attribute (aria-label, alt, title)
+    -->
+
+    <!-- The logo, defined once and reused with <use href="#wb-logo">. A "W" drawn as a bird
+         in flight (kalanggaman = bird). To use your own drawing, replace the <path>. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="wb-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color: var(--g1)" />
+          <stop offset=".55" style="stop-color: var(--g2)" />
+          <stop offset="1" style="stop-color: var(--g3)" />
+        </linearGradient>
+        <symbol id="wb-logo" viewBox="0 0 40 40">
+          <rect x="1" y="1" width="38" height="38" rx="11" style="fill: var(--surface-2)" />
+          <path
+            d="M6 13 C9 22 11.5 28 14 28 C16.6 28 18 21 20 17 C22 21 23.4 28 26 28 C28.5 28 31 22 34 13"
+            fill="none"
+            stroke="url(#wb-grad)"
+            stroke-width="3.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="20" cy="11.5" r="2.3" style="fill: var(--t1)" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <a class="skip" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+    <!-- ============ NAVBAR ============ -->
+    <header class="nav" id="top">
+      <div class="wrap nav-in">
+        <a
+          class="brand"
+          href="#home"
+          aria-label="Will R. Bitoy, back to top"
+          data-i18n-attr="aria-label:nav.home"
+        >
+          <svg aria-hidden="true"><use href="#wb-logo" /></svg>
+          <span class="brand-name">Will R. Bitoy</span>
+        </a>
+
+        <nav class="links" aria-label="Sections" data-i18n-attr="aria-label:nav.sections">
+          <a href="#about" data-i18n="nav.about">About</a>
+          <a href="#skills" data-i18n="nav.skills">Skills</a>
+          <a href="#projects" data-i18n="nav.projects">Projects</a>
+          <a href="#contact" data-i18n="nav.contact">Contact</a>
+        </nav>
+
+        <div class="tools">
+          <!-- aria-pressed tells screen readers which language is on -->
+          <div class="seg" role="group" aria-label="Language" data-i18n-attr="aria-label:nav.language">
+            <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="ceb" lang="ceb" aria-pressed="false">BIS</button>
+          </div>
+
+          <button
+            class="kbd-btn"
+            type="button"
+            id="cmdk-btn"
+            aria-label="Open command palette (Ctrl+K)"
+            data-i18n-attr="aria-label:nav.openPalette"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="M16 16l4 4" />
+            </svg>
+            <kbd>Ctrl K</kbd>
+          </button>
+
+          <!-- The sun/moon icon and the label are filled in by js/core.js -->
+          <button class="iconbtn" type="button" id="theme-btn" aria-label="Switch theme"></button>
+
+          <button class="btn btn-primary btn-sm resume-top" type="button" data-resume>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
+            </svg>
+            <span data-i18n="nav.resume">Resume</span>
+          </button>
+
+          <!-- The hamburger / close icon is filled in by js/layout.js -->
+          <button
+            class="iconbtn menu-btn"
+            type="button"
+            id="menu-btn"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="menu-panel"
+          ></button>
+        </div>
+      </div>
+
+      <!-- Scroll progress, drawn as a ruler -->
+      <div class="ruler" aria-hidden="true"><i></i></div>
+
+      <!-- Mobile menu. "hidden" removes it from the page until the hamburger opens it. -->
+      <div class="panel" id="menu-panel" hidden>
+        <div class="wrap">
+          <nav aria-label="Sections (mobile)" data-i18n-attr="aria-label:nav.sectionsMobile">
+            <a href="#about"><span>01</span><b data-i18n="nav.about">About</b></a>
+            <a href="#skills"><span>02</span><b data-i18n="nav.skills">Skills</b></a>
+            <a href="#projects"><span>03</span><b data-i18n="nav.projects">Projects</b></a>
+            <a href="#contact"><span>04</span><b data-i18n="nav.contact">Contact</b></a>
+            <button class="btn btn-primary" type="button" data-resume>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
+              </svg>
+              <span data-i18n="cta.resume">Download resume</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ HERO ============ -->
+      <section id="home" class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="hi" data-i18n="hero.hi">Hi, I'm Will.</p>
+            <h1>
+              <span data-i18n="hero.h1a">I build systems that</span>
+              <span class="grad-text" data-i18n="hero.h1b">replace paper.</span>
+            </h1>
+            <p class="sub" data-i18n="hero.sub">
+              3rd-year BS Information Technology student at Western Leyte College, based in
+              Palompon, Leyte. I design and build web and mobile systems.
+            </p>
+
+            <div class="cta">
+              <a class="btn btn-primary" href="#projects">
+                <span data-i18n="cta.work">View my work</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+              <button class="btn btn-ghost" type="button" data-resume>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
+                </svg>
+                <span data-i18n="cta.resume">Download resume</span>
+              </button>
+            </div>
+
+            <div class="chips">
+              <!-- Opens the details of the newest project (js/sections.js reads the #project-... link) -->
+              <a class="chip chip-link" href="#project-rubens">
+                <span class="chip-tag">
+                  <span class="live" aria-hidden="true"></span>
+                  <span data-i18n="hero.statusLabel">Latest work</span>
+                </span>
+                <b data-i18n="hero.statusText">Ruben's Photography, a client website (Nov 2026)</b>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+              <span class="chip">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8.5" />
+                  <path d="M12 7.5V12l3 2" />
+                </svg>
+                <!-- The live Palompon time, filled in by js/sections.js -->
+                <b id="ph-time">--:--</b>
+                <span data-i18n="hero.timeIn">in Palompon</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- THE STAGE. Everything is decoration except the photo, which carries the alt text.
+               Order matters: later elements are painted on top. Arch, then selection box,
+               then the photo, so the raised hand covers the top edge of the box. -->
+          <div class="stage">
+            <span class="artboard" aria-hidden="true">
+              <span class="artboard-label">Frame 00 · <span data-i18n="frame.home">Home</span></span>
+              <span class="h tl"></span><span class="h tr"></span><span class="h bl"></span><span class="h br"></span>
+            </span>
+            <svg class="mark" aria-hidden="true"><use href="#wb-logo" /></svg>
+
+            <span class="tile rn" title="React Native" aria-hidden="true">RN</span>
+            <span class="tile ts" title="TypeScript" aria-hidden="true">TS</span>
+            <span class="tile expo" title="Expo" aria-hidden="true">Expo</span>
+            <span class="tile peso" title="PayMongo / GCash" aria-hidden="true">₱</span>
+            <span class="tile sql" title="SQLite" aria-hidden="true">SQL</span>
+            <span class="tile js" title="JavaScript" aria-hidden="true">JS</span>
+
+            <div class="drag">
+              <div class="arch" aria-hidden="true"></div>
+              <div class="selbox" aria-hidden="true">
+                <span class="h tl"></span><span class="h tm"></span><span class="h tr"></span><span class="h ml"></span>
+                <span class="h mr"></span><span class="h bl"></span><span class="h bm"></span><span class="h br"></span>
+              </div>
+              <div class="photo">
+                <!-- Not lazy-loaded: it is the first thing people see. width/height reserve its space. -->
+                <img
+                  src="images/hero-640.webp"
+                  srcset="
+                    images/hero-480.webp   480w,
+                    images/hero-640.webp   640w,
+                    images/hero-800.webp   800w,
+                    images/hero-1195.webp 1195w
+                  "
+                  sizes="(min-width: 500px) 365px, 78vw"
+                  width="1195"
+                  height="1364"
+                  alt="Will crouching and looking down at the camera, one gloved hand raised toward it."
+                  data-i18n-attr="alt:hero.photoAlt"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </div>
+              <span class="readout" aria-hidden="true">X 88 · Y 72 · W 294 · H 340</span>
+              <svg class="pointer" viewBox="0 0 36 36" aria-hidden="true">
+                <path d="M5 3 L5 24 L10.5 19 L14.2 27.4 L17.6 25.9 L14 17.8 L21.4 17.5 Z" style="fill: var(--ink); stroke: var(--surface)" stroke-width="1.4" stroke-linejoin="round" />
+                <path d="M27 20v12M21 26h12M27 20l-2 2M27 20l2 2M27 32l-2-2M27 32l2-2M21 26l2-2M21 26l2 2M33 26l-2-2M33 26l-2 2" style="stroke: var(--ink)" stroke-width="1.5" fill="none" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ABOUT ============ -->
+      <section id="about" class="section" aria-labelledby="about-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="ftitle">
+              <span class="tag" aria-hidden="true">Frame 01 · <span data-i18n="frame.about">About</span></span>
+              <h2 id="about-title" data-i18n="about.title">About me</h2>
+              <span class="box" aria-hidden="true"></span>
+              <span class="h tl" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span><span class="h bl" aria-hidden="true"></span><span class="h br" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="about-grid">
+            <div>
+              <div class="bio">
+                <figure class="bio-photo">
+                  <img
+                    src="images/about-480.webp"
+                    srcset="images/about-480.webp 480w, images/about-800.webp 800w"
+                    sizes="(min-width: 521px) 230px, 260px"
+                    width="844"
+                    height="1125"
+                    alt="Will in a black hoodie on a grassy hilltop, looking out over the sea at sunset."
+                    data-i18n-attr="alt:about.photoAlt"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption>sunset.jpg · Palompon</figcaption>
+                </figure>
+
+                <p data-i18n="about.bio1">
+                  I'm Will, a 3rd-year BSIT student from Palompon, Leyte. I learn by breaking things
+                  and fixing them, and I build websites and apps that make everyday tasks faster and
+                  easier.
+                </p>
+                <!-- The Taglish lines stay the same in both languages (lang="tl" helps screen readers). -->
+                <p>
+                  <span data-i18n="about.bio2a">My rule is simple:</span>
+                  <em lang="tl">wala nang papel-papel.</em>
+                  <span data-i18n="about.bio2b">Fine records on paper?</span>
+                  <span class="subtitle" lang="tl">Anong gentle gentle?</span>
+                  <span lang="tl">Ilalabas ko na ang aking app.</span>
+                  <span data-i18n="about.bio2c">That's how SmartFine was born: QR scans, instant notices and GCash payments instead of paper.</span>
+                </p>
+                <p data-i18n="about.bio3">
+                  I've also worked part-time in data entry, customer support and as a driver. That
+                  work taught me two things I still build around: records have to be accurate, and
+                  users should never feel lost. It also taught me to keep going and do my best every
+                  day, even when things feel dark, and that people remember how you lived, not how
+                  much you earned.
+                </p>
+              </div>
+
+              <figure class="why">
+                <figcaption data-i18n="about.whyLabel">Why IT?</figcaption>
+                <blockquote data-i18n="about.whyQuote">Honestly, I had no choice. It all started because of my cousin. Now he's living his best life, and I'm here debugging at 2 AM.</blockquote>
+              </figure>
+
+              <div class="hats">
+                <div class="hat">
+                  <div class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" />
+                    </svg>
+                  </div>
+                  <h3 data-i18n="role.dev.title">Developer</h3>
+                  <p data-i18n="role.dev.desc">Builds web and mobile systems with React Native, Expo and SQLite.</p>
+                </div>
+                <div class="hat">
+                  <div class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <ellipse cx="12" cy="6" rx="7" ry="3" />
+                      <path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" />
+                    </svg>
+                  </div>
+                  <h3 data-i18n="role.encoder.title">Data encoder</h3>
+                  <p data-i18n="role.encoder.desc">Learned accuracy and respect for clean records.</p>
+                </div>
+                <div class="hat">
+                  <div class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+                      <rect x="3" y="14" width="4" height="6" rx="1.5" />
+                      <rect x="17" y="14" width="4" height="6" rx="1.5" />
+                    </svg>
+                  </div>
+                  <h3 data-i18n="role.support.title">Customer support</h3>
+                  <p data-i18n="role.support.desc">Learned to listen first and design for real users.</p>
+                </div>
+                <div class="hat">
+                  <div class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="8.5" />
+                      <circle cx="12" cy="12" r="2" />
+                      <path d="M12 14v6.5M10.1 11.3L4 9.5M13.9 11.3L20 9.5" />
+                    </svg>
+                  </div>
+                  <h3 data-i18n="role.driver.title">Driver</h3>
+                  <p data-i18n="role.driver.desc">Learned to be punctual and reliable, and to get people where they need to go safely.</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <!-- Timeline styled like `git log --oneline`, newest first. The hashes are decoration.
+                   The prefixes (ship, feat...) stay in English, like real git messages. -->
+              <div class="gitlog">
+                <div class="panel-head"><span>git log --oneline will</span><span>branch: main</span></div>
+                <ol>
+                  <li><span class="hash" aria-hidden="true">3f8d1c0</span><span><span class="type">ship:</span> <span data-i18n="timeline.rubens">Ruben's Photography website</span></span><span class="when">Nov 2026</span></li>
+                  <li><span class="hash" aria-hidden="true">9b7f310</span><span><span class="type">ship:</span> <span data-i18n="timeline.smartfine">SmartFine working prototype</span></span><span class="when">Oct 2026</span></li>
+                  <li><span class="hash" aria-hidden="true">c07f1b9</span><span><span class="type">feat:</span> <span data-i18n="timeline.css">Computer Systems Servicing NC II</span></span><span class="when">2026</span></li>
+                  <li><span class="hash" aria-hidden="true">6a4e2b8</span><span><span class="type">feat:</span> <span data-i18n="timeline.pos">Underground Apparel POS (team of 2)</span></span><span class="when">2026</span></li>
+                  <li><span class="hash" aria-hidden="true">0a1b2c3</span><span><span class="type">init:</span> <span data-i18n="timeline.bsit">BS Information Technology, Western Leyte College</span></span><span class="when">2024</span></li>
+                  <li><span class="hash" aria-hidden="true">b2c9e17</span><span><span class="type">grad:</span> <span data-i18n="timeline.grad">Isabel National Comprehensive School, with honors</span></span><span class="when">2024</span></li>
+                  <li><span class="hash" aria-hidden="true">5d2a8e4</span><span><span class="type">feat:</span> <span data-i18n="timeline.bpp">Bread and Pastry Production NC II</span></span><span class="when">2023</span></li>
+                  <li><span class="hash" aria-hidden="true">d4f0a63</span><span><span class="type">award:</span> <span data-i18n="timeline.award">Best Home Economics Student and Best Presenter</span></span><span class="when">2023</span></li>
+                  <li><span class="hash" aria-hidden="true">8e1b5f2</span><span><span class="type">role:</span> <span data-i18n="timeline.hailey">admin of the Hailey Facebook page</span></span><span class="when">2022</span></li>
+                  <li><span class="hash" aria-hidden="true">1c7a9d4</span><span><span class="type">role:</span> <span data-i18n="timeline.kira">editor of Kira, an anime edits page</span></span><span class="when">2021–22</span></li>
+                  <li><span class="hash" aria-hidden="true">71e6d03</span><span><span class="type">work:</span> <span data-i18n="timeline.work">data entry, customer support and driver (part-time)</span></span><span class="when ph">[year]</span></li>
+                </ol>
+              </div>
+
+              <dl class="facts">
+                <dt data-i18n="facts.based">Based in</dt>
+                <dd data-i18n="facts.basedValue">Palompon, Leyte, Philippines</dd>
+                <dt data-i18n="facts.studying">Studying</dt>
+                <dd data-i18n="facts.studyingValue">BS Information Technology, 3rd year, Western Leyte College (class of 2028)</dd>
+                <dt data-i18n="facts.speaks">Speaks</dt>
+                <dd data-i18n="facts.speaksValue">English, Filipino, Bisaya</dd>
+                <dt data-i18n="facts.offscreen">Off-screen</dt>
+                <dd data-i18n="facts.offscreenValue">Gaming, and driving anything with wheels, from motorbikes to cars</dd>
+                <dt data-i18n="facts.fun">Fun fact</dt>
+                <dd data-i18n="facts.funValue">I can fix your PC and teach you HTML like a lumpia recipe: everything has to be wrapped right.</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SKILLS ============ -->
+      <section id="skills" class="section" aria-labelledby="skills-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="ftitle">
+              <span class="tag" aria-hidden="true">Frame 02 · <span data-i18n="frame.skills">Skills</span></span>
+              <h2 id="skills-title" data-i18n="skills.title">Skills</h2>
+              <span class="box" aria-hidden="true"></span>
+              <span class="h tl" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span><span class="h bl" aria-hidden="true"></span><span class="h br" aria-hidden="true"></span>
+            </div>
+            <p class="lead" data-i18n="skills.lead">My skills as a component library. Every skill links to the project where I used it.</p>
+          </div>
+
+          <!--
+            Each skill is a toggle button:
+              data-level  3 = Use often, 2 = Comfortable, 1 = Learning (none = no meter)
+              data-used   ids of the project cards that use it ("portfolio" = this website)
+            js/sections.js adds the level meter and highlights the matching cards on click.
+          -->
+          <div class="lib">
+            <div class="lib-panel">
+              <div class="panel-head">
+                <span data-i18n="skills.panel">Assets · Components</span>
+                <span class="legend">
+                  <span><i class="lv lv3" aria-hidden="true"><b></b><b></b><b></b></i><span data-i18n="level.3">Use often</span></span>
+                  <span><i class="lv lv2" aria-hidden="true"><b></b><b></b><b></b></i><span data-i18n="level.2">Comfortable</span></span>
+                  <span><i class="lv lv1" aria-hidden="true"><b></b><b></b><b></b></i><span data-i18n="level.1">Learning</span></span>
+                </span>
+              </div>
+
+              <div class="group">
+                <h3><span class="diamond" aria-hidden="true"></span><span data-i18n="group.build">Build</span></h3>
+                <div class="skills-row">
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="smartfine"><span class="nm">React Native</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="smartfine"><span class="nm">Expo</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="smartfine underground portfolio"><span class="nm">JavaScript</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used="rubens"><span class="nm">TypeScript</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">React</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="underground rubens portfolio"><span class="nm" data-i18n="skill.htmlcss">HTML and CSS</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used="underground"><span class="nm">PHP</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Python</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Java</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="3" data-used="smartfine underground"><span class="nm">SQLite</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">MySQL</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="smartfine"><span class="nm">PayMongo (GCash)</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="smartfine underground"><span class="nm" data-i18n="skill.analysis">System analysis</span></button>
+                </div>
+              </div>
+
+              <div class="group">
+                <h3><span class="diamond" aria-hidden="true"></span><span data-i18n="group.secure">Secure</span></h3>
+                <div class="skills-row">
+                  <button class="skill" type="button" aria-pressed="false" data-level="1" data-used="smartfine"><span class="nm">bcrypt</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="1" data-used="smartfine"><span class="nm">AES-256-GCM</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used="smartfine"><span class="nm">Email OTP</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="3" data-used="smartfine underground"><span class="nm" data-i18n="skill.rbac">Role-based access</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="3" data-used="smartfine underground"><span class="nm" data-i18n="skill.audit">Audit log trail</span></button>
+                </div>
+              </div>
+
+              <div class="group">
+                <h3><span class="diamond" aria-hidden="true"></span><span data-i18n="group.tools">Tools</span></h3>
+                <div class="skills-row">
+                  <button class="skill" type="button" aria-pressed="false" data-used="underground rubens"><span class="nm" data-i18n="skill.git">Git and GitHub</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used="smartfine underground rubens"><span class="nm">VS Code</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Android Studio</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">DBeaver</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Figma</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Microsoft Office</span></button>
+                </div>
+              </div>
+
+              <div class="group">
+                <h3><span class="diamond" aria-hidden="true"></span><span data-i18n="group.create">Create</span></h3>
+                <div class="skills-row">
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Canva</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Photoshop</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">CapCut</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Alight Motion</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">After Effects</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-used=""><span class="nm">Virtual DJ</span></button>
+                </div>
+              </div>
+
+              <div class="group">
+                <h3><span class="diamond" aria-hidden="true"></span><span data-i18n="group.beyond">Beyond code</span></h3>
+                <div class="skills-row">
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used=""><span class="nm" data-i18n="skill.pc">PC assembly</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="3" data-used=""><span class="nm" data-i18n="skill.troubleshooting">Troubleshooting</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="2" data-used=""><span class="nm" data-i18n="skill.networking">Networking basics</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="3" data-used=""><span class="nm" data-i18n="skill.costing">Recipe costing</span></button>
+                  <button class="skill" type="button" aria-pressed="false" data-level="3" data-used="underground"><span class="nm" data-i18n="skill.team">Team collaboration</span></button>
+                </div>
+              </div>
+
+              <!-- aria-live: screen readers read the result out when a skill is picked -->
+              <div class="usedin" aria-live="polite">
+                <span id="used-hint" data-i18n="skills.hint">Select a skill to see where I used it.</span>
+                <span id="used-result" hidden></span>
+              </div>
+            </div>
+
+            <div class="certs">
+              <div class="cert">
+                <div class="seal"><span>NC II</span></div>
+                <div>
+                  <h3 data-i18n="cert.css.title">Computer Systems Servicing</h3>
+                  <p data-i18n="cert.css.desc">National Certificate II · 2026 · assembly, setup, troubleshooting, networking</p>
+                </div>
+              </div>
+              <div class="cert">
+                <div class="seal"><span>NC II</span></div>
+                <div>
+                  <h3 data-i18n="cert.bpp.title">Bread and Pastry Production</h3>
+                  <p data-i18n="cert.bpp.desc">National Certificate II · 2023 · baking, costing, food safety</p>
+                </div>
+              </div>
+              <div class="cert">
+                <div class="seal"><span>2024</span></div>
+                <div>
+                  <h3 data-i18n="cert.honors.title">With honors</h3>
+                  <p data-i18n="cert.honors.desc">Isabel National Comprehensive School · Best Home Economics Student and Best Presenter</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PROJECTS ============ -->
+      <section id="projects" class="section" aria-labelledby="projects-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="ftitle">
+              <span class="tag" aria-hidden="true">Frame 03 · <span data-i18n="frame.projects">Projects</span></span>
+              <h2 id="projects-title" data-i18n="projects.title">Projects</h2>
+              <span class="box" aria-hidden="true"></span>
+              <span class="h tl" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span><span class="h bl" aria-hidden="true"></span><span class="h br" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="filters" role="group" aria-label="Filter projects" data-i18n-attr="aria-label:filter.label">
+            <button type="button" data-filter="all" aria-pressed="true" data-i18n="filter.all">All</button>
+            <button type="button" data-filter="mobile" aria-pressed="false" data-i18n="filter.mobile">Mobile</button>
+            <button type="button" data-filter="web" aria-pressed="false" data-i18n="filter.web">Web</button>
+            <button type="button" data-filter="solo" aria-pressed="false" data-i18n="filter.solo">Solo</button>
+            <button type="button" data-filter="team" aria-pressed="false" data-i18n="filter.team">Team</button>
+          </div>
+
+          <!--
+            data-id    matches the ids in js/data/projects.js (the details pop-up) and data-used above
+            data-cats  which filter buttons show this card
+            data-open  on a button: opens that project's details
+          -->
+          <div class="proj-grid" id="proj-grid">
+            <article class="feature" data-id="smartfine" data-cats="mobile web solo">
+              <div>
+                <div class="badges">
+                  <span class="badge" data-i18n="badge.featured">Featured</span>
+                  <span class="badge" data-i18n="badge.soloProject">Solo project</span>
+                  <span class="badge ok" data-i18n="badge.prototype">Working prototype</span>
+                  <span class="badge" data-i18n="badge.mobileWeb">Mobile app + web version</span>
+                </div>
+                <h3>SmartFine</h3>
+                <p class="hook" data-i18n="sf.hook">From paper logbooks to a QR scan.</p>
+                <p class="desc" data-i18n="sf.desc">
+                  A student fines system for schools. Officers scan a student's QR code and record
+                  the violation with photo evidence. The student sees the fine instantly and pays
+                  through GCash (PayMongo) or at the cashier. If a fine was a mistake, the student
+                  requests a refund and an administrator approves or rejects it.
+                </p>
+                <ul class="fx">
+                  <li data-i18n="sf.fx1">3 roles</li>
+                  <li data-i18n="sf.fx2">Hash-chained log trail</li>
+                  <li data-i18n="sf.fx3">Email OTP</li>
+                  <li data-i18n="sf.fx4">Encrypted daily backups</li>
+                  <li data-i18n="sf.fx5">Tested by classmates, teachers and friends</li>
+                </ul>
+                <div class="tech">
+                  <span>React Native (Expo)</span><span>SQLite</span><span>PayMongo</span><span>bcrypt</span><span>AES-256-GCM</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-primary" type="button" data-open="smartfine" data-i18n="projects.caseStudy">Read the case study</button>
+                </div>
+                <p class="built" data-i18n-rich="sf.built">
+                  Built for Application Development + Information Assurance and Security 1 · October
+                  2026 · Code: <span class="ph">[public GitHub repo link]</span>
+                </p>
+              </div>
+
+              <!-- A static picture of the student's screen. Hidden from screen readers:
+                   the text beside it already says it all. -->
+              <div class="phone" aria-hidden="true">
+                <div class="screen">
+                  <div class="notch"><i></i></div>
+                  <div class="appbar"><span>SmartFine</span><span class="role" data-i18n="phone.student">Student</span></div>
+                  <div class="app">
+                    <div class="bal">
+                      <span class="sm" data-i18n="phone.unpaidBalance">Unpaid balance</span>
+                      <b class="grad-text">₱50</b>
+                    </div>
+                    <p class="phone-h" data-i18n="phone.myFines">My fines</p>
+                    <div class="fines">
+                      <div class="fine">
+                        <span class="nm" data-i18n="fine.noId">No ID</span><span class="amt">₱50</span>
+                        <span class="tm" data-i18n="phone.today">Today 8:02</span>
+                        <span class="pill unpaid" data-i18n="pill.unpaid">Unpaid</span>
+                        <span class="paybtn" data-i18n="phone.pay">Pay with GCash</span>
+                      </div>
+                      <div class="fine">
+                        <span class="nm" data-i18n="fine.late">Late for flag ceremony</span><span class="amt">₱20</span>
+                        <span class="tm" data-i18n="phone.mon">Mon 7:31</span>
+                        <span class="pill paid" data-i18n="pill.paid">Paid</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card" data-id="underground" data-cats="web team">
+              <div class="thumb">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M8.5 3.5L4 6l1.5 4.5L7 10v10.5h10V10l1.5.5L20 6l-4.5-2.5c-.6 1.5-1.9 2.5-3.5 2.5S9.1 5 8.5 3.5z" />
+                  <path d="M10 14h4M10 17h2.5" />
+                </svg>
+              </div>
+              <div class="badges">
+                <span class="badge" data-i18n="badge.team2">Team of 2</span>
+                <span class="badge warn" data-i18n="badge.testing">Core built · in testing</span>
+              </div>
+              <h3>Underground Apparel POS</h3>
+              <p data-i18n="ug.desc">A point-of-sale and business system for a clothing shop whose products come in color and size variants: sales, receipts, inventory, suppliers, payroll and reports.</p>
+              <p class="sm" data-i18n="ug.note">My part: login and dashboard, suppliers, payroll processing, accounts, POS redesign, manager-approved voids</p>
+              <div class="tech">
+                <span>PHP 8</span><span>SQLite</span><span>HTML and CSS</span><span>JavaScript</span><span>Git and GitHub</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-ghost btn-sm" type="button" data-open="underground">
+                  <span data-i18n="projects.details">Details</span><span class="sr-only">, Underground Apparel POS</span>
+                </button>
+              </div>
+            </article>
+
+            <article class="card" data-id="rubens" data-cats="web solo">
+              <div class="thumb">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+                  <circle cx="12" cy="12.5" r="3.5" />
+                </svg>
+              </div>
+              <div class="badges">
+                <span class="badge" data-i18n="badge.solo">Solo</span>
+                <span class="badge ok" data-i18n="badge.client">Client website</span>
+              </div>
+              <h3>Ruben's Photography</h3>
+              <p data-i18n="rp.desc">A one-page showcase site for a photographer in Palompon: hero slideshow, photo lightbox, services, client reviews and FAQ. Every "Book" button opens Messenger. No prices or booking forms, by design.</p>
+              <p class="sm" data-i18n-rich="rp.note">Live at: <span class="ph">[link once deployed]</span></p>
+              <div class="tech">
+                <span>Astro</span><span>Tailwind CSS</span><span>TypeScript</span><span>PhotoSwipe</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-ghost btn-sm" type="button" data-open="rubens">
+                  <span data-i18n="projects.details">Details</span><span class="sr-only">, Ruben's Photography</span>
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT (built in milestone 3) ============ -->
+      <section id="contact" class="section" aria-labelledby="contact-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="ftitle">
+              <span class="tag" aria-hidden="true">Frame 04 · <span data-i18n="frame.contact">Contact</span></span>
+              <h2 id="contact-title" data-i18n="contact.title">Submit a ticket</h2>
+              <span class="box" aria-hidden="true"></span>
+              <span class="h tl" aria-hidden="true"></span><span class="h tr" aria-hidden="true"></span><span class="h bl" aria-hidden="true"></span><span class="h br" aria-hidden="true"></span>
+            </div>
+          </div>
+          <p class="soon" data-i18n="shell.comingSoon">This frame is still empty. Content arrives in the next milestone.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+      <div class="wrap">
+        <div class="foot-main">
+          <a class="brand" href="#home"><svg aria-hidden="true"><use href="#wb-logo" /></svg><span>Will R. Bitoy</span></a>
+          <nav class="foot-links" aria-label="Elsewhere" data-i18n-attr="aria-label:footer.elsewhere">
+            <a href="https://github.com/willrdgzbitoy015-ops" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/in/will-bitoy-637305417/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://www.facebook.com/willrdrgzbitoy001" target="_blank" rel="noopener">Facebook</a>
+            <a href="https://www.instagram.com/_cheeze.dogg/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.youtube.com/@guren.325" target="_blank" rel="noopener">YouTube</a>
+          </nav>
+          <a class="iconbtn" href="#home" aria-label="Back to top" title="Back to top" data-i18n-attr="aria-label:footer.backToTop, title:footer.backToTop">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 19V5M6 11l6-6 6 6" />
+            </svg>
+          </a>
+        </div>
+        <div class="statusbar">
+          <span><span data-i18n="footer.built">Designed and built by Will R. Bitoy</span> · Palompon, Leyte</span>
+          <span data-i18n="footer.status">Zoom 100% · 5 frames · Last updated November 2026</span>
+          <!-- Stays in Bisaya in both languages -->
+          <span class="bis" lang="ceb">Salamat sa pagbisita!</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Project details pop-up. Its content is built by js/sections.js from js/data/projects.js. -->
+    <dialog class="modal" id="modal" aria-labelledby="modal-title">
+      <div class="modal-in">
+        <button class="iconbtn modal-close" type="button" id="modal-close" aria-label="Close" data-i18n-attr="aria-label:modal.close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+        <div id="modal-body"></div>
+      </div>
+    </dialog>
+
+    <!-- Small message bar. role="status" makes screen readers announce it. -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>

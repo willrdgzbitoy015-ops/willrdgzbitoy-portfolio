@@ -9,26 +9,29 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 4. **Windows 11 + PowerShell.** Quote paths with spaces. Node v25.
 5. **Explain as you go.** Will is a 3rd-year IT student and must be able to explain every feature. Readable code, short comments on the tricky parts.
 6. **No templates or UI kits** (MUI, Chakra, shadcn/ui, Flowbite, Tailwind UI, DaisyUI, portfolio themes).
-7. After each milestone: run the checks (build, lint, browser at 360/390/768/1024/1440, Lighthouse mobile 90+), update `notes/`, commit, and wait for Will's OK.
+7. After each milestone: run the checks (browser at 360/390/768/1024/1440 in both themes and both languages, no console messages, Lighthouse mobile 90+ once it is on a server), update `notes/`, commit, and wait for Will's OK.
 
 ## Scope changes that override the brief (Will, 2026-11-14)
 - **No SmartFine live demo** and no "Try SmartFine" link or button anywhere. The site only showcases work. Sections: Home, About, Skills, Projects, Contact.
 - **No Hemodialysis Scheduling System / capstone** anywhere on the site.
 - Will graduated high school in **2024**.
 
-## Tech stack (final)
-- React 19 + TypeScript + Vite with `@vitejs/plugin-react-swc`; Tailwind CSS v4 via `@tailwindcss/vite`; `src/styles/effects.css` for special effects.
-- ESLint + Prettier (`prettier-plugin-tailwindcss`). Fonts self-hosted with `@fontsource` (Space Grotesk, Inter, JetBrains Mono). `sharp` is dev-only.
-- Contact form: Web3Forms, key in `.env.local` as `VITE_WEB3FORMS_ACCESS_KEY`. Hosting: Vercel from a public GitHub repo (`willrdgzbitoy015-ops`).
-- **No other runtime libraries:** no router, animation, i18n or icon library (icons are inline SVG in `src/components/ui/icons.tsx`).
+- **Plain HTML, CSS and JavaScript.** Will asked to migrate away from React, TypeScript and Tailwind. Do not reintroduce a framework, TypeScript, Tailwind or a build step.
+
+## Tech stack (Will's decision, 2026-11-14; overrides the brief's section 3)
+- **Plain HTML + CSS + JavaScript, no build step, no runtime libraries.** The site must work when `index.html` is opened by double-click (`file://`), so: classic `<script defer>` files (no ES modules, no `import`), relative paths only (`images/x.webp`, never `/images/x.webp`), no font preloads.
+- Files: `index.html` (all markup, English text), `css/styles.css` (numbered sections), `css/fonts.css`, `js/core.js` (helpers, toast, language, theme), `js/layout.js` (menu, resume, ruler, active link, frame titles), `js/sections.js` (clock, skills, filter, modal), `js/data/projects.js` (modal content), `js/i18n/en.js` + `ceb.js`, `fonts/`, `images/`.
+- Scripts share one global, `WB` (`WB.t`, `WB.$`, `WB.el`, `WB.toast`, `WB.onLangChange`...). Build DOM with `WB.el` / `textContent`, never `innerHTML` with text.
+- Dev-only npm tools: `prettier` (`npm run format`; `index.html` is hand-formatted and ignored) and `sharp` (`npm run images`). Icons are inline SVG.
+- Contact form: Web3Forms (milestone 3). Hosting: Vercel from a public GitHub repo (`willrdgzbitoy015-ops`), served as static files.
 
 ## Design: the "Canvas" concept
 - The site looks like a design-tool workspace: dotted canvas, selection boxes with square handles, ruler progress bar, layer-name tags (`Frame 01 · About`), status-bar footer. Match `_brief/draft-2.html`.
-- **Colors are CSS variables** in `src/index.css` (Day "Lavender mist" on `:root`, Night "Ube night" on `:root[data-theme='dark']`), exposed to Tailwind with `@theme inline`. Use token classes (`bg-surface`, `text-ink`, `border-line`, `text-muted`, `bg-sel`...). **Never use `dark:` classes.**
+- **Colors are CSS variables** in `css/styles.css` section 1 (Day "Lavender mist" on `:root`, Night "Ube night" on `:root[data-theme='dark']`). Always use the variables (`var(--surface)`, `var(--ink)`, `var(--line)`...); never write a separate "dark" rule.
 - Gradients (`--grad`, `--tgrad`) are decoration only. Body text stays solid, WCAG AA.
 - Motion: one orchestrated moment (hero drag-in), everything else subtle, never hide content behind an animation, fully respect `prefers-reduced-motion`.
-- **All visible text and aria labels go through `t()`** with a key in `src/i18n/en.ts` and `src/i18n/ceb.ts`. Unsure Bisaya lines go in `_brief/bisaya-review.md`.
-- A class like `hidden nav:inline-flex` on `<Button>` loses to the button's own `inline-flex`; use `max-nav:hidden` instead. `nav:` is the 880px navbar breakpoint.
+- **Every visible text and aria label is translatable.** In `index.html` write the English and add `data-i18n="key"` (text), `data-i18n-rich="key"` (text with `**bold**` / `[placeholder]`) or `data-i18n-attr="attr:key"`; add the Bisaya line to `js/i18n/ceb.js`. English that JS builds, and every rich key, also goes in `js/i18n/en.js`. A missing Bisaya key shows a console warning (that warning replaces the old TypeScript check, so keep the console clean). Unsure Bisaya lines go in `_brief/bisaya-review.md`.
+- Test by opening `index.html` directly; the navbar breakpoint is 880px.
 
 ## Project memory (read every session)
 - **Session start:** read `notes/00 Home.md`, `notes/Progress Log.md` and `notes/Open Questions.md`. They're an Obsidian vault with the decisions, progress and what's waiting on Will.

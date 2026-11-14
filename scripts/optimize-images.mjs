@@ -1,5 +1,5 @@
 /*
-  Converts the original photos in _brief/photos into small WebP files in public/images.
+  Converts the original photos in _brief/photos into small WebP files in images/.
   Each photo gets several widths so phones download a small file and big screens a sharp one
   (the browser picks, using the <img srcset> list).
 
@@ -12,7 +12,7 @@ import sharp from 'sharp'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SRC = path.join(root, '_brief', 'photos')
-const OUT = path.join(root, 'public', 'images')
+const OUT = path.join(root, 'images')
 
 // Target widths in pixels. Sizes wider than the original are skipped (no upscaling).
 const WIDTHS = [480, 800, 1200]
