@@ -14,14 +14,14 @@ Nothing needs to be installed to view or edit the site.
 
 | File or folder        | What's inside                                                                         |
 | --------------------- | ------------------------------------------------------------------------------------- |
-| `index.html`          | The home page (Hero, About, Skills, Projects, Experience, Certificates, Contact)      |
+| `index.html`          | The home page (Hero, About, Skills, Projects, Experience, Contact)                    |
 | `project.html`        | One page for every project: `project.html?p=smartfine`, `?p=underground`, `?p=rubens` |
 | `css/styles.css`      | All styles, in numbered sections (colors first)                                       |
 | `css/fonts.css`       | The self-hosted fonts                                                                 |
 | `js/core.js`          | Shared tools: toast, English/Bisaya switch, Day/Night theme                           |
 | `js/layout.js`        | Preloader, mobile menu, resume buttons, navbar, fade-up on scroll, custom cursor      |
-| `js/sections.js`      | Skill filter pills and certificate previews (home page)                               |
-| `js/lightbox.js`      | The big preview for certificates and screenshots                                      |
+| `js/sections.js`      | Skill filter pills (home page)                                                        |
+| `js/lightbox.js`      | The big preview for project screenshots                                               |
 | `js/project-page.js`  | Builds a project page from `js/data/projects.js`                                      |
 | `js/contact.js`       | Copy-email button and the contact form (checks, sending, success card)                |
 | `js/palette.js`       | The Ctrl+K command palette                                                            |
@@ -44,7 +44,7 @@ If a key has no Bisaya line, the English stays and a warning appears in the brow
 
 Put it in `images/`, then in `js/data/projects.js` give that gallery slot a `src`, for example `{ src: 'images/smartfine-student.webp', captionKey: 'gal.sf1' }`.
 
-Certificates never get photos or scans: they stay private. The cards use certificate art drawn with CSS.
+Certificates are private: the site has no Certificates section and never shows photos or scans of them.
 
 ## Optional tools
 

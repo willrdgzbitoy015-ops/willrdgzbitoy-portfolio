@@ -1,12 +1,12 @@
 /*
-  LIGHTBOX: a big view of a certificate or a screenshot.
+  LIGHTBOX: a big view of a project screenshot.
   Built on the native <dialog> element, so Esc closes it, Tab stays inside it and focus
   returns to the button that opened it. We add: arrow keys, Previous / Next buttons,
   click-outside-to-close, and no scrolling of the page behind.
 
   Other scripts call WB.openLightbox(items, startIndex), where each item is either
     { src, alt, caption }   an image file, or
-    { node, caption }       an element to show a bigger copy of (the certificate art).
+    { node, caption }       an element to show a bigger copy of.
 */
 ;(function () {
   const { $, el, t } = WB

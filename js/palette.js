@@ -56,7 +56,6 @@
       { label: t('cmd.skills'), hint: t('hint.section'), run: goTo('skills') },
       { label: t('cmd.projects'), hint: t('hint.section'), run: goTo('projects') },
       { label: t('cmd.experience'), hint: t('hint.section'), run: goTo('experience') },
-      { label: t('cmd.certificates'), hint: t('hint.section'), run: goTo('certificates') },
       { label: t('cmd.contact'), hint: t('hint.section'), run: goTo('contact') },
       ...projects,
       { label: t('cmd.theme'), hint: t('hint.theme'), run: WB.toggleTheme },

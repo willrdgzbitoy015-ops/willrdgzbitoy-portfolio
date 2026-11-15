@@ -110,7 +110,7 @@
 
       LAYOUT (inspired by a reference portfolio, see _brief/reference-redesign.md):
       preloader · floating pill navbar · Hero · About · Skills · Projects · Experience ·
-      Certificates · Contact · footer. Each project has its own page: project.html?p=<id>.
+      Contact · footer. Each project has its own page: project.html?p=<id>.
     -->
 
     <!-- ICONS, defined once and reused with <svg><use href="#i-name" /></svg> -->
@@ -197,7 +197,6 @@
           <a href="#skills" data-i18n="nav.skills">Skills</a>
           <a href="#projects" data-i18n="nav.projects">Projects</a>
           <a href="#experience" data-i18n="nav.experience">Experience</a>
-          <a href="#certificates" data-i18n="nav.certificates">Certificates</a>
           <a href="#contact" data-i18n="nav.contact">Contact</a>
         </nav>
 
@@ -225,7 +224,6 @@
           <a href="#skills" data-i18n="nav.skills">Skills</a>
           <a href="#projects" data-i18n="nav.projects">Projects</a>
           <a href="#experience" data-i18n="nav.experience">Experience</a>
-          <a href="#certificates" data-i18n="nav.certificates">Certificates</a>
           <a href="#contact" data-i18n="nav.contact">Contact</a>
           <button class="btn btn-primary" type="button" data-resume>
             <svg aria-hidden="true"><use href="#i-download" /></svg>
@@ -569,7 +567,7 @@
           <header class="sec-head reveal">
             <p class="eyebrow" data-i18n="exp.eyebrow">My path so far</p>
             <h2 id="experience-title" data-i18n="exp.title">Journey Timeline</h2>
-            <p class="sec-sub" data-i18n="exp.sub">The schooling, certificates, projects and roles that shaped what I do.</p>
+            <p class="sec-sub" data-i18n="exp.sub">The schooling, training, projects and roles that shaped what I do.</p>
           </header>
 
           <!-- Newest first. On wide screens the cards alternate left and right of the line. -->
@@ -665,67 +663,6 @@
               </article>
             </li>
           </ol>
-        </div>
-      </section>
-
-      <!-- ============ CERTIFICATES ============ -->
-      <section id="certificates" class="section" aria-labelledby="certificates-title">
-        <div class="wrap">
-          <header class="sec-head reveal">
-            <p class="eyebrow" data-i18n="certs.eyebrow">Proof of learning</p>
-            <h2 id="certificates-title" data-i18n="certs.title">Certificates</h2>
-            <p class="sec-sub" data-i18n="certs.sub">Certificates and recognitions I've earned.</p>
-          </header>
-
-          <!--
-            Each "Preview" button opens the lightbox (js/lightbox.js) with a bigger copy of the
-            certificate art. The art is drawn with CSS on purpose: Will keeps his real
-            certificates private, so NEVER add photos or scans of them here.
-          -->
-          <div class="cert-grid">
-            <article class="cert-card reveal">
-              <button class="cert-preview" type="button" data-cert aria-label="Preview: Computer Systems Servicing NC II" data-i18n-attr="aria-label:certs.prev.css">
-                <span class="cert-art" aria-hidden="true">
-                  <span class="ca-org">TESDA</span>
-                  <span class="ca-kind">National Certificate II</span>
-                  <span class="ca-title">Computer Systems Servicing</span>
-                  <span class="ca-seal">NC II</span>
-                </span>
-                <span class="cert-hover"><svg aria-hidden="true"><use href="#i-eye" /></svg><span data-i18n="certs.preview">Preview</span></span>
-              </button>
-              <p class="cert-year"><svg aria-hidden="true"><use href="#i-calendar" /></svg>2026</p>
-              <h3>Computer Systems Servicing NC II</h3>
-              <p class="cert-org">TESDA</p>
-            </article>
-            <article class="cert-card reveal">
-              <button class="cert-preview" type="button" data-cert aria-label="Preview: Bread and Pastry Production NC II" data-i18n-attr="aria-label:certs.prev.bpp">
-                <span class="cert-art" aria-hidden="true">
-                  <span class="ca-org">TESDA</span>
-                  <span class="ca-kind">National Certificate II</span>
-                  <span class="ca-title">Bread and Pastry Production</span>
-                  <span class="ca-seal">NC II</span>
-                </span>
-                <span class="cert-hover"><svg aria-hidden="true"><use href="#i-eye" /></svg><span data-i18n="certs.preview">Preview</span></span>
-              </button>
-              <p class="cert-year"><svg aria-hidden="true"><use href="#i-calendar" /></svg>2023</p>
-              <h3>Bread and Pastry Production NC II</h3>
-              <p class="cert-org">TESDA</p>
-            </article>
-            <article class="cert-card reveal">
-              <button class="cert-preview" type="button" data-cert aria-label="Preview: Graduated with honors" data-i18n-attr="aria-label:certs.prev.honors">
-                <span class="cert-art" aria-hidden="true">
-                  <span class="ca-org">Isabel National Comprehensive School</span>
-                  <span class="ca-kind" data-i18n="certs.art.recognition">Certificate of Recognition</span>
-                  <span class="ca-title" data-i18n="tl.grad.title">Graduated with honors</span>
-                  <span class="ca-seal">2024</span>
-                </span>
-                <span class="cert-hover"><svg aria-hidden="true"><use href="#i-eye" /></svg><span data-i18n="certs.preview">Preview</span></span>
-              </button>
-              <p class="cert-year"><svg aria-hidden="true"><use href="#i-calendar" /></svg>2024</p>
-              <h3 data-i18n="tl.grad.title">Graduated with honors</h3>
-              <p class="cert-org">Isabel National Comprehensive School</p>
-            </article>
-          </div>
         </div>
       </section>
 
@@ -858,7 +795,7 @@
       </div>
     </footer>
 
-    <!-- Lightbox for certificates and screenshots. Filled in by js/lightbox.js. -->
+    <!-- Lightbox for project screenshots. Filled in by js/lightbox.js. -->
     <dialog class="lightbox" id="lightbox" aria-label="Preview" data-i18n-attr="aria-label:lb.label">
       <button class="iconbtn lb-close" type="button" id="lb-close" aria-label="Close" data-i18n-attr="aria-label:lb.close"><svg aria-hidden="true"><use href="#i-x" /></svg></button>
       <button class="iconbtn lb-prev" type="button" id="lb-prev" aria-label="Previous" data-i18n-attr="aria-label:lb.prev"><svg aria-hidden="true"><use href="#i-chevron-left" /></svg></button>

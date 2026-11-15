@@ -17,7 +17,6 @@ WB.ceb = {
   'nav.skills': 'Kahanas',
   'nav.projects': 'Mga proyekto',
   'nav.experience': 'Kasinatian',
-  'nav.certificates': 'Mga sertipiko',
   'nav.contact': 'Kontak',
   'nav.sections': 'Mga seksyon',
   'nav.sectionsMobile': 'Mga seksyon (mobile)',
@@ -145,7 +144,7 @@ WB.ceb = {
   // Experience timeline
   'exp.eyebrow': 'Akong agianan hangtod karon',
   'exp.title': 'Panaw sa Akong Kinabuhi',
-  'exp.sub': 'Ang eskwelahan, mga sertipiko, proyekto ug mga papel nga naghulma sa akong gibuhat.',
+  'exp.sub': 'Ang eskwelahan, pagbansay, mga proyekto ug mga papel nga naghulma sa akong gibuhat.',
   'tl.rp.date': 'Nob 2026',
   'tl.rp.title': "Website sa Ruben's Photography",
   'tl.rp.org': 'Website sa kliyente · Solo',
@@ -172,15 +171,8 @@ WB.ceb = {
   'tl.kira.title': 'Editor',
   'tl.kira.org': 'Kira, usa ka anime fan page',
 
-  // Certificates
-  'certs.eyebrow': 'Pamatuod sa pagkat-on',
-  'certs.title': 'Mga Sertipiko',
-  'certs.sub': 'Mga sertipiko ug pasidungog nga akong nakuha.',
+  // "Preview" label on project screenshots
   'certs.preview': 'Tan-awa',
-  'certs.prev.css': 'Tan-awa: Computer Systems Servicing NC II',
-  'certs.prev.bpp': 'Tan-awa: Bread and Pastry Production NC II',
-  'certs.prev.honors': 'Tan-awa: Migraduwar with honors',
-  'certs.art.recognition': 'Sertipiko sa Pag-ila',
 
   // Contact
   'contact.eyebrow': 'Makig-uban nako',
@@ -238,7 +230,6 @@ WB.ceb = {
   'cmd.skills': 'Adto sa Mga kahanas',
   'cmd.projects': 'Adto sa Mga proyekto',
   'cmd.experience': 'Adto sa Kasinatian',
-  'cmd.certificates': 'Adto sa Mga sertipiko',
   'cmd.contact': 'Adto sa Kontak',
   'cmd.top': 'Balik sa taas',
   'cmd.openProject': 'Ablihi ang proyekto: {name}',

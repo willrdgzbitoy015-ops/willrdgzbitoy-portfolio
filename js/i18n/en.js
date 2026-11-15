@@ -194,7 +194,6 @@ WB.en = {
   'cmd.skills': 'Go to Skills',
   'cmd.projects': 'Go to Projects',
   'cmd.experience': 'Go to Experience',
-  'cmd.certificates': 'Go to Certificates',
   'cmd.contact': 'Go to Contact',
   'cmd.top': 'Back to top',
   'cmd.openProject': 'Open project: {name}',

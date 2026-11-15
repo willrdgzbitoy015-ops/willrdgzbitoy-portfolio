@@ -1,12 +1,11 @@
 /*
   SECTIONS: the interactive parts of the home page.
     1. Skills: category labels and the filter pills
-    2. Certificates: "Preview" opens the lightbox
 */
 ;(function () {
   const { $, $$, t, reducedMotion, onLangChange } = WB
 
-  /* ---------- 1. Skills ----------
+  /* ---------- Skills ----------
      Every card has data-cat (its group). The small grey label under the name is the
      group's singular name from the dictionary (cat.lang.one = "Language"), so it follows
      the language switch. The pills show only the cards of one group. */
@@ -47,22 +46,6 @@
   }
   paintSkillLabels()
   applyFilter('all', false)
-
-  /* ---------- 2. Certificates ----------
-     Each "Preview" button opens the lightbox with a bigger copy of that certificate's paper
-     art (drawn with CSS). All certificates are in one gallery, so the arrow keys move
-     between them. Will keeps his real certificates private: no photos or scans. */
-  const certButtons = $$('[data-cert]')
-  function certItems() {
-    return certButtons.map((button) => {
-      const card = button.closest('.cert-card')
-      const caption = $('h3', card).textContent + ' · ' + $('.cert-org', card).textContent
-      return { node: $('.cert-art', button), caption }
-    })
-  }
-  certButtons.forEach((button, index) => {
-    button.addEventListener('click', () => WB.openLightbox(certItems(), index))
-  })
 
   /* ---------- Language switch: rebuild the text this file created ---------- */
   onLangChange(() => {
