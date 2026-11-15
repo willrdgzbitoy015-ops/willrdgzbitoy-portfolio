@@ -71,12 +71,46 @@
         ),
       )
     } else {
-      box.classList.add('thumb-shot')
-      box.append(
-        el('img', { src: project.cover, alt: '', width: '1200', height: '750', decoding: 'async' }),
-      )
+      return screenshotCover()
     }
     return box
+  }
+
+  /* ---------- A real screenshot as the cover ----------
+     Shown whole (not cropped), and it is a button: clicking it opens the full-screen
+     lightbox. If the cover is also in the gallery, the lightbox starts there, so the
+     arrow keys continue through the other screenshots. */
+  function screenshotCover() {
+    const gallery = project.sections.find((block) => block.kind === 'gallery')
+    const shots = gallery ? gallery.shots.filter((shot) => shot.src) : []
+    let items = lightboxItemsFor(shots)
+    let start = shots.findIndex((shot) => shot.src === project.cover)
+    if (start < 0) {
+      items = [{ src: project.cover, alt: project.title, caption: project.title }]
+      start = 0
+    }
+    const button = el(
+      'button',
+      {
+        class: 'proj-thumb pp-cover thumb-shot reveal',
+        type: 'button',
+        'aria-label': t('certs.preview') + ': ' + project.title,
+      },
+      el('span', { class: 'proj-tag' }, t(project.tagKey)),
+      el('img', { src: project.cover, alt: '', width: '1200', height: '750', decoding: 'async' }),
+      el('span', { class: 'cert-hover' }, icon('eye'), el('span', {}, t('certs.preview'))),
+    )
+    button.addEventListener('click', () => WB.openLightbox(items, start))
+    return button
+  }
+
+  /** The list the lightbox needs: one entry per screenshot. */
+  function lightboxItemsFor(shots) {
+    return shots.map((shot) => ({
+      src: shot.src,
+      alt: t(shot.captionKey),
+      caption: project.title + ' · ' + t(shot.captionKey),
+    }))
   }
 
   /* ---------- One section of the page, depending on its `kind` ---------- */
@@ -129,11 +163,7 @@
   /* ---------- Screenshot gallery ---------- */
   function gallery(shots) {
     const real = shots.filter((shot) => shot.src)
-    const lightboxItems = real.map((shot) => ({
-      src: shot.src,
-      alt: t(shot.captionKey),
-      caption: project.title + ' · ' + t(shot.captionKey),
-    }))
+    const lightboxItems = lightboxItemsFor(real)
     const grid = el('div', { class: 'gallery' })
     for (const shot of shots) {
       if (!shot.src) {
