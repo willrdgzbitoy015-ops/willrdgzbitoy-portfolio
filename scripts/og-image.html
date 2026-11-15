@@ -1,0 +1,168 @@
+<!doctype html>
+<!--
+  TEMPLATE FOR THE LINK-PREVIEW IMAGE (og-image.png)
+  This page is not part of the website. `npm run og` opens it in a hidden browser at
+  exactly 1200 x 630 pixels (the size Messenger and Facebook ask for) and takes a
+  screenshot. To change the preview, edit this file and run `npm run og` again.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OG image template</title>
+    <link rel="stylesheet" href="../css/fonts.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      /* Same navy, glow and gradient as the site's Night theme */
+      body {
+        position: relative;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        color: #eef1ff;
+        background:
+          radial-gradient(620px 420px at 82% 38%, rgba(88, 96, 255, 0.34), transparent 70%),
+          radial-gradient(520px 380px at 8% 105%, rgba(34, 211, 238, 0.14), transparent 70%),
+          #070a1a;
+      }
+      .copy {
+        position: absolute;
+        left: 76px;
+        top: 0;
+        bottom: 0;
+        width: 640px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .brand {
+        position: absolute;
+        left: 76px;
+        top: 56px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 26px;
+        font-weight: 700;
+      }
+      .brand svg {
+        width: 48px;
+        height: 48px;
+      }
+      .brand i {
+        font-style: normal;
+        color: #9b6bff;
+      }
+      .eyebrow {
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #a5adcf;
+      }
+      h1 {
+        margin-top: 18px;
+        font-size: 92px;
+        line-height: 1.02;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        /* The gradient is painted as the background and shows through the letters */
+        background: linear-gradient(100deg, #5b8cff, #9b6bff 55%, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        padding-bottom: 8px;
+      }
+      .role {
+        margin-top: 14px;
+        font-size: 30px;
+        font-weight: 600;
+        color: #22d3ee;
+      }
+      .line {
+        margin-top: 20px;
+        font-size: 25px;
+        line-height: 1.4;
+        color: #a5adcf;
+        white-space: nowrap;
+      }
+      .place {
+        position: absolute;
+        left: 76px;
+        bottom: 54px;
+        font:
+          500 20px 'JetBrains Mono',
+          Consolas,
+          monospace;
+        color: #7480ab;
+      }
+      /* The photo sits in a rounded card; the raised hand pokes out of the top */
+      .frame {
+        position: absolute;
+        right: 84px;
+        bottom: 0;
+        width: 372px;
+        height: 500px;
+      }
+      .frame::before {
+        content: '';
+        position: absolute;
+        inset: 96px 0 56px;
+        border-radius: 34px;
+        background: linear-gradient(160deg, #1a2150, #0f1430);
+        border: 1.5px solid #2d3772;
+        box-shadow: 0 30px 80px -20px rgba(88, 96, 255, 0.55);
+      }
+      .frame img {
+        position: absolute;
+        left: 50%;
+        bottom: 56px;
+        width: 400px;
+        transform: translateX(-50%);
+        /* clip the bottom edge to the card's rounded corners */
+        border-radius: 0 0 34px 34px;
+        clip-path: inset(0 14px 0 14px round 0 0 34px 34px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brand">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5b8cff" />
+            <stop offset=".55" stop-color="#9b6bff" />
+            <stop offset="1" stop-color="#22d3ee" />
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="38" height="38" rx="11" fill="#151b3d" />
+        <path
+          d="M6 13 C9 22 11.5 28 14 28 C16.6 28 18 21 20 17 C22 21 23.4 28 26 28 C28.5 28 31 22 34 13"
+          fill="none"
+          stroke="url(#g)"
+          stroke-width="3.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <circle cx="20" cy="11.5" r="2.3" fill="#9b6bff" />
+      </svg>
+      <span>Will<i>.</i></span>
+    </div>
+
+    <div class="copy">
+      <p class="eyebrow">Portfolio</p>
+      <h1>Will R. Bitoy</h1>
+      <p class="role">BS Information Technology Student</p>
+      <p class="line">I build web and mobile systems that replace paper.</p>
+    </div>
+    <p class="place">Palompon, Leyte · Philippines</p>
+
+    <div class="frame"><img src="../images/hero-1194.webp" alt="" /></div>
+  </body>
+</html>

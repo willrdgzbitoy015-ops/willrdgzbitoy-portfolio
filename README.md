@@ -53,5 +53,6 @@ Only needed for converting new photos or auto-formatting the code:
 ```bash
 npm install
 npm run images     # convert photos into the images/ folder
+npm run og         # remake og-image.png, the link-preview picture
 npm run format     # tidy CSS and JavaScript with Prettier
 ```

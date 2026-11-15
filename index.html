@@ -11,14 +11,29 @@
     <meta name="author" content="Will R. Bitoy" />
     <meta name="theme-color" content="#070A1A" />
 
-    <!-- Link preview (Messenger, Facebook, X). The og:image is added in milestone 4. -->
+    <!--
+      Link preview (Messenger, Facebook, X). The picture is made by "npm run og".
+      AFTER DEPLOYING: Facebook and Messenger need full addresses here. Put the live site
+      address in front of og-image.png (in og:image and twitter:image) and add
+      <meta property="og:url" content="https://your-site-address/" />.
+    -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Will R. Bitoy" />
     <meta property="og:title" content="Will R. Bitoy · IT Student and Developer" />
     <meta
       property="og:description"
       content="I build systems that replace paper. Web and mobile projects by a BSIT student from Palompon, Leyte."
     />
+    <meta property="og:image" content="og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Will R. Bitoy, BS Information Technology student. I build web and mobile systems that replace paper."
+    />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="og-image.png" />
 
     <!--
       NO-FLASH SCRIPT. Runs before the page paints:

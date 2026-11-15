@@ -190,6 +190,14 @@ window.WB = window.WB || {}
   if (load('wb-lang') === 'ceb') setLang('ceb')
   paintTheme()
 
+  /* ---------- A small surprise for anyone who opens DevTools (F12) ----------
+     %c applies the CSS in the next argument to the text that follows it. */
+  console.log(
+    '%cKumusta, curious dev! 👋%c\nThis site is plain HTML, CSS and JavaScript: no framework, no build step.\nPress Ctrl+K to try the command palette.',
+    'font: 700 16px system-ui; color: #9b6bff',
+    'font: 13px system-ui',
+  )
+
   /* ---------- Shared with the other scripts ---------- */
   Object.assign(WB, {
     $,
