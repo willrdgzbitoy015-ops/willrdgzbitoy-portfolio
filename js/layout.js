@@ -76,10 +76,10 @@
   setMenu(false)
 
   /* ---------- 3. Resume buttons ----------
-     When the PDF is added: put it at will-bitoy-resume.pdf (next to index.html)
-     and change RESUME_READY to true. Until then the buttons explain that it's missing,
-     instead of downloading a broken file. */
-  const RESUME_READY = false
+     The PDF is will-bitoy-resume.pdf, next to index.html. To update the resume, replace
+     that file and keep the same name. (If the file is ever removed, set RESUME_READY to
+     false so the buttons explain that it's missing instead of downloading a broken file.) */
+  const RESUME_READY = true
   const RESUME_FILE = 'will-bitoy-resume.pdf'
 
   function downloadResume() {
@@ -92,6 +92,11 @@
     const link = document.createElement('a')
     link.href = RESUME_FILE
     link.download = RESUME_FILE
+    // On a web server the line above downloads the file. When the page is opened straight
+    // from a folder (file://) browsers ignore it, so open the PDF in a new tab instead of
+    // leaving the site.
+    link.target = '_blank'
+    link.rel = 'noopener'
     document.body.append(link)
     link.click()
     link.remove()

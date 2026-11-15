@@ -34,6 +34,7 @@ Full spec: `PROMPT-FOR-CLAUDE-CODE.md` (source of truth). Judging day: **2026-11
 - Motion: subtle, never hide content without JS, fully respect `prefers-reduced-motion` (no preloader, cursor, reveal or floating then).
 - **Every visible text and aria label is translatable.** In `index.html` write the English and add `data-i18n="key"` (text), `data-i18n-rich="key"` (text with `**bold**` / `[placeholder]`) or `data-i18n-attr="attr:key"`; add the Bisaya line to `js/i18n/ceb.js`. For a rich key, write real markup (`<strong>`) in the HTML **and** the `**bold**` version in `js/i18n/en.js`. English that JS builds, and any key a project page uses, goes in `js/i18n/en.js`. A missing Bisaya key shows a console warning, so keep the console clean. Will does not want a Bisaya review step: write the lines and move on, no review file, no asking.
 - Test by opening `index.html` directly; the navbar breakpoint is 1100px (six links).
+- **Cache version:** every CSS and JS link in `index.html` and `project.html` ends in `?v=<date><letter>`. After changing any CSS or JS, bump it in both files (same value everywhere), or Will's browser keeps showing the old files.
 
 ## Project memory (read every session)
 - **Session start:** read `notes/00 Home.md`, `notes/Progress Log.md` and `notes/Open Questions.md`. They're an Obsidian vault with the decisions, progress and what's waiting on Will.
