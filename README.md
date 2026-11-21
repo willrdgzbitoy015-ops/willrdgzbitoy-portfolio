@@ -12,24 +12,26 @@ Nothing needs to be installed to view or edit the site.
 
 ## Where things live
 
-| File or folder        | What's inside                                                                         |
-| --------------------- | ------------------------------------------------------------------------------------- |
-| `index.html`          | The home page (Hero, About, Skills, Projects, Experience, Contact)                    |
-| `project.html`        | One page for every project: `project.html?p=smartfine`, `?p=underground`, `?p=rubens` |
-| `css/styles.css`      | All styles, in numbered sections (colors first)                                       |
-| `css/fonts.css`       | The self-hosted fonts                                                                 |
-| `js/core.js`          | Shared tools: toast, English/Bisaya switch, Day/Night theme                           |
-| `js/layout.js`        | Preloader, mobile menu, resume buttons, navbar, fade-up on scroll, custom cursor      |
-| `js/sections.js`      | Skill filter pills (home page)                                                        |
-| `js/lightbox.js`      | The big preview for project screenshots                                               |
-| `js/project-page.js`  | Builds a project page from `js/data/projects.js`                                      |
-| `js/contact.js`       | Copy-email button and the contact form (checks, sending, success card)                |
-| `js/palette.js`       | The Ctrl+K command palette                                                            |
-| `js/data/projects.js` | Everything each project page shows                                                    |
-| `js/i18n/en.js`       | English lines that JavaScript builds (the rest is in `index.html`)                    |
-| `js/i18n/ceb.js`      | Every Bisaya line                                                                     |
-| `images/`, `fonts/`   | Photos and screenshots (WebP) and font files                                          |
-| `scripts/`            | Optional helper to convert photos                                                     |
+| File or folder           | What's inside                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `index.html`             | The home page (Hero, About, Skills, Projects, Experience, Contact)                    |
+| `project.html`           | One page for every project: `project.html?p=smartfine`, `?p=underground`, `?p=rubens` |
+| `css/styles.css`         | All styles, in numbered sections (colors first)                                       |
+| `css/fonts.css`          | The self-hosted fonts                                                                 |
+| `js/core.js`             | Shared tools: toast, English/Bisaya switch, Day/Night theme                           |
+| `js/layout.js`           | Preloader, mobile menu, resume buttons, navbar, fade-up on scroll, custom cursor      |
+| `js/sections.js`         | Skill filter pills (home page)                                                        |
+| `js/aura.js`             | The smoke aura around the hero photo (home page)                                      |
+| `js/lightbox.js`         | The big preview for project screenshots                                               |
+| `js/project-page.js`     | Builds a project page from `js/data/projects.js`                                      |
+| `js/contact.js`          | Copy-email button and the contact form (checks, sending, success card)                |
+| `js/palette.js`          | The Ctrl+K command palette                                                            |
+| `js/data/projects.js`    | Everything each project page shows                                                    |
+| `js/data/aura-points.js` | Points on the hero photo outline (made by `npm run aura`, don't edit by hand)         |
+| `js/i18n/en.js`          | English lines that JavaScript builds (the rest is in `index.html`)                    |
+| `js/i18n/ceb.js`         | Every Bisaya line                                                                     |
+| `images/`, `fonts/`      | Photos and screenshots (WebP) and font files                                          |
+| `scripts/`               | Optional helper to convert photos                                                     |
 
 ## Changing text
 
@@ -54,5 +56,6 @@ Only needed for converting new photos or auto-formatting the code:
 npm install
 npm run images     # convert photos into the images/ folder
 npm run og         # remake og-image.png, the link-preview picture
+npm run aura       # after changing the hero photo: remake the smoke aura outline points
 npm run format     # tidy CSS and JavaScript with Prettier
 ```

@@ -48,12 +48,6 @@ WB.en = {
   'card.rp':
     'A one-page showcase site for a photographer in Palompon, where every "Book" button opens Messenger.',
   'certs.preview': 'Preview',
-  'phone.unpaidBalance': 'Unpaid balance',
-  'phone.pay': 'Pay with GCash',
-  'fine.noId': 'No ID',
-  'fine.late': 'Late for flag ceremony',
-  'pill.unpaid': 'Unpaid',
-  'pill.paid': 'Paid',
   'badge.soloProject': 'Solo project',
   'badge.prototype': 'Working prototype',
   'badge.mobileWeb': 'Mobile app + web version',
@@ -84,6 +78,7 @@ WB.en = {
   'gal.sf1': 'Student view',
   'gal.sf2': 'Fines officer view',
   'gal.sf3': 'Administrator view',
+  'gal.ugLogin': 'Sign-in page',
   'gal.ug1': 'Point of sale',
   'gal.ug2': 'Inventory',
   'gal.ug3': 'Payroll',
@@ -112,7 +107,8 @@ WB.en = {
     'Every action is written to a log trail where each entry is hashed and chained to the one before.',
   'sf.role1': '**Student**: sees fines, pays, requests refunds.',
   'sf.role2': '**Fines officer**: scans QR codes and records violations.',
-  'sf.role3': '**Administrator**: [duties to be confirmed by Will]',
+  'sf.role3':
+    '**Administrator**: manages student, officer and admin accounts and the fine types, records cash payments, handles refunds, and sees reports, the log trail and encrypted backups.',
   'sf.secT3': 'Account lockout',
   'sf.secT4': 'Session control',
   'sf.secT6': 'Log trail',
@@ -151,9 +147,9 @@ WB.en = {
   'ug.part4': "Payroll voids and a cashier void that needs a manager's approval",
   'ug.part5': 'Shared UI: toasts, loading states and confirmations',
   'ug.team':
-    "Built with [teammate's name, only if they agree]. We split modules and review each other's work on GitHub.",
+    "Built with Kisha Kyle Samson. We split modules and review each other's work on GitHub.",
   'ug.status':
-    'Core modules are built. We are now fixing bugs, tightening security and testing in the browser. [screenshots]',
+    'Core modules are built. We are now fixing bugs, tightening security and testing in the browser.',
 
   // Ruben's Photography
   'rp.brief':

@@ -35,7 +35,6 @@ WB.ceb = {
   'cta.contact': 'Kontaka ko',
 
   // Hero
-  'hero.eyebrow': 'Maayong pag-abot sa akong portfolio',
   'hero.hiPrefix': 'Hi, ako si',
   'hero.role': 'Estudyante sa BS Information Technology',
   'hero.sub':
@@ -45,7 +44,6 @@ WB.ceb = {
   'hero.scroll': 'Padulong sa Bahin nako',
 
   // About
-  'about.eyebrow': 'Ilha ko',
   'about.title': 'Bahin Nako',
   'about.sub': 'Gamay nga istorya bahin sa akong kagikan ug unsay ganahan nakong buhaton.',
   'about.bio1':
@@ -58,8 +56,6 @@ WB.ceb = {
     'Fun fact: makaayo ko sa imong PC ug makatudlo nimo og HTML sama sa resipe sa lumpia, kay kinahanglan sakto ang pagputos sa tanan.',
   'about.edu1': 'BS Information Technology · 2024 hangtod karon (ika-3 nga tuig)',
   'about.edu2': 'Migraduwar with honors · 2024',
-  'about.photoAlt':
-    'Si Will nga nagsul-ob og itom nga hoodie sa sagbuton nga bungtod, nagtan-aw sa dagat samtang nagsalop ang adlaw.',
   'about.basedIn': 'Nagpuyo sa Palompon, Leyte',
   'about.speaks': 'Kahibalo og English, Filipino ug Bisaya',
   'about.whyLabel': 'Nganong IT?',
@@ -71,12 +67,11 @@ WB.ceb = {
   'interest.security': 'Seguridad sa Sistema',
   'interest.hardware': 'PC Hardware',
   'interest.editing': 'Pag-edit og Video ug Litrato',
-  'interest.baking': 'Pagluto og Pan',
+  'interest.cooking': 'Pagluto ug Pag-bake',
   'interest.driving': 'Pagdrayb ug Motor',
   'interest.gaming': 'Gaming',
 
   // Skills
-  'skills.eyebrow': 'Unsay akong gigamit',
   'skills.title': 'Mga Kahanas ug Teknolohiya',
   'skills.sub': 'Ang mga pinulongan, framework, himan ug natad nga akong gitun-an ug gigamit.',
   'skills.filterLabel': 'Salaa ang mga kahanas',
@@ -106,11 +101,10 @@ WB.ceb = {
   'skill.pc': 'Pag-assemble og PC',
   'skill.troubleshooting': 'Troubleshooting',
   'skill.networking': 'Sukaranan sa networking',
-  'skill.costing': 'Pagkuwenta sa gasto sa resipe',
+  'skill.cooking': 'Pagluto',
   'skill.team': 'Pagtinabangay sa grupo',
 
   // Projects (home page cards)
-  'projects.eyebrow': 'Pinili nga mga trabaho',
   'projects.title': 'Mga Proyekto',
   'projects.sub':
     'Mga sistema ug site nga akong gibuhat, gikan sa mobile app hangtod sa website sa kliyente.',
@@ -127,12 +121,6 @@ WB.ceb = {
     'Usa ka point-of-sale ug sistema sa negosyo para sa tindahan og sinina: halin, imbentaryo matag kolor ug gidak-on, supplier ug payroll.',
   'card.rp':
     'Usa ka one-page nga showcase site para sa usa ka photographer sa Palompon, diin ang matag "Book" nga button moabli sa Messenger.',
-  'phone.unpaidBalance': 'Wala pa mabayri',
-  'phone.pay': 'Bayri gamit ang GCash',
-  'fine.noId': 'Walay ID',
-  'fine.late': 'Late sa flag ceremony',
-  'pill.unpaid': 'Wala mabayri',
-  'pill.paid': 'Bayad na',
   'badge.soloProject': 'Solo nga proyekto',
   'badge.prototype': 'Prototype nga mogana',
   'badge.mobileWeb': 'Mobile app + bersyon sa web',
@@ -142,7 +130,6 @@ WB.ceb = {
   'badge.client': 'Website sa kliyente',
 
   // Experience timeline
-  'exp.eyebrow': 'Akong agianan hangtod karon',
   'exp.title': 'Panaw sa Akong Kinabuhi',
   'exp.sub': 'Ang eskwelahan, pagbansay, mga proyekto ug mga papel nga naghulma sa akong gibuhat.',
   'tl.rp.date': 'Nob 2026',
@@ -175,7 +162,6 @@ WB.ceb = {
   'certs.preview': 'Tan-awa',
 
   // Contact
-  'contact.eyebrow': 'Makig-uban nako',
   'contact.title': 'Kontaka Ko',
   'contact.sub':
     'Naa kay proyekto, pangutana o oportunidad? Padad-i ko og mensahe ug motubag ko sulod sa usa ka adlaw.',
@@ -269,6 +255,7 @@ WB.ceb = {
   'gal.sf1': 'Panan-aw sa estudyante',
   'gal.sf2': 'Panan-aw sa fines officer',
   'gal.sf3': 'Panan-aw sa administrator',
+  'gal.ugLogin': 'Panid sa pag-sign in',
   'gal.ug1': 'Point of sale',
   'gal.ug2': 'Imbentaryo',
   'gal.ug3': 'Payroll',
@@ -298,7 +285,8 @@ WB.ceb = {
     'Ang matag lihok isulat sa log trail diin ang matag entry gi-hash ug gisumpay sa nag-una niini.',
   'sf.role1': '**Estudyante**: motan-aw sa mga multa, mobayad, mohangyo og refund.',
   'sf.role2': '**Fines officer**: mag-scan og QR code ug magrekord sa mga kalapasan.',
-  'sf.role3': '**Administrator**: [mga katungdanan nga kumpirmahon pa ni Will]',
+  'sf.role3':
+    '**Administrator**: nagdumala sa mga account sa estudyante, officer ug admin ug sa mga klase sa multa, nagrekord sa mga bayad nga cash, nag-asikaso sa mga refund, ug makakita sa mga report, sa log trail ug sa mga encrypted backup.',
   'sf.secT3': 'Account lockout',
   'sf.secT4': 'Session control',
   'sf.secT6': 'Log trail',
@@ -338,9 +326,9 @@ WB.ceb = {
   'ug.part4': 'Mga void sa payroll ug void sa cashier nga nagkinahanglan og pagtugot sa manager',
   'ug.part5': 'Shared nga UI: mga toast, loading state ug kumpirmasyon',
   'ug.team':
-    'Gibuhat uban ni [ngalan sa kauban, kon mosugot lang siya]. Gibahin namo ang mga module ug gisusi ang trabaho sa usag usa sa GitHub.',
+    'Gibuhat uban ni Kisha Kyle Samson. Gibahin namo ang mga module ug gisusi ang trabaho sa usag usa sa GitHub.',
   'ug.status':
-    'Nahuman na ang mga nag-unang module. Karon nag-ayo mi sa mga bug, nagpalig-on sa seguridad ug nag-test sa browser. [mga screenshot]',
+    'Nahuman na ang mga nag-unang module. Karon nag-ayo mi sa mga bug, nagpalig-on sa seguridad ug nag-test sa browser.',
 
   // Ruben's Photography
   'rp.brief':

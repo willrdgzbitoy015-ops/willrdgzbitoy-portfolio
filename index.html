@@ -86,22 +86,24 @@
       these files; a new version text forces them to fetch the new ones. After changing
       any CSS or JS, change the version in BOTH index.html and project.html.
     -->
-    <link rel="stylesheet" href="css/fonts.css?v=2026-11-15b" />
-    <link rel="stylesheet" href="css/styles.css?v=2026-11-15b" />
+    <link rel="stylesheet" href="css/fonts.css?v=2026-11-21c" />
+    <link rel="stylesheet" href="css/styles.css?v=2026-11-21c" />
 
     <!--
       Scripts. "defer" = download now, run in this order after the HTML is read.
       Text first (dictionaries), then data, then the code that uses them.
     -->
-    <script defer src="js/i18n/en.js?v=2026-11-15b"></script>
-    <script defer src="js/i18n/ceb.js?v=2026-11-15b"></script>
-    <script defer src="js/data/projects.js?v=2026-11-15b"></script>
-    <script defer src="js/core.js?v=2026-11-15b"></script>
-    <script defer src="js/layout.js?v=2026-11-15b"></script>
-    <script defer src="js/lightbox.js?v=2026-11-15b"></script>
-    <script defer src="js/sections.js?v=2026-11-15b"></script>
-    <script defer src="js/contact.js?v=2026-11-15b"></script>
-    <script defer src="js/palette.js?v=2026-11-15b"></script>
+    <script defer src="js/i18n/en.js?v=2026-11-21c"></script>
+    <script defer src="js/i18n/ceb.js?v=2026-11-21c"></script>
+    <script defer src="js/data/projects.js?v=2026-11-21c"></script>
+    <script defer src="js/core.js?v=2026-11-21c"></script>
+    <script defer src="js/layout.js?v=2026-11-21c"></script>
+    <script defer src="js/lightbox.js?v=2026-11-21c"></script>
+    <script defer src="js/sections.js?v=2026-11-21c"></script>
+    <script defer src="js/contact.js?v=2026-11-21c"></script>
+    <script defer src="js/palette.js?v=2026-11-21c"></script>
+    <script defer src="js/data/aura-points.js?v=2026-11-21c"></script>
+    <script defer src="js/aura.js?v=2026-11-21c"></script>
   </head>
 
   <body>
@@ -120,19 +122,6 @@
 
     <!-- ICONS, defined once and reused with <svg><use href="#i-name" /></svg> -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
-      <defs>
-        <linearGradient id="wb-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" style="stop-color: var(--g1)" />
-          <stop offset=".55" style="stop-color: var(--g2)" />
-          <stop offset="1" style="stop-color: var(--g3)" />
-        </linearGradient>
-        <!-- The logo: a "W" drawn as a bird in flight (kalanggaman = bird). -->
-        <symbol id="wb-logo" viewBox="0 0 40 40">
-          <rect x="1" y="1" width="38" height="38" rx="11" style="fill: var(--surface-2)" />
-          <path d="M6 13 C9 22 11.5 28 14 28 C16.6 28 18 21 20 17 C22 21 23.4 28 26 28 C28.5 28 31 22 34 13" fill="none" stroke="url(#wb-grad)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="20" cy="11.5" r="2.3" style="fill: var(--g2)" />
-        </symbol>
-      </defs>
       <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="M7 10l5 5 5-5M12 15V3" /></g></symbol>
         <symbol id="i-github" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></g></symbol>
@@ -140,8 +129,8 @@
         <symbol id="i-facebook" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></g></symbol>
         <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01" /></g></symbol>
         <symbol id="i-youtube" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17" /><path d="M10 15l5-3-5-3z" /></g></symbol>
-        <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></g></symbol>
-        <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 15 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></g></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="4" width="20" height="16" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></g></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M20 10c0 5-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 15 4 10a8 8 0 0 1 16 0" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 15 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></g></symbol>
         <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a1 1 0 0 1 1-1h10" /></g></symbol>
         <symbol id="i-send" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2l-7 20-4-9-9-4z" /><path d="M22 2L11 13" /></g></symbol>
         <symbol id="i-arrow-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></g></symbol>
@@ -151,26 +140,35 @@
         <symbol id="i-chevron-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6" /></g></symbol>
         <symbol id="i-x" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18" /></g></symbol>
         <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4 4" /></g></symbol>
-        <symbol id="i-cap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z" /><path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></g></symbol>
-        <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></g></symbol>
-        <symbol id="i-award" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6" /><path d="M15.48 12.89L17 22l-5-3-5 3 1.52-9.11" /></g></symbol>
-        <symbol id="i-briefcase" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></g></symbol>
+        <symbol id="i-cap" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z" /><path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></g></symbol>
+        <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="3" y="4" width="18" height="18" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></g></symbol>
+        <symbol id="i-award" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="12" cy="8" r="6" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6" /><path d="M15.48 12.89L17 22l-5-3-5 3 1.52-9.11" /></g></symbol>
+        <symbol id="i-briefcase" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="7" width="20" height="14" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></g></symbol>
         <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0" /><circle cx="12" cy="12" r="3" /></g></symbol>
         <symbol id="i-code" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" /></g></symbol>
-        <symbol id="i-layout" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" /></g></symbol>
-        <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" /><path d="M12 18h.01" /></g></symbol>
-        <symbol id="i-db" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0" /></g></symbol>
-        <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></g></symbol>
-        <symbol id="i-wrench" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></g></symbol>
-        <symbol id="i-palette" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z" /><path d="M13.5 6.5h.01M17.5 10.5h.01M8.5 7.5h.01M6.5 12.5h.01" /></g></symbol>
-        <symbol id="i-cpu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="9" y="9" width="6" height="6" rx="1" /><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2" /></g></symbol>
-        <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></g></symbol>
-        <symbol id="i-video" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 13l5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5" /><rect x="2" y="6" width="14" height="12" rx="2" /></g></symbol>
-        <symbol id="i-chef" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1z" /><path d="M6 17h12" /></g></symbol>
-        <symbol id="i-bike" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5" /><circle cx="5.5" cy="17.5" r="3.5" /><circle cx="15" cy="5" r="1" /><path d="M12 17.5V14l-3-3 4-3 2 3h2" /></g></symbol>
-        <symbol id="i-game" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01" /></g></symbol>
-        <symbol id="i-sparkle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z" /></g></symbol>
-        <symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></g></symbol>
+        <symbol id="i-layout" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="3" y="3" width="18" height="18" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" /></g></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="5" y="2" width="14" height="20" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" /><path d="M12 18h.01" /></g></symbol>
+        <symbol id="i-db" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><ellipse cx="12" cy="5" rx="9" ry="3" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0" /></g></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></g></symbol>
+        <symbol id="i-wrench" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></g></symbol>
+        <symbol id="i-palette" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z" /><path d="M13.5 6.5h.01M17.5 10.5h.01M8.5 7.5h.01M6.5 12.5h.01" /></g></symbol>
+        <symbol id="i-cpu" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="4" y="4" width="16" height="16" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="9" y="9" width="6" height="6" rx="1" /><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2" /></g></symbol>
+        <symbol id="i-globe" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="12" cy="12" r="10" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></g></symbol>
+        <symbol id="i-video" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="6" width="14" height="12" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 13l5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5" /><rect x="2" y="6" width="14" height="12" rx="2" /></g></symbol>
+        <symbol id="i-chef" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1z" /><path d="M6 17h12" /></g></symbol>
+        <symbol id="i-bike" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="18.5" cy="17.5" r="3.5" /><circle cx="5.5" cy="17.5" r="3.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5" /><circle cx="5.5" cy="17.5" r="3.5" /><circle cx="15" cy="5" r="1" /><path d="M12 17.5V14l-3-3 4-3 2 3h2" /></g></symbol>
+        <symbol id="i-game" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="6" width="20" height="12" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01" /></g></symbol>
+        <symbol id="i-sparkle" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z" /></g></symbol>
+        <symbol id="i-users" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="9" cy="7" r="4" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></g></symbol>
+        <!-- Skill icons for skills without an official logo (only the home page uses these) -->
+        <symbol id="s-analysis" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="3" y="3" width="7" height="6" rx="1.5" /><rect x="14" y="15" width="7" height="6" rx="1.5" /><circle cx="17.5" cy="6" r="3" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="6" rx="1.5" /><rect x="14" y="15" width="7" height="6" rx="1.5" /><circle cx="17.5" cy="6" r="3" /><path d="M10 6h4.5M6.5 9v5a4 4 0 0 0 4 4H14" /></g></symbol>
+        <symbol id="s-key" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="7.5" cy="15.5" r="4.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5" /><path d="M10.7 12.3 20.5 2.5M16.5 6.5 19 9M19 4l2 2" /></g><circle cx="7.5" cy="15.5" r="1.3" fill="currentColor" /></symbol>
+        <symbol id="s-lock" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path d="M8 10.5v-3a4 4 0 0 1 8 0v3M12 14.5v2.5" /></g></symbol>
+        <symbol id="s-otp" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="6" width="20" height="12" rx="3" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3" /><path d="M17.5 9.5v5" /></g><g fill="currentColor"><circle cx="6.5" cy="12" r="1.3" /><circle cx="10" cy="12" r="1.3" /><circle cx="13.5" cy="12" r="1.3" /></g></symbol>
+        <symbol id="s-rbac" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="9" cy="7.5" r="3.5" /><path d="M17.5 12.5 21 14v2.6c0 2.2-1.5 3.7-3.5 4.4-2-.7-3.5-2.2-3.5-4.4V14z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7.5" r="3.5" /><path d="M3 20v-.5A5.5 5.5 0 0 1 8.5 14H11" /><path d="M17.5 12.5 21 14v2.6c0 2.2-1.5 3.7-3.5 4.4-2-.7-3.5-2.2-3.5-4.4V14z" /></g></symbol>
+        <symbol id="s-audit" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="4" y="2.5" width="16" height="5" rx="1.5" /><rect x="4" y="9.5" width="16" height="5" rx="1.5" /><rect x="4" y="16.5" width="16" height="5" rx="1.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="5" rx="1.5" /><rect x="4" y="9.5" width="16" height="5" rx="1.5" /><rect x="4" y="16.5" width="16" height="5" rx="1.5" /><path d="M7.5 5h5M7.5 12h7M7.5 19h4M16.5 7.5v2M16.5 14.5v2" /></g></symbol>
+        <symbol id="s-network" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="9" y="2.5" width="6" height="5" rx="1.2" /><rect x="2.5" y="16.5" width="6" height="5" rx="1.2" /><rect x="15.5" y="16.5" width="6" height="5" rx="1.2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="5" rx="1.2" /><rect x="2.5" y="16.5" width="6" height="5" rx="1.2" /><rect x="15.5" y="16.5" width="6" height="5" rx="1.2" /><path d="M12 7.5V12M5.5 16.5V14a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v2.5" /></g></symbol>
+        <symbol id="s-cooking" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M5 11h14v6.5a3.5 3.5 0 0 1-3.5 3.5h-7A3.5 3.5 0 0 1 5 17.5z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v6.5a3.5 3.5 0 0 1-3.5 3.5h-7A3.5 3.5 0 0 1 5 17.5z" /><path d="M3 11h18M5 14H2.5M19 14h2.5" /><path d="M8.5 7.5c-.9-.9.9-1.6 0-3M12 7.5c-.9-.9.9-1.6 0-3M15.5 7.5c-.9-.9.9-1.6 0-3" /></g></symbol>
       </g>
     </svg>
 
@@ -192,7 +190,6 @@
     <header class="nav" id="top">
       <div class="nav-bar">
         <a class="brand" href="#home" aria-label="Will R. Bitoy, back to top" data-i18n-attr="aria-label:nav.home">
-          <svg class="brand-mark" aria-hidden="true"><use href="#wb-logo" /></svg>
           <span class="brand-name">Will<span class="dot">.</span></span>
         </a>
 
@@ -244,7 +241,6 @@
         <div class="glow glow-hero" aria-hidden="true"></div>
         <div class="wrap hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow" data-i18n="hero.eyebrow">Welcome to my portfolio</p>
             <h1 id="hero-title">
               <span data-i18n="hero.hiPrefix">Hi, I'm</span>
               <span class="grad-text">Will R. Bitoy</span>
@@ -310,6 +306,8 @@
               </svg>
             </span>
             <span class="tile lightroom" title="Adobe Lightroom" aria-hidden="true">Lr</span>
+            <!-- Smoke around Will's outline, drawn by js/aura.js. It sits behind the photo, so only the edges show. -->
+            <canvas id="aura" class="aura" aria-hidden="true"></canvas>
             <div class="hero-photo">
               <!-- Not lazy-loaded: it is the first thing people see. width/height reserve its space. -->
               <img
@@ -341,7 +339,6 @@
       <section id="about" class="section" aria-labelledby="about-title">
         <div class="wrap">
           <header class="sec-head reveal">
-            <p class="eyebrow" data-i18n="about.eyebrow">Get to know me</p>
             <h2 id="about-title" data-i18n="about.title">About Me</h2>
             <p class="sec-sub" data-i18n="about.sub">A little about my background and what I love to build.</p>
           </header>
@@ -378,16 +375,8 @@
                     <p data-i18n="about.edu2">Graduated with honors · 2024</p>
                   </div>
                 </article>
-                <article class="info-card info-photo">
-                  <img
-                    src="images/about-480.webp"
-                    width="844"
-                    height="1125"
-                    alt="Will in a black hoodie on a grassy hilltop, looking out over the sea at sunset."
-                    data-i18n-attr="alt:about.photoAlt"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                <article class="info-card">
+                  <span class="ic ic-pin"><svg aria-hidden="true"><use href="#i-pin" /></svg></span>
                   <div>
                     <h3 data-i18n="about.basedIn">Based in Palompon, Leyte</h3>
                     <p data-i18n="about.speaks">Speaks English, Filipino and Bisaya</p>
@@ -409,7 +398,7 @@
                 <li><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><span data-i18n="interest.security">System Security</span></li>
                 <li><span class="ic"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><span data-i18n="interest.hardware">PC Hardware</span></li>
                 <li><span class="ic"><svg aria-hidden="true"><use href="#i-video" /></svg></span><span data-i18n="interest.editing">Video and Photo Editing</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-chef" /></svg></span><span data-i18n="interest.baking">Baking</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-chef" /></svg></span><span data-i18n="interest.cooking">Cooking and Baking</span></li>
                 <li><span class="ic"><svg aria-hidden="true"><use href="#i-bike" /></svg></span><span data-i18n="interest.driving">Driving and Motorbikes</span></li>
                 <li><span class="ic"><svg aria-hidden="true"><use href="#i-game" /></svg></span><span data-i18n="interest.gaming">Gaming</span></li>
               </ul>
@@ -423,7 +412,6 @@
         <div class="glow glow-left" aria-hidden="true"></div>
         <div class="wrap">
           <header class="sec-head reveal">
-            <p class="eyebrow" data-i18n="skills.eyebrow">What I work with</p>
             <h2 id="skills-title" data-i18n="skills.title">Skills &amp; Technologies</h2>
             <p class="sec-sub" data-i18n="skills.sub">The languages, frameworks, tools and fields I learn and use.</p>
           </header>
@@ -446,42 +434,42 @@
             by js/sections.js from the same group (cat.<group>.one), so it follows the language.
           -->
           <ul class="skill-grid" id="skill-grid">
-            <li class="skill-card" data-cat="lang"><span class="ic"><svg aria-hidden="true"><use href="#i-code" /></svg></span><b>JavaScript</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="lang"><span class="ic"><svg aria-hidden="true"><use href="#i-code" /></svg></span><b>TypeScript</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="lang"><span class="ic"><svg aria-hidden="true"><use href="#i-code" /></svg></span><b>PHP</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="lang"><span class="ic"><svg aria-hidden="true"><use href="#i-code" /></svg></span><b>Python</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="lang"><span class="ic"><svg aria-hidden="true"><use href="#i-code" /></svg></span><b>Java</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="frontend"><span class="ic"><svg aria-hidden="true"><use href="#i-layout" /></svg></span><b data-i18n="skill.htmlcss">HTML and CSS</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="frontend"><span class="ic"><svg aria-hidden="true"><use href="#i-layout" /></svg></span><b>React</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="mobile"><span class="ic"><svg aria-hidden="true"><use href="#i-phone" /></svg></span><b>React Native</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="mobile"><span class="ic"><svg aria-hidden="true"><use href="#i-phone" /></svg></span><b>Expo</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="backend"><span class="ic"><svg aria-hidden="true"><use href="#i-db" /></svg></span><b>SQLite</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="backend"><span class="ic"><svg aria-hidden="true"><use href="#i-db" /></svg></span><b>MySQL</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="backend"><span class="ic"><svg aria-hidden="true"><use href="#i-db" /></svg></span><b>PayMongo (GCash)</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="backend"><span class="ic"><svg aria-hidden="true"><use href="#i-db" /></svg></span><b data-i18n="skill.analysis">System analysis</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="security"><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><b>bcrypt</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="security"><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><b>AES-256-GCM</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="security"><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><b>Email OTP</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="security"><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><b data-i18n="skill.rbac">Role-based access</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="security"><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><b data-i18n="skill.audit">Audit log trail</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="tools"><span class="ic"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b data-i18n="skill.git">Git and GitHub</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="tools"><span class="ic"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b>VS Code</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="tools"><span class="ic"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b>Android Studio</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="tools"><span class="ic"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b>DBeaver</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="tools"><span class="ic"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b>Figma</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="tools"><span class="ic"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b>Microsoft Office</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-palette" /></svg></span><b>Canva</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-palette" /></svg></span><b>Photoshop</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-palette" /></svg></span><b>Lightroom</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-video" /></svg></span><b>CapCut</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-video" /></svg></span><b>Alight Motion</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-video" /></svg></span><b>After Effects</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="creative"><span class="ic"><svg aria-hidden="true"><use href="#i-palette" /></svg></span><b>Virtual DJ</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="beyond"><span class="ic"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><b data-i18n="skill.pc">PC assembly</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="beyond"><span class="ic"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><b data-i18n="skill.troubleshooting">Troubleshooting</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="beyond"><span class="ic"><svg aria-hidden="true"><use href="#i-globe" /></svg></span><b data-i18n="skill.networking">Networking basics</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="beyond"><span class="ic"><svg aria-hidden="true"><use href="#i-chef" /></svg></span><b data-i18n="skill.costing">Recipe costing</b><span class="skill-cat"></span></li>
-            <li class="skill-card" data-cat="beyond"><span class="ic"><svg aria-hidden="true"><use href="#i-users" /></svg></span><b data-i18n="skill.team">Team collaboration</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="lang" style="--brand: #f7df1e"><span class="logo"><img src="images/logos/javascript.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>JavaScript</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="lang" style="--brand: #3178c6"><span class="logo"><img src="images/logos/typescript.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>TypeScript</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="lang" style="--brand: #777bb4"><span class="logo"><img src="images/logos/php.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>PHP</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="lang" style="--brand: #4b8bbe"><span class="logo"><img src="images/logos/python.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Python</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="lang" style="--brand: #e76f00"><span class="logo"><img src="images/logos/java.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Java</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="frontend" style="--brand: #e34f26"><span class="logo pair"><img src="images/logos/html5.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img src="images/logos/css3.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b data-i18n="skill.htmlcss">HTML and CSS</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="frontend" style="--brand: #61dafb"><span class="logo"><img src="images/logos/react.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>React</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="mobile" style="--brand: #61dafb"><span class="logo"><img src="images/logos/react.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>React Native</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="mobile"><span class="logo"><img class="adapt" src="images/logos/expo.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Expo</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="backend" style="--brand: #0f80cc"><span class="logo"><img src="images/logos/sqlite.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>SQLite</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="backend" style="--brand: #2aa4c4"><span class="logo"><img class="adapt" src="images/logos/mysql.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>MySQL</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="backend" style="--brand: #24b47e"><span class="logo pair"><img src="images/logos/paymongo.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img src="images/logos/gcash.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b>PayMongo (GCash)</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="backend"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-analysis" /></svg></span><b data-i18n="skill.analysis">System analysis</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-key" /></svg></span><b>bcrypt</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-lock" /></svg></span><b>AES-256-GCM</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-otp" /></svg></span><b>Email OTP</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-rbac" /></svg></span><b data-i18n="skill.rbac">Role-based access</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-audit" /></svg></span><b data-i18n="skill.audit">Audit log trail</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #f05032"><span class="logo pair"><img src="images/logos/git.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img class="adapt" src="images/logos/github.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b data-i18n="skill.git">Git and GitHub</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #23a9f2"><span class="logo"><img src="images/logos/vscode.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>VS Code</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #3ddc84"><span class="logo"><img src="images/logos/android-studio.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Android Studio</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #b08968"><span class="logo"><img src="images/logos/dbeaver.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>DBeaver</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #a259ff"><span class="logo"><img src="images/logos/figma.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Figma</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #b04fd8"><span class="logo"><img src="images/logos/office.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Microsoft Office</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #00c4cc"><span class="logo"><img src="images/logos/canva.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Canva</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #31a8ff"><span class="logo"><img src="images/logos/photoshop.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Photoshop</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #31a8ff"><span class="logo"><img src="images/logos/lightroom.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Lightroom</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative"><span class="logo"><img class="adapt" src="images/logos/capcut.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>CapCut</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #2bd9a8"><span class="logo"><img class="app-tile" src="images/alight-motion.webp" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Alight Motion</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #9999ff"><span class="logo"><img src="images/logos/after-effects.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>After Effects</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #ed1c24"><span class="logo wide"><img src="images/logos/virtualdj.svg" alt="" width="44" height="44" loading="lazy" decoding="async" /></span><b>Virtual DJ</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><b data-i18n="skill.pc">PC assembly</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b data-i18n="skill.troubleshooting">Troubleshooting</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-network" /></svg></span><b data-i18n="skill.networking">Networking basics</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-cooking" /></svg></span><b data-i18n="skill.cooking">Cooking</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-users" /></svg></span><b data-i18n="skill.team">Team collaboration</b><span class="skill-cat"></span></li>
           </ul>
           <!-- aria-live: screen readers hear how many skills the filter shows -->
           <p class="sr-only" id="skill-count" aria-live="polite"></p>
@@ -492,7 +480,6 @@
       <section id="projects" class="section" aria-labelledby="projects-title">
         <div class="wrap">
           <header class="sec-head reveal">
-            <p class="eyebrow" data-i18n="projects.eyebrow">Selected work</p>
             <h2 id="projects-title" data-i18n="projects.title">Projects</h2>
             <p class="sec-sub" data-i18n="projects.sub">Systems and sites I've built, from a mobile app to a client website.</p>
           </header>
@@ -501,16 +488,9 @@
           <div class="proj-grid">
             <article class="proj-card reveal">
               <a class="proj-link" href="project.html?p=smartfine">
-                <div class="proj-thumb thumb-smartfine" aria-hidden="true">
+                <div class="proj-thumb thumb-shot" aria-hidden="true">
                   <span class="proj-tag" data-i18n="tag.mobile">Mobile app</span>
-                  <!-- A small picture of the student's screen (decoration) -->
-                  <div class="mini-phone">
-                    <div class="mp-bar"><span>SmartFine</span><i></i></div>
-                    <div class="mp-bal"><small data-i18n="phone.unpaidBalance">Unpaid balance</small><b>₱50</b></div>
-                    <div class="mp-row"><span data-i18n="fine.noId">No ID</span><em class="unpaid" data-i18n="pill.unpaid">Unpaid</em></div>
-                    <div class="mp-row"><span data-i18n="fine.late">Late for flag ceremony</span><em class="paid" data-i18n="pill.paid">Paid</em></div>
-                    <div class="mp-pay" data-i18n="phone.pay">Pay with GCash</div>
-                  </div>
+                  <img src="images/smartfine-overview-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
                 </div>
                 <div class="proj-body">
                   <h3>SmartFine</h3>
@@ -525,14 +505,9 @@
 
             <article class="proj-card reveal">
               <a class="proj-link" href="project.html?p=underground">
-                <div class="proj-thumb thumb-pos" aria-hidden="true">
+                <div class="proj-thumb thumb-shot" aria-hidden="true">
                   <span class="proj-tag" data-i18n="tag.web">Web system</span>
-                  <!-- A small picture of a POS screen (decoration) -->
-                  <div class="mini-pos">
-                    <div class="pos-side"><i></i><i></i><i></i><i></i></div>
-                    <div class="pos-items"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                    <div class="pos-receipt"><b></b><i></i><i></i><i></i><span></span></div>
-                  </div>
+                  <img src="images/pos-sale-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
                 </div>
                 <div class="proj-body">
                   <h3>Underground Apparel POS</h3>
@@ -570,7 +545,6 @@
         <div class="glow glow-right" aria-hidden="true"></div>
         <div class="wrap">
           <header class="sec-head reveal">
-            <p class="eyebrow" data-i18n="exp.eyebrow">My path so far</p>
             <h2 id="experience-title" data-i18n="exp.title">Journey Timeline</h2>
             <p class="sec-sub" data-i18n="exp.sub">The schooling, training, projects and roles that shaped what I do.</p>
           </header>
@@ -598,16 +572,6 @@
               </article>
             </li>
             <li class="tl-item reveal">
-              <span class="tl-node" aria-hidden="true"><svg><use href="#i-award" /></svg></span>
-              <article class="tl-card">
-                <p class="tl-date">2026</p>
-                <h3 data-i18n="tl.css.title">Computer Systems Servicing NC II</h3>
-                <p class="tl-org">TESDA</p>
-                <p data-i18n="tl.css.desc">Assembling, setting up and troubleshooting computers, plus networking.</p>
-                <ul class="tags"><li data-i18n="tag.hardware">Hardware</li><li data-i18n="tag.networking">Networking</li></ul>
-              </article>
-            </li>
-            <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-users" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2026</p>
@@ -615,6 +579,17 @@
                 <p class="tl-org" data-i18n="tl.ug.org">Team of 2</p>
                 <p data-i18n="tl.ug.desc">A point-of-sale and business system for a clothing shop, built with a classmate.</p>
                 <ul class="tags"><li>PHP 8</li><li>SQLite</li></ul>
+              </article>
+            </li>
+            <!-- NC II came first (before the POS), so it sits below it in this newest-first list. -->
+            <li class="tl-item reveal">
+              <span class="tl-node" aria-hidden="true"><svg><use href="#i-award" /></svg></span>
+              <article class="tl-card">
+                <p class="tl-date">2026</p>
+                <h3 data-i18n="tl.css.title">Computer Systems Servicing NC II</h3>
+                <p class="tl-org">TESDA</p>
+                <p data-i18n="tl.css.desc">Assembling, setting up and troubleshooting computers, plus networking.</p>
+                <ul class="tags"><li data-i18n="tag.hardware">Hardware</li><li data-i18n="tag.networking">Networking</li></ul>
               </article>
             </li>
             <li class="tl-item reveal">
@@ -676,7 +651,6 @@
         <div class="glow glow-left" aria-hidden="true"></div>
         <div class="wrap">
           <header class="sec-head reveal">
-            <p class="eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
             <h2 id="contact-title" data-i18n="contact.title">Contact Me</h2>
             <p class="sec-sub" data-i18n="contact.sub">Have a project, a question or an opportunity? Send me a message and I'll reply within a day.</p>
           </header>

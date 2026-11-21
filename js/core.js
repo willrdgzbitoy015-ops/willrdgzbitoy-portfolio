@@ -168,8 +168,34 @@ window.WB = window.WB || {}
     paintTheme()
   }
 
+  /** Day <-> Night. Where the browser supports View Transitions (Chrome, Edge, Safari 18+,
+      Firefox 144+), the new theme grows out of the theme button as a circle: the browser
+      snapshots the old page, we switch the theme, then we animate a circular clip-path on
+      the new snapshot. Older browsers, or reduced motion, simply switch. */
   function toggleTheme() {
-    setTheme(isDark() ? 'light' : 'dark', true)
+    const next = isDark() ? 'light' : 'dark'
+    if (!document.startViewTransition || reducedMotion) return setTheme(next, true)
+
+    // Centre of the circle: the theme button. If it is hidden (width 0), the screen centre.
+    const box = themeButton.getBoundingClientRect()
+    const x = box.width ? box.left + box.width / 2 : innerWidth / 2
+    const y = box.height ? box.top + box.height / 2 : innerHeight / 2
+    // Radius that reaches the farthest corner of the screen, so the circle covers everything.
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
+
+    const transition = document.startViewTransition(() => setTheme(next, true))
+    transition.ready
+      .then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          {
+            duration: 700,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            pseudoElement: '::view-transition-new(root)',
+          },
+        )
+      })
+      .catch(() => {}) // the browser skipped the animation: the theme has still switched
   }
 
   /* ---------- Start ---------- */

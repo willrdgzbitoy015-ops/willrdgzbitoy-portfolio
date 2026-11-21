@@ -11,7 +11,7 @@
     badges     small labels; tone 'ok' = green, 'warn' = amber
     tech       tech tags (not translated)
     repo       public code link, or null when there is none to show
-    cover      which picture to draw: 'phone', 'pos' or an image path
+    cover      the cover screenshot (an image path, 1200 x 750); clicking it opens the lightbox
     sections   the blocks of the page, in order. Each has a `kind`:
       text        a paragraph                      { headingKey, bodyKey }
       challenges  three cards                      { headingKey, items: [{ icon, titleKey, textKey }] }
@@ -34,7 +34,7 @@ WB.PROJECTS = {
     ],
     tech: ['React Native (Expo)', 'SQLite', 'PayMongo', 'bcrypt', 'AES-256-GCM'],
     repo: null, // [public GitHub repo link] still to come from Will
-    cover: 'phone',
+    cover: 'images/smartfine-overview-1200.webp',
     sections: [
       { kind: 'text', headingKey: 'm.overview', bodyKey: 'sf.problem' },
       {
@@ -69,7 +69,11 @@ WB.PROJECTS = {
       {
         kind: 'gallery',
         headingKey: 'm.gallery',
-        shots: [{ captionKey: 'gal.sf1' }, { captionKey: 'gal.sf2' }, { captionKey: 'gal.sf3' }],
+        shots: [
+          { src: 'images/smartfine-student-1200.webp', captionKey: 'gal.sf1' },
+          { src: 'images/smartfine-officer-1200.webp', captionKey: 'gal.sf2' },
+          { src: 'images/smartfine-admin-1200.webp', captionKey: 'gal.sf3' },
+        ],
       },
     ],
   },
@@ -81,7 +85,7 @@ WB.PROJECTS = {
     badges: [{ key: 'badge.team2' }, { key: 'badge.testing', tone: 'warn' }],
     tech: ['PHP 8', 'SQLite', 'HTML and CSS', 'JavaScript', 'Git and GitHub'],
     repo: 'https://github.com/kishakylepc-ui/CompAcc_POS',
-    cover: 'pos',
+    cover: 'images/pos-sale-1200.webp',
     sections: [
       { kind: 'text', headingKey: 'm.overview', bodyKey: 'ug.problem' },
       {
@@ -108,7 +112,12 @@ WB.PROJECTS = {
       {
         kind: 'gallery',
         headingKey: 'm.gallery',
-        shots: [{ captionKey: 'gal.ug1' }, { captionKey: 'gal.ug2' }, { captionKey: 'gal.ug3' }],
+        shots: [
+          { src: 'images/pos-login-1200.webp', captionKey: 'gal.ugLogin' },
+          { src: 'images/pos-sale-1200.webp', captionKey: 'gal.ug1' },
+          { src: 'images/pos-inventory-1200.webp', captionKey: 'gal.ug2' },
+          { src: 'images/pos-payroll-1200.webp', captionKey: 'gal.ug3' },
+        ],
       },
     ],
   },

@@ -34,7 +34,7 @@
   --surface-2: #f3f4fb;
   --ink: #0f1330;
   --muted: #535b7e;
-  --faint: #7d84a6;
+  --faint: #646b8d; /* darkest "faint" that still passes WCAG AA on white and on --bg */
   --line: #e1e4f1;
   --line-strong: #c9cee6;
   --accent: #5b47e8;
@@ -48,11 +48,22 @@
   --g2: #7c3aed;
   --g3: #0891b2;
   --grad: linear-gradient(100deg, var(--g1), var(--g2) 55%, var(--g3));
-  --glow-a: rgba(91, 71, 232, 0.13);
-  --glow-b: rgba(8, 145, 178, 0.1);
+  --glow-a: rgba(91, 71, 232, 0.16);
+  --glow-b: rgba(8, 145, 178, 0.12);
   --nav-bg: rgba(255, 255, 255, 0.74);
   --overlay: rgba(15, 19, 48, 0.55);
-  --shadow: 0 14px 34px -16px rgba(15, 19, 48, 0.22);
+  --shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.18);
+  /* Cards: Day lifts them off the page with a soft two-layer shadow. */
+  --card-bg: var(--surface);
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 16px -8px rgba(0, 0, 0, 0.09);
+  --card-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.05), 0 22px 40px -20px rgba(0, 0, 0, 0.2);
+  --edge-hi: rgba(255, 255, 255, 0.9); /* thin light line along the top edge of tiles */
+  --field-bg: #f8f9fd;
+  /* Skill logos: the small plate behind each logo, and a filter for black logos
+     (GitHub, Expo, CapCut, MySQL) so they turn light in Night mode. */
+  --logo-plate: #f6f7fc;
+  --logo-adapt: none;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* fast start, long soft landing */
   --ok: #047857;
   --ok-bg: #d1fae5;
   --bad: #be123c;
@@ -92,6 +103,15 @@
   --nav-bg: rgba(12, 16, 38, 0.68);
   --overlay: rgba(3, 5, 16, 0.78);
   --shadow: 0 20px 44px -20px rgba(0, 0, 0, 0.7);
+  /* Cards: Night lights them from above (a lighter top fading down) instead of a shadow. */
+  --card-bg: linear-gradient(180deg, #131a3b 0%, #0e132d 100%);
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 14px 32px -22px rgba(0, 0, 0, 0.9);
+  --card-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 24px 48px -22px rgba(0, 0, 0, 0.95);
+  --edge-hi: rgba(255, 255, 255, 0.06);
+  --field-bg: var(--bg-2);
+  --logo-plate: #161d44;
+  --logo-adapt: invert(1) hue-rotate(180deg); /* black -> white, colors keep their hue */
   --ok: #34d399;
   --ok-bg: rgba(52, 211, 153, 0.14);
   --bad: #fb7185;
@@ -112,6 +132,18 @@ html {
   /* Anchor jumps stop below the floating navbar instead of under it. */
   scroll-padding-top: calc(var(--nav-h) + 30px);
   -webkit-text-size-adjust: 100%;
+  /* The browser's own parts follow the theme too: scrollbar, checkboxes, text cursor. */
+  scrollbar-color: var(--line-strong) var(--bg);
+  accent-color: var(--accent);
+  caret-color: var(--accent);
+}
+/* Day/Night switch: the browser takes a picture of the old page, and js/core.js grows the
+   new theme over it as a circle from the theme button (View Transitions API). These two
+   lines stop the browser's default cross-fade so only the circle plays. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 body {
   margin: 0;
@@ -362,7 +394,8 @@ ol {
   width: min(1180px, 100% - 24px);
   height: var(--nav-h);
   margin-inline: auto;
-  padding: 0 10px 0 18px;
+  /* 64px bar - 2 x 11px padding - 2px border = 40px row, the height of the tallest button */
+  padding: 11px 10px 11px 18px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -379,19 +412,17 @@ ol {
   box-shadow: var(--shadow);
   border-color: var(--line-strong);
 }
+/* The brand is just the word "Will." (the W logo was removed 2026-11-21). The left
+   padding keeps it clear of the pill's round end. */
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   margin-right: auto;
+  padding-left: 8px;
   text-decoration: none;
   font-weight: 700;
   font-size: 19px;
   letter-spacing: -0.03em;
-}
-.brand-mark {
-  width: 32px;
-  height: 32px;
 }
 .links {
   display: flex;
@@ -502,9 +533,6 @@ ol {
     padding-left: 12px;
     gap: 6px;
   }
-  .brand-mark {
-    display: none;
-  }
   .seg button {
     padding: 4px 8px;
   }
@@ -535,11 +563,11 @@ ol {
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: 0 10px 26px -12px var(--accent);
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35);
 }
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 14px 30px -12px var(--accent);
+  box-shadow: 0 12px 26px -12px rgba(0, 0, 0, 0.45);
 }
 .btn-ghost {
   background: var(--surface);
@@ -651,7 +679,8 @@ ol {
   border-color: transparent;
   color: var(--warn);
 }
-/* Icon in a rounded tinted square (used in many cards) */
+/* Icon in a rounded tinted square (used in many cards). The tint is a little stronger at
+   the top-left, with a thin inner border, so the tile reads as a small raised button. */
 .ic {
   display: inline-grid;
   place-items: center;
@@ -659,8 +688,16 @@ ol {
   width: 44px;
   height: 44px;
   border-radius: var(--r-sm);
-  background: var(--accent-soft);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    color-mix(in srgb, var(--accent) 7%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
+    inset 0 1px 0 var(--edge-hi);
   color: var(--accent-text);
+  transition: transform 0.4s var(--ease-out);
 }
 
 /* ---------- 6. SECTIONS, HEADERS, GLOWS, REVEAL ---------- */
@@ -672,14 +709,6 @@ ol {
   max-width: 660px;
   margin: 0 auto 52px;
   text-align: center;
-}
-.eyebrow {
-  margin-bottom: 14px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
 }
 .sec-head h2 {
   font-size: clamp(2rem, 4.6vw, 3rem);
@@ -720,18 +749,23 @@ ol {
   right: -360px;
 }
 /* Fade-up on scroll. Only active when js/layout.js adds "reveal-on" to <html>,
-   so without JavaScript (or with reduced motion) everything is simply visible. */
+   so without JavaScript (or with reduced motion) everything is simply visible.
+   Things rise, sharpen from a light blur and settle softly (--ease-out).
+   When it has played, js/layout.js removes the class so hover effects run at full speed. */
 .reveal-on .reveal {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(24px);
+  filter: blur(6px);
   transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
+    opacity 0.8s var(--ease-out),
+    transform 0.9s var(--ease-out),
+    filter 0.8s var(--ease-out);
   transition-delay: var(--d, 0s);
 }
 .reveal-on .reveal.is-in {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 @media (max-width: 720px) {
   .section {
@@ -820,6 +854,23 @@ ol {
   border: 1px dashed var(--line-strong);
   border-radius: 50%;
   animation: spin 60s linear infinite;
+}
+/* Smoke aura (js/aura.js). Bigger than the photo, so smoke can rise above the raised hand
+   and drift past the sides. Clicks go through it. The hero text stays above it. */
+.aura {
+  position: absolute;
+  top: -16%;
+  left: -14%;
+  width: 128%;
+  height: 116%;
+  pointer-events: none;
+  /* Fade the smoke out towards the canvas edges, so it never stops in a straight line. */
+  -webkit-mask-image: radial-gradient(closest-side at 50% 50%, #000 64%, transparent);
+  mask-image: radial-gradient(closest-side at 50% 50%, #000 64%, transparent);
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
 }
 .hero-photo {
   position: absolute;
@@ -1003,14 +1054,20 @@ ol {
   padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   transition:
-    border-color 0.25s,
-    transform 0.25s;
+    border-color 0.3s,
+    box-shadow 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out);
 }
 .info-card:hover {
   border-color: var(--accent-line);
+  box-shadow: var(--card-shadow-hover);
   transform: translateX(4px);
+}
+.info-card:hover .ic {
+  transform: scale(1.06);
 }
 .info-card h3 {
   font-size: 15.5px;
@@ -1022,13 +1079,40 @@ ol {
   color: var(--muted);
   font-size: 13.5px;
 }
-.info-photo img {
-  width: 44px;
-  height: 44px;
-  flex: none;
-  border-radius: var(--r-sm);
-  object-fit: cover;
-  object-position: 50% 30%;
+/* "Based in Palompon": a map pin with a slow "you are here" ring around it. */
+.ic-pin {
+  position: relative;
+}
+.ic-pin::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--accent-text);
+  border-radius: inherit;
+  opacity: 0;
+  animation: ping 3s var(--ease-out) infinite;
+}
+.info-card:hover .ic-pin svg {
+  animation: pin-drop 0.6s var(--ease-out);
+}
+@keyframes ping {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  60%,
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+@keyframes pin-drop {
+  0% {
+    transform: translateY(-5px);
+  }
+  55% {
+    transform: translateY(1px);
+  }
 }
 .why {
   margin: 20px 0 0;
@@ -1060,7 +1144,8 @@ ol {
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 20px;
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
 }
 .panel-label {
   display: flex;
@@ -1098,12 +1183,15 @@ ol {
   font-weight: 500;
   line-height: 1.3;
   transition:
-    border-color 0.2s,
-    transform 0.2s;
+    border-color 0.3s,
+    transform 0.4s var(--ease-out);
 }
 .interest-grid li:hover {
   border-color: var(--accent-line);
   transform: translateY(-2px);
+}
+.interest-grid li:hover .ic {
+  transform: scale(1.1) rotate(-6deg);
 }
 .interest-grid .ic {
   width: 32px;
@@ -1131,7 +1219,14 @@ ol {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
+/* Each card carries its brand color in style="--brand: ..." (index.html). It tints the hover
+   border, the glow under the logo and a soft light that follows the mouse: js/sections.js
+   writes the mouse position into --mx / --my. Cards without a brand use the site violet. */
 .skill-card {
+  --brand: var(--accent);
+  position: relative;
+  isolation: isolate; /* keeps the ::before light behind the text but inside the card */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1139,22 +1234,95 @@ ol {
   padding: 22px 14px 18px;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   text-align: center;
   transition:
-    border-color 0.25s,
-    transform 0.25s,
-    box-shadow 0.25s;
+    border-color 0.3s,
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
+}
+.skill-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 0%),
+    color-mix(in srgb, var(--brand) 16%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 .skill-card:hover {
-  border-color: var(--accent-line);
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--line));
   transform: translateY(-4px);
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-shadow-hover);
+}
+.skill-card:hover::before {
+  opacity: 1;
 }
 .skill-card b {
   font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
+}
+/* The logo plate. Official logos are image files in images/logos/ (full color);
+   skills with no logo of their own use a drawn icon from the sprite (.glyph). */
+.logo {
+  display: grid;
+  grid-auto-flow: column;
+  place-content: center;
+  place-items: center;
+  gap: 4px;
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--logo-plate);
+  box-shadow: inset 0 1px 0 var(--edge-hi);
+  transition:
+    transform 0.5s var(--ease-out),
+    border-color 0.3s,
+    box-shadow 0.5s var(--ease-out);
+}
+.logo img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+.logo.pair img {
+  width: 21px;
+  height: 21px;
+}
+.logo.wide img {
+  width: 46px;
+  height: auto;
+}
+.logo .adapt {
+  filter: var(--logo-adapt);
+}
+/* Alight Motion's mark is a light swirl made for its dark app icon, so it keeps that
+   dark square in both themes (same color as the hero tile). */
+.logo .app-tile {
+  padding: 3px;
+  border-radius: 8px;
+  background: #1e253a;
+}
+.logo.glyph {
+  color: var(--accent-text);
+}
+.logo.glyph svg {
+  width: 26px;
+  height: 26px;
+}
+.skill-card:hover .logo {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+  transform: translateY(-2px) scale(1.07);
+  box-shadow:
+    inset 0 1px 0 var(--edge-hi),
+    0 10px 20px -12px rgba(0, 0, 0, 0.35);
 }
 .skill-cat {
   color: var(--faint);
@@ -1162,16 +1330,6 @@ ol {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-/* Played on the cards a filter brings back (js/sections.js adds "pop"). */
-.skill-card.pop {
-  animation: pop 0.35s ease both;
-}
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: scale(0.94);
-  }
 }
 @media (max-width: 960px) {
   .skill-grid {
@@ -1197,18 +1355,19 @@ ol {
 .proj-card {
   border: 1px solid var(--line);
   border-radius: 20px;
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
   transition:
-    border-color 0.25s,
-    transform 0.25s,
-    box-shadow 0.25s;
+    border-color 0.3s,
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
 }
 .proj-card:hover,
 .proj-card:focus-within {
   border-color: var(--accent-line);
   transform: translateY(-6px);
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-shadow-hover);
 }
 .proj-link {
   display: flex;
@@ -1296,155 +1455,6 @@ ol {
 .proj-card:hover .thumb-shot img {
   transform: scale(1.04);
 }
-/* SmartFine: a small phone drawn with CSS. Fixed light colors, like a real screenshot. */
-.mini-phone {
-  position: absolute;
-  left: 50%;
-  bottom: -12%;
-  width: 44%;
-  height: 92%;
-  padding: 14px 10px;
-  border: 5px solid #11142b;
-  border-radius: 22px 22px 0 0;
-  background: #f6f5fb;
-  color: #1f1a2e;
-  font-size: 9px;
-  transform: translateX(-50%);
-  display: grid;
-  align-content: start;
-  gap: 6px;
-  box-shadow: 0 18px 36px -14px rgba(0, 0, 0, 0.55);
-  transition: transform 0.4s;
-}
-.proj-card:hover .mini-phone {
-  transform: translate(-50%, -6px);
-}
-.mp-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 700;
-  font-size: 10px;
-}
-.mp-bar i {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #0891b2);
-}
-.mp-bal {
-  display: grid;
-  padding: 7px 8px;
-  border-radius: 8px;
-  background: #ece8f8;
-}
-.mp-bal small {
-  color: #6b6480;
-  font-size: 8px;
-}
-.mp-bal b {
-  font-size: 15px;
-  color: #5b21b6;
-}
-.mp-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  padding: 6px 7px;
-  border: 1px solid #e3ddef;
-  border-radius: 7px;
-  background: #fff;
-}
-.mp-row span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.mp-row em {
-  flex: none;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 7.5px;
-}
-.mp-row em.unpaid {
-  color: #c2255c;
-}
-.mp-row em.paid {
-  color: #0b7a5c;
-}
-.mp-pay {
-  padding: 6px;
-  border-radius: 7px;
-  background: #6d28d9;
-  color: #fff;
-  font-weight: 700;
-  text-align: center;
-}
-/* Underground Apparel POS: a small point-of-sale screen drawn with CSS */
-.mini-pos {
-  position: absolute;
-  inset: 16% 9% -6%;
-  display: grid;
-  grid-template-columns: 12% 1fr 28%;
-  gap: 8px;
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px 12px 0 0;
-  background: #0e1530;
-  box-shadow: 0 18px 36px -14px rgba(0, 0, 0, 0.6);
-  transition: transform 0.4s;
-}
-.proj-card:hover .mini-pos {
-  transform: translateY(-6px);
-}
-.pos-side,
-.pos-receipt {
-  display: grid;
-  align-content: start;
-  gap: 6px;
-}
-.pos-side i {
-  height: 10px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.12);
-}
-.pos-side i:first-child {
-  background: #7c6cff;
-}
-.pos-items {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
-.pos-items i {
-  border-radius: 6px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)), #1a2350;
-}
-.pos-items i:nth-child(2n) {
-  background: linear-gradient(180deg, rgba(34, 211, 238, 0.35), rgba(34, 211, 238, 0.08)), #1a2350;
-}
-.pos-receipt {
-  padding: 6px;
-  border-radius: 6px;
-  background: #f6f5fb;
-}
-.pos-receipt b {
-  height: 8px;
-  border-radius: 3px;
-  background: #1f1a2e;
-}
-.pos-receipt i {
-  height: 6px;
-  border-radius: 3px;
-  background: #d9d5e8;
-}
-.pos-receipt span {
-  height: 14px;
-  margin-top: 4px;
-  border-radius: 4px;
-  background: #6d28d9;
-}
 @media (max-width: 960px) {
   .proj-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -1504,10 +1514,12 @@ ol {
   padding: 20px 22px;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   transition:
-    border-color 0.25s,
-    transform 0.25s;
+    border-color 0.3s,
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
 }
 /* Every second card goes to the right of the line */
 .tl-item:nth-child(even) .tl-card {
@@ -1516,6 +1528,7 @@ ol {
 .tl-card:hover {
   border-color: var(--accent-line);
   transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
 }
 .tl-date {
   color: var(--faint);
@@ -1601,15 +1614,21 @@ ol {
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   text-decoration: none;
   transition:
-    border-color 0.25s,
-    transform 0.25s;
+    border-color 0.3s,
+    box-shadow 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out);
 }
 a.contact-item:hover {
   border-color: var(--accent-line);
+  box-shadow: var(--card-shadow-hover);
   transform: translateX(4px);
+}
+a.contact-item:hover .ic {
+  transform: scale(1.06);
 }
 .contact-item .ic {
   width: 42px;
@@ -1635,7 +1654,8 @@ a.contact-item:hover {
   padding: 28px;
   border: 1px solid var(--line);
   border-radius: 22px;
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
 }
 #ticket-form {
   display: grid;
@@ -1661,7 +1681,7 @@ a.contact-item:hover {
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
-  background: var(--bg-2);
+  background: var(--field-bg);
   font-size: 15px;
   transition:
     border-color 0.2s,
@@ -2054,20 +2074,20 @@ dialog {
   flex-wrap: wrap;
   gap: 10px;
 }
+/* The cover is a real screenshot and a button: the whole picture shows (same 16:10
+   shape as the image, so nothing is cropped) and a click opens it full-screen in the
+   lightbox. */
 .pp-cover {
   position: relative;
   margin-top: 36px;
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 16 / 10;
   border: 1px solid var(--line);
   border-radius: 24px;
 }
-/* A screenshot cover is a button: the whole picture shows (same 16:10 shape as the
-   image, so nothing is cropped) and a click opens it full-screen in the lightbox. */
 button.pp-cover {
   display: block;
   width: 100%;
   padding: 0;
-  aspect-ratio: 16 / 10;
   font: inherit;
   color: inherit;
   cursor: zoom-in;
@@ -2079,14 +2099,6 @@ button.pp-cover:hover .cert-hover,
 button.pp-cover:focus-visible .cert-hover {
   opacity: 1;
 }
-.pp-cover .mini-phone {
-  width: min(26%, 220px);
-  height: 90%;
-  font-size: 11px;
-}
-.pp-cover .mini-pos {
-  inset: 14% 16% -4%;
-}
 .pp-body {
   display: grid;
   gap: 64px;
@@ -2096,9 +2108,6 @@ button.pp-cover:focus-visible .cert-hover {
   margin-bottom: 18px;
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-}
-.pp-section .eyebrow {
-  margin-bottom: 8px;
 }
 .pp-section > p,
 .pp-text {
@@ -2118,7 +2127,8 @@ button.pp-cover:focus-visible .cert-hover {
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
 }
 .pp-card h3 {
   font-size: 16.5px;
@@ -2139,7 +2149,8 @@ button.pp-cover:focus-visible .cert-hover {
   padding: 14px 16px 14px 56px;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   color: var(--muted);
   font-size: 15px;
 }
@@ -2178,7 +2189,8 @@ button.pp-cover:focus-visible .cert-hover {
   border: 1px solid var(--line);
   border-radius: var(--r);
   overflow: hidden;
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   font-size: 14.5px;
 }
 .sec-table th,
@@ -2206,6 +2218,14 @@ button.pp-cover:focus-visible .cert-hover {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+}
+/* Exactly 4 screenshots (the POS): a 2 x 2 grid instead of 3 + 1 lonely one.
+   :has() asks "does this gallery have a 4th child that is also the last?"
+   Only above 860px; on phones every gallery is one column (section 17's media query). */
+@media (min-width: 861px) {
+  .gallery:has(> :nth-child(4):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .shot {
   position: relative;
@@ -2256,14 +2276,17 @@ button.pp-cover:focus-visible .cert-hover {
   padding: 22px 24px;
   border: 1px solid var(--line);
   border-radius: 20px;
-  background: var(--surface);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   text-decoration: none;
   transition:
-    border-color 0.25s,
-    transform 0.25s;
+    border-color 0.3s,
+    box-shadow 0.45s var(--ease-out),
+    transform 0.45s var(--ease-out);
 }
 .pp-next:hover {
   border-color: var(--accent-line);
+  box-shadow: var(--card-shadow-hover);
   transform: translateY(-3px);
 }
 .pp-next small {
@@ -2297,18 +2320,6 @@ button.pp-cover:focus-visible .cert-hover {
   .pp-grid-3,
   .gallery {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .pp-cover {
-    aspect-ratio: 4 / 3;
-  }
-  button.pp-cover {
-    aspect-ratio: 16 / 10;
-  }
-  .pp-cover .mini-phone {
-    width: 46%;
-  }
-  .pp-cover .mini-pos {
-    inset: 18% 8% -4%;
   }
 }
 @media (max-width: 560px) {

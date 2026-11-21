@@ -26,67 +26,18 @@
   const badge = (b) => el('span', { class: 'badge' + (b.tone ? ' ' + b.tone : '') }, t(b.key))
   const tags = (names) => el('ul', { class: 'tags' }, ...names.map((name) => el('li', {}, name)))
 
-  /* ---------- The cover picture ---------- */
-  function cover() {
-    const box = el('div', { class: 'proj-thumb pp-cover reveal', 'aria-hidden': 'true' })
-    box.append(el('span', { class: 'proj-tag' }, t(project.tagKey)))
-    if (project.cover === 'phone') {
-      box.classList.add('thumb-smartfine')
-      box.append(
-        el(
-          'div',
-          { class: 'mini-phone' },
-          el('div', { class: 'mp-bar' }, el('span', {}, 'SmartFine'), el('i')),
-          el(
-            'div',
-            { class: 'mp-bal' },
-            el('small', {}, t('phone.unpaidBalance')),
-            el('b', {}, '₱50'),
-          ),
-          el(
-            'div',
-            { class: 'mp-row' },
-            el('span', {}, t('fine.noId')),
-            el('em', { class: 'unpaid' }, t('pill.unpaid')),
-          ),
-          el(
-            'div',
-            { class: 'mp-row' },
-            el('span', {}, t('fine.late')),
-            el('em', { class: 'paid' }, t('pill.paid')),
-          ),
-          el('div', { class: 'mp-pay' }, t('phone.pay')),
-        ),
-      )
-    } else if (project.cover === 'pos') {
-      box.classList.add('thumb-pos')
-      const bars = (n, tag) => Array.from({ length: n }, () => el(tag))
-      box.append(
-        el(
-          'div',
-          { class: 'mini-pos' },
-          el('div', { class: 'pos-side' }, ...bars(4, 'i')),
-          el('div', { class: 'pos-items' }, ...bars(6, 'i')),
-          el('div', { class: 'pos-receipt' }, el('b'), ...bars(3, 'i'), el('span')),
-        ),
-      )
-    } else {
-      return screenshotCover()
-    }
-    return box
-  }
-
-  /* ---------- A real screenshot as the cover ----------
+  /* ---------- The cover picture: a real screenshot ----------
      Shown whole (not cropped), and it is a button: clicking it opens the full-screen
-     lightbox. If the cover is also in the gallery, the lightbox starts there, so the
-     arrow keys continue through the other screenshots. */
-  function screenshotCover() {
+     lightbox. If the cover is also in the gallery, the lightbox starts there; if not
+     (SmartFine's three-phone overview), the cover comes first. Either way the arrow
+     keys continue through the gallery screenshots. */
+  function cover() {
     const gallery = project.sections.find((block) => block.kind === 'gallery')
     const shots = gallery ? gallery.shots.filter((shot) => shot.src) : []
     let items = lightboxItemsFor(shots)
     let start = shots.findIndex((shot) => shot.src === project.cover)
     if (start < 0) {
-      items = [{ src: project.cover, alt: project.title, caption: project.title }]
+      items = [{ src: project.cover, alt: project.title, caption: project.title }, ...items]
       start = 0
     }
     const button = el(

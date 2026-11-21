@@ -166,10 +166,19 @@
         let stagger = 0
         for (const entry of entries) {
           if (!entry.isIntersecting) continue
-          entry.target.style.setProperty('--d', Math.min(stagger, 4) * 0.08 + 's')
-          entry.target.classList.add('is-in')
-          revealWatcher.unobserve(entry.target) // play once
+          const node = entry.target
+          node.style.setProperty('--d', Math.min(stagger, 4) * 0.08 + 's')
+          node.classList.add('is-in')
+          revealWatcher.unobserve(node) // play once
           stagger += 1
+          // When the fade-up has finished, drop the classes: the reveal's slow transition
+          // would otherwise also slow down the card's own hover effects (lift, border color).
+          node.addEventListener('transitionend', function done(event) {
+            if (event.target !== node || event.propertyName !== 'opacity') return
+            node.classList.remove('reveal', 'is-in')
+            node.style.removeProperty('--d')
+            node.removeEventListener('transitionend', done)
+          })
         }
       },
       { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
