@@ -1,4 +1,5 @@
-node_modules/
-dist/
-_brief/photos/
-package-lock.json
+# Keep the code graph about the site itself.
+# The design tool's scripts (impeccable) are not site code and drowned out the real files.
+.claude/skills/impeccable/
+.claude/agents/
+.impeccable/
