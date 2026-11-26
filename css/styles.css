@@ -48,9 +48,39 @@
   --g2: #7c3aed;
   --g3: #0891b2;
   --grad: linear-gradient(100deg, var(--g1), var(--g2) 55%, var(--g3));
-  --glow-a: rgba(91, 71, 232, 0.16);
-  --glow-b: rgba(8, 145, 178, 0.12);
+  /* Day glows use a lighter, purer violet and cyan: the darker accent at low strength
+     turned into a grey-lilac haze on the pale page. */
+  --glow-a: rgba(132, 112, 255, 0.24);
+  --glow-b: rgba(34, 199, 230, 0.18);
   --nav-bg: rgba(255, 255, 255, 0.74);
+  /* The navbar pill of the section you are reading */
+  --nav-active-bg: var(--accent-soft);
+  --nav-active-ink: var(--accent-text);
+  --nav-active-line: rgba(91, 71, 232, 0.22);
+  /* White buttons need a soft lift to stand off the pale page; Night has none. */
+  --raise: 0 1px 2px rgba(0, 0, 0, 0.05), 0 4px 12px -6px rgba(0, 0, 0, 0.12);
+  /* Day gradients (Will, 2026-11-26: "add gradient colors on the lightmode"). All use the
+     brand's blue, violet and cyan, and all are decoration: text on them stays solid.
+     --page-wash: soft color clouds down the whole page, left and right in turn. The
+     positions are % of the whole page height, so they spread over every section. */
+  --page-wash:
+    radial-gradient(58rem 42rem at 0% 1%, rgba(132, 112, 255, 0.2), transparent 70%),
+    radial-gradient(52rem 40rem at 100% 7%, rgba(34, 199, 230, 0.16), transparent 70%),
+    radial-gradient(56rem 44rem at 100% 27%, rgba(99, 102, 241, 0.17), transparent 70%),
+    radial-gradient(54rem 44rem at 0% 45%, rgba(34, 199, 230, 0.16), transparent 70%),
+    radial-gradient(58rem 46rem at 100% 64%, rgba(132, 112, 255, 0.18), transparent 70%),
+    radial-gradient(54rem 44rem at 0% 84%, rgba(59, 91, 219, 0.14), transparent 70%);
+  /* Main buttons: blue into violet. White text passes AA on both ends (5.2:1 and 5.6:1). */
+  --btn-bg: linear-gradient(110deg, #4c5fe0, #6a45e6 55%, #7c3aed);
+  --btn-bg-hover: linear-gradient(110deg, #3f51d4, #5b37d8 55%, #6d28d9);
+  /* Icon tiles: a blue → violet → cyan tint instead of violet only. */
+  --ic-bg: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--g1) 20%, transparent),
+    color-mix(in srgb, var(--g2) 13%, transparent) 55%,
+    color-mix(in srgb, var(--g3) 14%, transparent)
+  );
+  --foot-bg: linear-gradient(115deg, #eceefb, #efeafd 50%, #e5f5fa);
   --overlay: rgba(15, 19, 48, 0.55);
   --shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.18);
   /* Cards: Day lifts them off the page with a soft two-layer shadow. */
@@ -103,6 +133,20 @@
   --glow-a: rgba(88, 96, 255, 0.24);
   --glow-b: rgba(34, 211, 238, 0.1);
   --nav-bg: rgba(12, 16, 38, 0.68);
+  --nav-active-bg: var(--surface-2);
+  --nav-active-ink: var(--ink);
+  --nav-active-line: var(--line-strong);
+  --raise: none;
+  /* Night keeps its solid look: the glows already color it. */
+  --page-wash: none;
+  --btn-bg: var(--accent);
+  --btn-bg-hover: var(--accent-hover);
+  --ic-bg: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    color-mix(in srgb, var(--accent) 7%, transparent)
+  );
+  --foot-bg: var(--bg-2);
   --overlay: rgba(3, 5, 16, 0.78);
   --shadow: 0 20px 44px -20px rgba(0, 0, 0, 0.7);
   /* Cards: Night lights them from above (a lighter top fading down) instead of a shadow. */
@@ -149,7 +193,8 @@ html {
 }
 body {
   margin: 0;
-  background: var(--bg);
+  /* The color clouds (Day only) sit on top of the plain page color. */
+  background: var(--page-wash), var(--bg);
   color: var(--ink);
   font: 400 16px/1.65 var(--f-sans);
   -webkit-font-smoothing: antialiased;
@@ -589,9 +634,9 @@ ol {
 }
 /* The section you are reading gets a filled pill (set by js/layout.js). */
 .links a[aria-current='true'] {
-  color: var(--ink);
-  background: var(--surface-2);
-  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--nav-active-ink);
+  background: var(--nav-active-bg);
+  box-shadow: inset 0 0 0 1px var(--nav-active-line);
 }
 .tools {
   display: flex;
@@ -682,18 +727,19 @@ ol {
   transform: translateY(-2px);
 }
 .btn-primary {
-  background: var(--accent);
+  background: var(--btn-bg);
   color: var(--accent-ink);
   box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35);
 }
 .btn-primary:hover {
-  background: var(--accent-hover);
+  background: var(--btn-bg-hover);
   box-shadow: 0 12px 26px -12px rgba(0, 0, 0, 0.45);
 }
 .btn-ghost {
   background: var(--surface);
   border-color: var(--line);
   color: var(--ink);
+  box-shadow: var(--raise);
 }
 .btn-ghost:hover {
   border-color: var(--accent-line);
@@ -713,6 +759,7 @@ ol {
   border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--surface);
+  box-shadow: var(--raise);
   color: var(--ink);
   text-decoration: none;
   cursor: pointer;
@@ -747,6 +794,7 @@ ol {
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
+  box-shadow: var(--raise);
   color: var(--muted);
   font-size: 13.5px;
   font-weight: 500;
@@ -761,7 +809,7 @@ ol {
   border-color: var(--accent-line);
 }
 .pills button[aria-pressed='true'] {
-  background: var(--accent);
+  background: var(--btn-bg);
   border-color: var(--accent);
   color: var(--accent-ink);
 }
@@ -809,11 +857,7 @@ ol {
   width: 44px;
   height: 44px;
   border-radius: var(--r-sm);
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--accent) 22%, transparent),
-    color-mix(in srgb, var(--accent) 7%, transparent)
-  );
+  background: var(--ic-bg);
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
     inset 0 1px 0 var(--edge-hi);
@@ -1190,6 +1234,29 @@ ol {
 .info-card:hover .ic {
   transform: scale(1.06);
 }
+/* "Based in Palompon" is a link to Google Maps; the small arrow on the right says so. */
+a.info-card {
+  text-decoration: none;
+}
+.info-go {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  color: var(--faint);
+  transition:
+    color 0.3s,
+    transform 0.4s var(--ease-out);
+}
+a.info-card:hover .info-go {
+  color: var(--accent-text);
+  transform: translate(2px, -2px);
+}
+/* Link cards keep their own rounded corners when focused by keyboard. */
+a.info-card:focus-visible,
+a.contact-item:focus-visible {
+  border-radius: var(--r);
+}
 .info-card h3 {
   font-size: 15.5px;
   font-weight: 600;
@@ -1427,6 +1494,49 @@ ol {
   flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
   min-width: 0;
 }
+/* From tablet width up, each small card is one compact row: the logo on the left, the
+   name and its category stacked on the right. 30 skills then take about half the height
+   and the list reads like a list. (Phones keep the stacked card: next to a logo, a long
+   word like "Troubleshooting" would not fit in half a phone screen.) */
+@media (min-width: 641px) {
+  .skill-grid > .skill-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 3px;
+    align-content: center;
+    padding: 14px 16px;
+    text-align: left;
+  }
+  .skill-grid > .skill-card .logo {
+    grid-row: span 2;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+  }
+  .skill-grid > .skill-card b {
+    align-self: end;
+  }
+  .skill-grid > .skill-card .skill-cat {
+    align-self: start;
+  }
+  .skill-grid .logo img {
+    width: 26px;
+    height: 26px;
+  }
+  .skill-grid .logo.pair img {
+    width: 18px;
+    height: 18px;
+  }
+  .skill-grid .logo.wide img {
+    width: 38px;
+    height: auto;
+  }
+  .skill-grid .logo.glyph svg {
+    width: 22px;
+    height: 22px;
+  }
+}
 /* Each card carries its brand color in style="--brand: ..." (index.html). It tints the hover
    border, the glow under the logo and a soft light that follows the mouse: js/sections.js
    writes the mouse position into --mx / --my. Cards without a brand use the site violet. */
@@ -1548,6 +1658,15 @@ ol {
   .skill-grid {
     --cols: 2;
     --gap: 10px;
+  }
+  .skill-grid > .skill-card {
+    gap: 8px;
+    padding: 16px 10px 14px;
+  }
+  .skill-grid > .skill-card .logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
   }
 }
 
@@ -2048,8 +2167,11 @@ fieldset.field {
   color: var(--faint);
   font-size: 13px;
 }
+/* The "Message sent!" card fills the stretched form card and sits in its middle. */
 .form-ok {
+  flex: 1;
   display: grid;
+  align-content: center;
   justify-items: center;
   gap: 10px;
   padding: 30px 10px;
@@ -2101,11 +2223,12 @@ fieldset.field {
 
 /* ---------- 14. FOOTER ----------
    Top: the brand with a short line, the section links, then socials and email.
-   Bottom bar: copyright, the thank-you and "back to top". The footer sits on --bg-2,
-   a shade off the page, so it reads as the end of the page. */
+   Bottom bar: copyright, the thank-you and "back to top". The footer sits a shade off
+   the page (--foot-bg: Night's --bg-2, Day's soft blue-violet-cyan band), so it reads
+   as the end of the page. */
 .footer {
   border-top: 1px solid var(--line);
-  background: var(--bg-2);
+  background: var(--foot-bg);
 }
 .foot-main {
   display: grid;

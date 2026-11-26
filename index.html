@@ -81,27 +81,27 @@
       fetchpriority="high"
     />
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026-11-26m" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026-11-26q" />
     <!--
       CACHE VERSION: the "?v=..." after each CSS and JS file. Browsers keep old copies of
       these files; a new version text forces them to fetch the new ones. After changing
       any CSS or JS, change the version in BOTH index.html and project.html.
     -->
-    <link rel="stylesheet" href="css/fonts.css?v=2026-11-26m" />
-    <link rel="stylesheet" href="css/styles.css?v=2026-11-26m" />
+    <link rel="stylesheet" href="css/fonts.css?v=2026-11-26q" />
+    <link rel="stylesheet" href="css/styles.css?v=2026-11-26q" />
 
     <!--
       Scripts. "defer" = download now, run in this order after the HTML is read.
       Data first, then the code that uses it.
     -->
-    <script defer src="js/data/projects.js?v=2026-11-26m"></script>
-    <script defer src="js/core.js?v=2026-11-26m"></script>
-    <script defer src="js/layout.js?v=2026-11-26m"></script>
-    <script defer src="js/lightbox.js?v=2026-11-26m"></script>
-    <script defer src="js/sections.js?v=2026-11-26m"></script>
-    <script defer src="js/contact.js?v=2026-11-26m"></script>
-    <script defer src="js/data/aura-points.js?v=2026-11-26m"></script>
-    <script defer src="js/aura.js?v=2026-11-26m"></script>
+    <script defer src="js/data/projects.js?v=2026-11-26q"></script>
+    <script defer src="js/core.js?v=2026-11-26q"></script>
+    <script defer src="js/layout.js?v=2026-11-26q"></script>
+    <script defer src="js/lightbox.js?v=2026-11-26q"></script>
+    <script defer src="js/sections.js?v=2026-11-26q"></script>
+    <script defer src="js/contact.js?v=2026-11-26q"></script>
+    <script defer src="js/data/aura-points.js?v=2026-11-26q"></script>
+    <script defer src="js/aura.js?v=2026-11-26q"></script>
   </head>
 
   <body>
@@ -125,6 +125,7 @@
         <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a1 1 0 0 1 1-1h10" /></g></symbol>
         <symbol id="i-send" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2l-7 20-4-9-9-4z" /><path d="M22 2L11 13" /></g></symbol>
         <symbol id="i-arrow-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></g></symbol>
+        <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9" /></g></symbol>
         <symbol id="i-arrow-up" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6" /></g></symbol>
         <symbol id="i-chevron-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></g></symbol>
         <symbol id="i-chevron-left" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6" /></g></symbol>
@@ -348,13 +349,16 @@
                     <p>Graduated with honors · 2024</p>
                   </div>
                 </article>
-                <article class="info-card">
+                <!-- Opens Google Maps on Palompon (on phones, the Maps app). -->
+                <a class="info-card" href="https://www.google.com/maps/search/?api=1&amp;query=Palompon%2C%20Leyte%2C%20Philippines" target="_blank" rel="noopener">
                   <span class="ic ic-pin"><svg aria-hidden="true"><use href="#i-pin" /></svg></span>
                   <div>
                     <h3>Based in Palompon, Leyte</h3>
                     <p>Speaks English, Filipino and Bisaya</p>
                   </div>
-                </article>
+                  <svg class="info-go" aria-hidden="true"><use href="#i-arrow-up-right" /></svg>
+                  <span class="sr-only">(opens Google Maps)</span>
+                </a>
               </div>
             </div>
 
@@ -699,10 +703,11 @@
                 <span class="ic"><svg aria-hidden="true"><use href="#i-youtube" /></svg></span>
                 <div class="ci-text"><span class="ci-label">YouTube</span><span class="ci-value">@guren.325</span></div>
               </a>
-              <div class="contact-item">
+              <a class="contact-item" href="https://www.google.com/maps/search/?api=1&amp;query=Palompon%2C%20Leyte%2C%20Philippines" target="_blank" rel="noopener">
                 <span class="ic"><svg aria-hidden="true"><use href="#i-pin" /></svg></span>
                 <div class="ci-text"><span class="ci-label">Location</span><span class="ci-value">Palompon, Leyte, Philippines</span></div>
-              </div>
+                <span class="sr-only">(opens Google Maps)</span>
+              </a>
             </div>
 
             <!-- The form. "novalidate" switches off the browser's own pop-up messages so

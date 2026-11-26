@@ -12,9 +12,10 @@
 ;(function () {
   const { $, el, toast } = WB
 
-  // Paste the key from web3forms.com between the quotes. While it is empty, the form
-  // still checks the input but tells the visitor to email me instead of pretending to send.
-  const WEB3FORMS_KEY = ''
+  // The key from web3forms.com (made for willrdgzbitoy015@gmail.com on 2026-11-26).
+  // If it is ever emptied, the form still checks the input but tells the visitor to
+  // email me instead of pretending to send.
+  const WEB3FORMS_KEY = '2ee05159-2951-4ce5-b3d9-72c2a317058b'
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit'
   const EMAIL = 'willrdgzbitoy015@gmail.com'
 
