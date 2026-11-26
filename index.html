@@ -38,29 +38,30 @@
     <!--
       NO-FLASH SCRIPT. Runs before the page paints:
       1) theme: what the visitor picked before, otherwise the device setting
-      2) language: Bisaya if picked before
-      3) preloader: only on the first page of a visit, never with reduced motion
+      2) entrance: the preloader on the first page of a visit and on every refresh (F5);
+         otherwise the navbar and the hero just glide in ("intro"). Neither with reduced motion.
       localStorage / sessionStorage can throw (private mode), so everything sits in try/catch.
     -->
     <script>
       ;(function () {
         var root = document.documentElement
         var theme = null
-        var lang = null
         var seen = false
         try {
           theme = localStorage.getItem('wb-theme')
-          lang = localStorage.getItem('wb-lang')
           seen = sessionStorage.getItem('wb-seen') === '1'
         } catch (e) {}
         if (theme !== 'dark' && theme !== 'light') {
           theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
         }
         root.setAttribute('data-theme', theme)
-        if (lang === 'ceb') root.lang = 'ceb'
-        if (!seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          root.classList.add('preload')
-        }
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+        // Was the page opened with Refresh (F5)? The browser notes how each page was reached.
+        var nav = window.performance && performance.getEntriesByType
+          ? performance.getEntriesByType('navigation')[0]
+          : null
+        var refreshed = !!nav && nav.type === 'reload'
+        root.classList.add(!seen || refreshed ? 'preload' : 'intro')
       })()
     </script>
 
@@ -80,41 +81,31 @@
       fetchpriority="high"
     />
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026-11-26l" />
     <!--
       CACHE VERSION: the "?v=..." after each CSS and JS file. Browsers keep old copies of
       these files; a new version text forces them to fetch the new ones. After changing
       any CSS or JS, change the version in BOTH index.html and project.html.
     -->
-    <link rel="stylesheet" href="css/fonts.css?v=2026-11-21c" />
-    <link rel="stylesheet" href="css/styles.css?v=2026-11-21c" />
+    <link rel="stylesheet" href="css/fonts.css?v=2026-11-26l" />
+    <link rel="stylesheet" href="css/styles.css?v=2026-11-26l" />
 
     <!--
       Scripts. "defer" = download now, run in this order after the HTML is read.
-      Text first (dictionaries), then data, then the code that uses them.
+      Data first, then the code that uses it.
     -->
-    <script defer src="js/i18n/en.js?v=2026-11-21c"></script>
-    <script defer src="js/i18n/ceb.js?v=2026-11-21c"></script>
-    <script defer src="js/data/projects.js?v=2026-11-21c"></script>
-    <script defer src="js/core.js?v=2026-11-21c"></script>
-    <script defer src="js/layout.js?v=2026-11-21c"></script>
-    <script defer src="js/lightbox.js?v=2026-11-21c"></script>
-    <script defer src="js/sections.js?v=2026-11-21c"></script>
-    <script defer src="js/contact.js?v=2026-11-21c"></script>
-    <script defer src="js/palette.js?v=2026-11-21c"></script>
-    <script defer src="js/data/aura-points.js?v=2026-11-21c"></script>
-    <script defer src="js/aura.js?v=2026-11-21c"></script>
+    <script defer src="js/data/projects.js?v=2026-11-26l"></script>
+    <script defer src="js/core.js?v=2026-11-26l"></script>
+    <script defer src="js/layout.js?v=2026-11-26l"></script>
+    <script defer src="js/lightbox.js?v=2026-11-26l"></script>
+    <script defer src="js/sections.js?v=2026-11-26l"></script>
+    <script defer src="js/contact.js?v=2026-11-26l"></script>
+    <script defer src="js/data/aura-points.js?v=2026-11-26l"></script>
+    <script defer src="js/aura.js?v=2026-11-26l"></script>
   </head>
 
   <body>
     <!--
-      HOW TRANSLATION WORKS IN THIS FILE
-      The English text is written right here. An element with data-i18n="some.key" gets its
-      text swapped for the Bisaya line with the same key (js/i18n/ceb.js) when BIS is on.
-        data-i18n="key"            swaps the text
-        data-i18n-rich="key"       same, but **bold** and [placeholder] markers are styled
-        data-i18n-attr="attr:key"  swaps an attribute (aria-label, alt, title)
-
       LAYOUT (inspired by a reference portfolio, see _brief/reference-redesign.md):
       preloader · floating pill navbar · Hero · About · Skills · Projects · Experience ·
       Contact · footer. Each project has its own page: project.html?p=<id>.
@@ -139,7 +130,6 @@
         <symbol id="i-chevron-left" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6" /></g></symbol>
         <symbol id="i-chevron-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6" /></g></symbol>
         <symbol id="i-x" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18" /></g></symbol>
-        <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4 4" /></g></symbol>
         <symbol id="i-cap" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z" /><path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></g></symbol>
         <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="3" y="4" width="18" height="18" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></g></symbol>
         <symbol id="i-award" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="12" cy="8" r="6" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6" /><path d="M15.48 12.89L17 22l-5-3-5 3 1.52-9.11" /></g></symbol>
@@ -156,61 +146,49 @@
         <symbol id="i-globe" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="12" cy="12" r="10" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></g></symbol>
         <symbol id="i-video" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="6" width="14" height="12" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 13l5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5" /><rect x="2" y="6" width="14" height="12" rx="2" /></g></symbol>
         <symbol id="i-chef" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1z" /><path d="M6 17h12" /></g></symbol>
-        <symbol id="i-bike" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="18.5" cy="17.5" r="3.5" /><circle cx="5.5" cy="17.5" r="3.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5" /><circle cx="5.5" cy="17.5" r="3.5" /><circle cx="15" cy="5" r="1" /><path d="M12 17.5V14l-3-3 4-3 2 3h2" /></g></symbol>
         <symbol id="i-game" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="6" width="20" height="12" rx="2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01" /></g></symbol>
         <symbol id="i-sparkle" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z" /></g></symbol>
         <symbol id="i-users" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="9" cy="7" r="4" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></g></symbol>
         <!-- Skill icons for skills without an official logo (only the home page uses these) -->
-        <symbol id="s-analysis" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="3" y="3" width="7" height="6" rx="1.5" /><rect x="14" y="15" width="7" height="6" rx="1.5" /><circle cx="17.5" cy="6" r="3" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="6" rx="1.5" /><rect x="14" y="15" width="7" height="6" rx="1.5" /><circle cx="17.5" cy="6" r="3" /><path d="M10 6h4.5M6.5 9v5a4 4 0 0 0 4 4H14" /></g></symbol>
-        <symbol id="s-key" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="7.5" cy="15.5" r="4.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5" /><path d="M10.7 12.3 20.5 2.5M16.5 6.5 19 9M19 4l2 2" /></g><circle cx="7.5" cy="15.5" r="1.3" fill="currentColor" /></symbol>
-        <symbol id="s-lock" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5" /><path d="M8 10.5v-3a4 4 0 0 1 8 0v3M12 14.5v2.5" /></g></symbol>
-        <symbol id="s-otp" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="2" y="6" width="20" height="12" rx="3" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3" /><path d="M17.5 9.5v5" /></g><g fill="currentColor"><circle cx="6.5" cy="12" r="1.3" /><circle cx="10" cy="12" r="1.3" /><circle cx="13.5" cy="12" r="1.3" /></g></symbol>
-        <symbol id="s-rbac" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><circle cx="9" cy="7.5" r="3.5" /><path d="M17.5 12.5 21 14v2.6c0 2.2-1.5 3.7-3.5 4.4-2-.7-3.5-2.2-3.5-4.4V14z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7.5" r="3.5" /><path d="M3 20v-.5A5.5 5.5 0 0 1 8.5 14H11" /><path d="M17.5 12.5 21 14v2.6c0 2.2-1.5 3.7-3.5 4.4-2-.7-3.5-2.2-3.5-4.4V14z" /></g></symbol>
-        <symbol id="s-audit" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="4" y="2.5" width="16" height="5" rx="1.5" /><rect x="4" y="9.5" width="16" height="5" rx="1.5" /><rect x="4" y="16.5" width="16" height="5" rx="1.5" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="5" rx="1.5" /><rect x="4" y="9.5" width="16" height="5" rx="1.5" /><rect x="4" y="16.5" width="16" height="5" rx="1.5" /><path d="M7.5 5h5M7.5 12h7M7.5 19h4M16.5 7.5v2M16.5 14.5v2" /></g></symbol>
         <symbol id="s-network" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><rect x="9" y="2.5" width="6" height="5" rx="1.2" /><rect x="2.5" y="16.5" width="6" height="5" rx="1.2" /><rect x="15.5" y="16.5" width="6" height="5" rx="1.2" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="5" rx="1.2" /><rect x="2.5" y="16.5" width="6" height="5" rx="1.2" /><rect x="15.5" y="16.5" width="6" height="5" rx="1.2" /><path d="M12 7.5V12M5.5 16.5V14a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v2.5" /></g></symbol>
         <symbol id="s-cooking" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity=".22"><path d="M5 11h14v6.5a3.5 3.5 0 0 1-3.5 3.5h-7A3.5 3.5 0 0 1 5 17.5z" /></g><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v6.5a3.5 3.5 0 0 1-3.5 3.5h-7A3.5 3.5 0 0 1 5 17.5z" /><path d="M3 11h18M5 14H2.5M19 14h2.5" /><path d="M8.5 7.5c-.9-.9.9-1.6 0-3M12 7.5c-.9-.9.9-1.6 0-3M15.5 7.5c-.9-.9.9-1.6 0-3" /></g></symbol>
       </g>
     </svg>
 
-    <!-- PRELOADER: shown only on the first page of a visit (see the script in <head>).
-         It hides itself after a moment even if JavaScript fails (css/styles.css, section 3). -->
+    <!-- PRELOADER: on the first page of a visit and on every refresh (script in <head>).
+         js/layout.js moves the bar and the number with the real loading progress, then lifts
+         the panel like a curtain. Without JavaScript it lifts by itself after 3 s (css section 3). -->
     <div class="preloader" aria-hidden="true">
       <div class="pl-inner">
-        <span class="pl-logo">Will<span class="dot">.</span></span>
+        <!-- one span per letter, so they can rise one after another (--i = its turn) -->
+        <span class="pl-logo"><span style="--i: 0">W</span><span style="--i: 1">i</span><span style="--i: 2">l</span><span style="--i: 3">l</span><span class="dot" style="--i: 4">.</span></span>
         <span class="pl-bar"><i></i></span>
+        <span class="pl-pct">0%</span>
       </div>
     </div>
 
     <!-- The custom cursor (desktop mouse only, switched on by js/layout.js) -->
     <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
 
-    <a class="skip" href="#main" data-i18n="a11y.skip">Skip to content</a>
+    <a class="skip" href="#main">Skip to content</a>
 
     <!-- ============ NAVBAR: a floating glass pill ============ -->
     <header class="nav" id="top">
       <div class="nav-bar">
-        <a class="brand" href="#home" aria-label="Will R. Bitoy, back to top" data-i18n-attr="aria-label:nav.home">
+        <a class="brand" href="#home" aria-label="Will R. Bitoy, back to top">
           <span class="brand-name">Will<span class="dot">.</span></span>
         </a>
 
-        <nav class="links" aria-label="Sections" data-i18n-attr="aria-label:nav.sections">
-          <a href="#home" data-i18n="nav.homeLink">Home</a>
-          <a href="#about" data-i18n="nav.about">About</a>
-          <a href="#skills" data-i18n="nav.skills">Skills</a>
-          <a href="#projects" data-i18n="nav.projects">Projects</a>
-          <a href="#experience" data-i18n="nav.experience">Experience</a>
-          <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <nav class="links" aria-label="Sections">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
         </nav>
 
         <div class="tools">
-          <!-- aria-pressed tells screen readers which language is on -->
-          <div class="seg" role="group" aria-label="Language" data-i18n-attr="aria-label:nav.language">
-            <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
-            <button type="button" data-lang="ceb" lang="ceb" aria-pressed="false">BIS</button>
-          </div>
-          <button class="iconbtn" type="button" id="cmdk-btn" aria-label="Open command palette (Ctrl+K)" data-i18n-attr="aria-label:nav.openPalette, title:nav.openPalette" title="Open command palette (Ctrl+K)">
-            <svg aria-hidden="true"><use href="#i-search" /></svg>
-          </button>
           <!-- The sun/moon icon and the label are filled in by js/core.js -->
           <button class="iconbtn" type="button" id="theme-btn" aria-label="Switch theme"></button>
           <!-- The hamburger / close icon is filled in by js/layout.js -->
@@ -220,16 +198,16 @@
 
       <!-- Mobile menu. "hidden" removes it from the page until the hamburger opens it. -->
       <div class="panel" id="menu-panel" hidden>
-        <nav aria-label="Sections (mobile)" data-i18n-attr="aria-label:nav.sectionsMobile">
-          <a href="#home" data-i18n="nav.homeLink">Home</a>
-          <a href="#about" data-i18n="nav.about">About</a>
-          <a href="#skills" data-i18n="nav.skills">Skills</a>
-          <a href="#projects" data-i18n="nav.projects">Projects</a>
-          <a href="#experience" data-i18n="nav.experience">Experience</a>
-          <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <nav aria-label="Sections (mobile)">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
           <button class="btn btn-primary" type="button" data-resume>
             <svg aria-hidden="true"><use href="#i-download" /></svg>
-            <span data-i18n="cta.resume">Download CV</span>
+            <span>Download CV</span>
           </button>
         </nav>
       </div>
@@ -242,21 +220,19 @@
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <h1 id="hero-title">
-              <span data-i18n="hero.hiPrefix">Hi, I'm</span>
+              <span>Hi, I'm</span>
               <span class="grad-text">Will R. Bitoy</span>
             </h1>
-            <p class="hero-role" data-i18n="hero.role">BS Information Technology Student</p>
-            <!-- Rich text: the same line, with **bold** markers, is in js/i18n/en.js and ceb.js -->
-            <p class="hero-sub" data-i18n-rich="hero.sub">
-              <strong>I build systems that replace paper.</strong> I'm a 3rd-year BSIT student at
-              Western Leyte College in Palompon, Leyte, and I design and build web and mobile
-              systems that make everyday tasks faster and easier.
+            <p class="hero-role"><span>BS Information Technology</span><span class="sep" aria-hidden="true">·</span><span>Web and Mobile Developer</span></p>
+            <p class="hero-sub">
+              <strong>I build systems that replace paper.</strong> From Palompon, Leyte, I design
+              and build web and mobile systems that make everyday tasks faster and easier.
             </p>
 
             <div class="hero-cta">
               <button class="btn btn-primary" type="button" data-resume>
                 <svg aria-hidden="true"><use href="#i-download" /></svg>
-                <span data-i18n="cta.resume">Download CV</span>
+                <span>Download CV</span>
               </button>
               <a class="btn btn-ghost" href="https://github.com/willrdgzbitoy015-ops" target="_blank" rel="noopener">
                 <svg aria-hidden="true"><use href="#i-github" /></svg>GitHub
@@ -266,7 +242,7 @@
               </a>
               <a class="btn btn-ghost" href="#contact">
                 <svg aria-hidden="true"><use href="#i-mail" /></svg>
-                <span data-i18n="cta.contact">Contact Me</span>
+                <span>Contact Me</span>
               </a>
             </div>
           </div>
@@ -322,7 +298,6 @@
                 width="1194"
                 height="1361"
                 alt="Will crouching and looking down at the camera, one gloved hand raised toward it."
-                data-i18n-attr="alt:hero.photoAlt"
                 fetchpriority="high"
                 decoding="async"
               />
@@ -330,7 +305,7 @@
           </div>
         </div>
 
-        <a class="scroll-down" href="#about" aria-label="Scroll to About" data-i18n-attr="aria-label:hero.scroll">
+        <a class="scroll-down" href="#about" aria-label="Scroll to About">
           <svg aria-hidden="true"><use href="#i-chevron-down" /></svg>
         </a>
       </section>
@@ -339,68 +314,59 @@
       <section id="about" class="section" aria-labelledby="about-title">
         <div class="wrap">
           <header class="sec-head reveal">
-            <h2 id="about-title" data-i18n="about.title">About Me</h2>
-            <p class="sec-sub" data-i18n="about.sub">A little about my background and what I love to build.</p>
+            <h2 id="about-title">About Me</h2>
+            <p class="sec-sub">A little about my background and what I love to build.</p>
           </header>
 
           <div class="about-grid">
             <div class="about-main reveal">
-              <p data-i18n="about.bio1">
+              <p>
                 I'm Will, a 3rd-year BSIT student from Palompon, Leyte. I learn by breaking things and
                 fixing them, and I build websites and apps that make everyday tasks faster and easier.
               </p>
-              <!-- The Taglish lines stay the same in both languages (lang="tl" helps screen readers). -->
+              <!-- The Tagalog phrase carries lang="tl", so screen readers pronounce it as Tagalog. -->
               <p>
-                <span data-i18n="about.bio2a">My rule is simple:</span>
-                <em lang="tl">wala nang papel-papel.</em>
-                <span data-i18n="about.bio2b">Fine records on paper?</span>
-                <span class="subtitle" lang="tl">Anong gentle gentle?</span>
-                <span lang="tl">Ilalabas ko na ang aking app.</span>
-                <span data-i18n="about.bio2c">That's how SmartFine was born: QR scans, instant notices and GCash payments instead of paper.</span>
+                My rule is simple: <em lang="tl">wala nang papel-papel</em> (no more paperwork). Fine
+                records on paper? Not anymore. That's how SmartFine was born: QR scans, instant notices
+                and GCash payments instead of paper.
               </p>
-              <p data-i18n="about.bio3">Fun fact: I can fix your PC and teach you HTML like a lumpia recipe, because everything has to be wrapped right.</p>
+              <p>Fun fact: I can fix your PC and teach you HTML like a lumpia recipe, because everything has to be wrapped right.</p>
 
               <div class="info-list">
                 <article class="info-card">
                   <span class="ic"><svg aria-hidden="true"><use href="#i-cap" /></svg></span>
                   <div>
                     <h3>Western Leyte College</h3>
-                    <p data-i18n="about.edu1">BS Information Technology · 2024 – present (3rd year)</p>
+                    <p>BS Information Technology · 2024 – present (3rd year)</p>
                   </div>
                 </article>
                 <article class="info-card">
                   <span class="ic"><svg aria-hidden="true"><use href="#i-cap" /></svg></span>
                   <div>
                     <h3>Isabel National Comprehensive School</h3>
-                    <p data-i18n="about.edu2">Graduated with honors · 2024</p>
+                    <p>Graduated with honors · 2024</p>
                   </div>
                 </article>
                 <article class="info-card">
                   <span class="ic ic-pin"><svg aria-hidden="true"><use href="#i-pin" /></svg></span>
                   <div>
-                    <h3 data-i18n="about.basedIn">Based in Palompon, Leyte</h3>
-                    <p data-i18n="about.speaks">Speaks English, Filipino and Bisaya</p>
+                    <h3>Based in Palompon, Leyte</h3>
+                    <p>Speaks English, Filipino and Bisaya</p>
                   </div>
                 </article>
               </div>
-
-              <figure class="why">
-                <figcaption data-i18n="about.whyLabel">Why IT?</figcaption>
-                <blockquote data-i18n="about.whyQuote">Honestly, I had no choice. It all started because of my cousin. Now he's living his best life, and I'm here debugging at 2 AM.</blockquote>
-              </figure>
             </div>
 
             <aside class="interests reveal" aria-labelledby="interests-title">
-              <p class="panel-label" id="interests-title"><span class="dot" aria-hidden="true"></span><span data-i18n="about.interests">Interests</span></p>
+              <p class="panel-label" id="interests-title"><span class="dot" aria-hidden="true"></span><span>Interests</span></p>
               <ul class="interest-grid">
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-globe" /></svg></span><span data-i18n="interest.web">Web Development</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-phone" /></svg></span><span data-i18n="interest.mobile">Mobile Apps</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><span data-i18n="interest.security">System Security</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><span data-i18n="interest.hardware">PC Hardware</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-video" /></svg></span><span data-i18n="interest.editing">Video and Photo Editing</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-chef" /></svg></span><span data-i18n="interest.cooking">Cooking and Baking</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-bike" /></svg></span><span data-i18n="interest.driving">Driving and Motorbikes</span></li>
-                <li><span class="ic"><svg aria-hidden="true"><use href="#i-game" /></svg></span><span data-i18n="interest.gaming">Gaming</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-globe" /></svg></span><span>Web Development</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-phone" /></svg></span><span>Mobile Apps</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-shield" /></svg></span><span>System Security</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><span>PC Hardware</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-video" /></svg></span><span>Video and Photo Editing</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-chef" /></svg></span><span>Cooking and Baking</span></li>
+                <li><span class="ic"><svg aria-hidden="true"><use href="#i-game" /></svg></span><span>Gaming</span></li>
               </ul>
             </aside>
           </div>
@@ -412,64 +378,107 @@
         <div class="glow glow-left" aria-hidden="true"></div>
         <div class="wrap">
           <header class="sec-head reveal">
-            <h2 id="skills-title" data-i18n="skills.title">Skills &amp; Technologies</h2>
-            <p class="sec-sub" data-i18n="skills.sub">The languages, frameworks, tools and fields I learn and use.</p>
+            <h2 id="skills-title">Skills &amp; Technologies</h2>
+            <p class="sec-sub">The languages, frameworks, tools and fields I learn and use.</p>
           </header>
 
+          <!-- CORE STACK: the skills my projects are built with. Each card says what I did with
+               it and links to the project pages where it was used. -->
+          <div class="block-head reveal">
+            <h3>Core stack</h3>
+            <p>The skills my projects are built with.</p>
+          </div>
+          <ul class="core-grid">
+            <li class="skill-card core-card reveal" style="--brand: #61dafb">
+              <div class="core-top">
+                <span class="logo"><img src="images/logos/react.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span>
+                <div><h4>React Native</h4><span class="skill-cat">Mobile</span></div>
+              </div>
+              <p>SmartFine's mobile app, with a web version, built with Expo.</p>
+              <p class="used">Used in <a href="project.html?p=smartfine">SmartFine</a></p>
+            </li>
+            <li class="skill-card core-card reveal" style="--brand: #f7df1e">
+              <div class="core-top">
+                <span class="logo"><img src="images/logos/javascript.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span>
+                <div><h4>JavaScript</h4><span class="skill-cat">Language</span></div>
+              </div>
+              <p>The interactive parts of the POS, and this whole website with no framework.</p>
+              <p class="used">Used in <a href="project.html?p=underground">Underground Apparel POS</a></p>
+            </li>
+            <li class="skill-card core-card reveal" style="--brand: #777bb4">
+              <div class="core-top">
+                <span class="logo"><img src="images/logos/php.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span>
+                <div><h4>PHP</h4><span class="skill-cat">Language</span></div>
+              </div>
+              <p>A clothing shop's point-of-sale system: sales, stock and payroll.</p>
+              <p class="used">Used in <a href="project.html?p=underground">Underground Apparel POS</a></p>
+            </li>
+            <li class="skill-card core-card reveal" style="--brand: #0f80cc">
+              <div class="core-top">
+                <span class="logo"><img src="images/logos/sqlite.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span>
+                <div><h4>SQLite</h4><span class="skill-cat">Backend</span></div>
+              </div>
+              <p>The database behind SmartFine and the POS.</p>
+              <p class="used">Used in <a href="project.html?p=smartfine">SmartFine</a> <a href="project.html?p=underground">Underground Apparel POS</a></p>
+            </li>
+            <li class="skill-card core-card reveal" style="--brand: #e34f26">
+              <div class="core-top">
+                <span class="logo pair"><img src="images/logos/html5.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img src="images/logos/css3.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span>
+                <div><h4>HTML and CSS</h4><span class="skill-cat">Frontend</span></div>
+              </div>
+              <p>Pages for the POS and a client website, and this site's Day and Night themes.</p>
+              <p class="used">Used in <a href="project.html?p=underground">Underground Apparel POS</a> <a href="project.html?p=rubens">Ruben's Photography</a></p>
+            </li>
+            <li class="skill-card core-card reveal" style="--brand: #3178c6">
+              <div class="core-top">
+                <span class="logo"><img src="images/logos/typescript.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span>
+                <div><h4>TypeScript</h4><span class="skill-cat">Language</span></div>
+              </div>
+              <p>Typed code for a client website built with Astro.</p>
+              <p class="used">Used in <a href="project.html?p=rubens">Ruben's Photography</a></p>
+            </li>
+          </ul>
+
+          <div class="block-head reveal">
+            <h3>More tools and skills</h3>
+          </div>
           <!-- Filter pills. js/sections.js shows only the cards whose data-cat matches. -->
-          <div class="pills reveal" role="group" aria-label="Filter skills" data-i18n-attr="aria-label:skills.filterLabel">
-            <button type="button" data-skill-filter="all" aria-pressed="true" data-i18n="cat.all">All</button>
-            <button type="button" data-skill-filter="lang" aria-pressed="false" data-i18n="cat.lang">Languages</button>
-            <button type="button" data-skill-filter="frontend" aria-pressed="false" data-i18n="cat.frontend">Frontend</button>
-            <button type="button" data-skill-filter="mobile" aria-pressed="false" data-i18n="cat.mobile">Mobile</button>
-            <button type="button" data-skill-filter="backend" aria-pressed="false" data-i18n="cat.backend">Backend</button>
-            <button type="button" data-skill-filter="security" aria-pressed="false" data-i18n="cat.security">Security</button>
-            <button type="button" data-skill-filter="tools" aria-pressed="false" data-i18n="cat.tools">Tools</button>
-            <button type="button" data-skill-filter="creative" aria-pressed="false" data-i18n="cat.creative">Creative</button>
-            <button type="button" data-skill-filter="beyond" aria-pressed="false" data-i18n="cat.beyond">Beyond code</button>
+          <div class="pills reveal" role="group" aria-label="Filter skills">
+            <button type="button" data-skill-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-skill-filter="code" aria-pressed="false">Code</button>
+            <button type="button" data-skill-filter="tools" aria-pressed="false">Tools</button>
+            <button type="button" data-skill-filter="creative" aria-pressed="false">Creative</button>
+            <button type="button" data-skill-filter="beyond" aria-pressed="false">Beyond code</button>
           </div>
 
           <!--
-            Each skill card: data-cat = its filter group. The small label under the name is filled in
-            by js/sections.js from the same group (cat.<group>.one), so it follows the language.
+            Each skill card: data-cat = its filter group (js/sections.js reads it); the small label
+            under the name says what kind of skill it is.
           -->
           <ul class="skill-grid" id="skill-grid">
-            <li class="skill-card reveal" data-cat="lang" style="--brand: #f7df1e"><span class="logo"><img src="images/logos/javascript.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>JavaScript</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="lang" style="--brand: #3178c6"><span class="logo"><img src="images/logos/typescript.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>TypeScript</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="lang" style="--brand: #777bb4"><span class="logo"><img src="images/logos/php.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>PHP</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="lang" style="--brand: #4b8bbe"><span class="logo"><img src="images/logos/python.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Python</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="lang" style="--brand: #e76f00"><span class="logo"><img src="images/logos/java.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Java</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="frontend" style="--brand: #e34f26"><span class="logo pair"><img src="images/logos/html5.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img src="images/logos/css3.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b data-i18n="skill.htmlcss">HTML and CSS</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="frontend" style="--brand: #61dafb"><span class="logo"><img src="images/logos/react.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>React</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="mobile" style="--brand: #61dafb"><span class="logo"><img src="images/logos/react.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>React Native</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="mobile"><span class="logo"><img class="adapt" src="images/logos/expo.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Expo</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="backend" style="--brand: #0f80cc"><span class="logo"><img src="images/logos/sqlite.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>SQLite</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="backend" style="--brand: #2aa4c4"><span class="logo"><img class="adapt" src="images/logos/mysql.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>MySQL</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="backend" style="--brand: #24b47e"><span class="logo pair"><img src="images/logos/paymongo.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img src="images/logos/gcash.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b>PayMongo (GCash)</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="backend"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-analysis" /></svg></span><b data-i18n="skill.analysis">System analysis</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-key" /></svg></span><b>bcrypt</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-lock" /></svg></span><b>AES-256-GCM</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-otp" /></svg></span><b>Email OTP</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-rbac" /></svg></span><b data-i18n="skill.rbac">Role-based access</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="security"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-audit" /></svg></span><b data-i18n="skill.audit">Audit log trail</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="tools" style="--brand: #f05032"><span class="logo pair"><img src="images/logos/git.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img class="adapt" src="images/logos/github.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b data-i18n="skill.git">Git and GitHub</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="tools" style="--brand: #23a9f2"><span class="logo"><img src="images/logos/vscode.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>VS Code</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="tools" style="--brand: #3ddc84"><span class="logo"><img src="images/logos/android-studio.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Android Studio</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="tools" style="--brand: #b08968"><span class="logo"><img src="images/logos/dbeaver.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>DBeaver</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="tools" style="--brand: #a259ff"><span class="logo"><img src="images/logos/figma.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Figma</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="tools" style="--brand: #b04fd8"><span class="logo"><img src="images/logos/office.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Microsoft Office</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative" style="--brand: #00c4cc"><span class="logo"><img src="images/logos/canva.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Canva</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative" style="--brand: #31a8ff"><span class="logo"><img src="images/logos/photoshop.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Photoshop</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative" style="--brand: #31a8ff"><span class="logo"><img src="images/logos/lightroom.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Lightroom</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative"><span class="logo"><img class="adapt" src="images/logos/capcut.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>CapCut</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative" style="--brand: #2bd9a8"><span class="logo"><img class="app-tile" src="images/alight-motion.webp" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Alight Motion</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative" style="--brand: #9999ff"><span class="logo"><img src="images/logos/after-effects.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>After Effects</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="creative" style="--brand: #ed1c24"><span class="logo wide"><img src="images/logos/virtualdj.svg" alt="" width="44" height="44" loading="lazy" decoding="async" /></span><b>Virtual DJ</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><b data-i18n="skill.pc">PC assembly</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b data-i18n="skill.troubleshooting">Troubleshooting</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-network" /></svg></span><b data-i18n="skill.networking">Networking basics</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-cooking" /></svg></span><b data-i18n="skill.cooking">Cooking</b><span class="skill-cat"></span></li>
-            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-users" /></svg></span><b data-i18n="skill.team">Team collaboration</b><span class="skill-cat"></span></li>
+            <li class="skill-card reveal" data-cat="code" style="--brand: #4b8bbe"><span class="logo"><img src="images/logos/python.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Python</b><span class="skill-cat">Language</span></li>
+            <li class="skill-card reveal" data-cat="code" style="--brand: #e76f00"><span class="logo"><img src="images/logos/java.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Java</b><span class="skill-cat">Language</span></li>
+            <li class="skill-card reveal" data-cat="code" style="--brand: #61dafb"><span class="logo"><img src="images/logos/react.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>React</b><span class="skill-cat">Frontend</span></li>
+            <li class="skill-card reveal" data-cat="code"><span class="logo"><img class="adapt" src="images/logos/expo.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Expo</b><span class="skill-cat">Mobile</span></li>
+            <li class="skill-card reveal" data-cat="code" style="--brand: #2aa4c4"><span class="logo"><img class="adapt" src="images/logos/mysql.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>MySQL</b><span class="skill-cat">Backend</span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #f05032"><span class="logo pair"><img src="images/logos/git.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /><img class="adapt" src="images/logos/github.svg" alt="" width="21" height="21" loading="lazy" decoding="async" /></span><b>Git and GitHub</b><span class="skill-cat">Tool</span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #23a9f2"><span class="logo"><img src="images/logos/vscode.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>VS Code</b><span class="skill-cat">Tool</span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #3ddc84"><span class="logo"><img src="images/logos/android-studio.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Android Studio</b><span class="skill-cat">Tool</span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #b08968"><span class="logo"><img src="images/logos/dbeaver.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>DBeaver</b><span class="skill-cat">Tool</span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #a259ff"><span class="logo"><img src="images/logos/figma.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Figma</b><span class="skill-cat">Tool</span></li>
+            <li class="skill-card reveal" data-cat="tools" style="--brand: #b04fd8"><span class="logo"><img src="images/logos/office.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Microsoft Office</b><span class="skill-cat">Tool</span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #00c4cc"><span class="logo"><img src="images/logos/canva.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Canva</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #31a8ff"><span class="logo"><img src="images/logos/photoshop.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Photoshop</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #31a8ff"><span class="logo"><img src="images/logos/lightroom.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Lightroom</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="creative"><span class="logo"><img class="adapt" src="images/logos/capcut.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>CapCut</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #2bd9a8"><span class="logo"><img class="app-tile" src="images/alight-motion.webp" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>Alight Motion</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #9999ff"><span class="logo"><img src="images/logos/after-effects.svg" alt="" width="30" height="30" loading="lazy" decoding="async" /></span><b>After Effects</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="creative" style="--brand: #ed1c24"><span class="logo wide"><img src="images/logos/virtualdj.svg" alt="" width="44" height="44" loading="lazy" decoding="async" /></span><b>Virtual DJ</b><span class="skill-cat">Creative</span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-cpu" /></svg></span><b>PC assembly</b><span class="skill-cat">Beyond code</span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-wrench" /></svg></span><b>Troubleshooting</b><span class="skill-cat">Beyond code</span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-network" /></svg></span><b>Networking basics</b><span class="skill-cat">Beyond code</span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#s-cooking" /></svg></span><b>Cooking</b><span class="skill-cat">Beyond code</span></li>
+            <li class="skill-card reveal" data-cat="beyond"><span class="logo glyph"><svg aria-hidden="true"><use href="#i-users" /></svg></span><b>Team collaboration</b><span class="skill-cat">Beyond code</span></li>
           </ul>
           <!-- aria-live: screen readers hear how many skills the filter shows -->
           <p class="sr-only" id="skill-count" aria-live="polite"></p>
@@ -480,8 +489,8 @@
       <section id="projects" class="section" aria-labelledby="projects-title">
         <div class="wrap">
           <header class="sec-head reveal">
-            <h2 id="projects-title" data-i18n="projects.title">Projects</h2>
-            <p class="sec-sub" data-i18n="projects.sub">Systems and sites I've built, from a mobile app to a client website.</p>
+            <h2 id="projects-title">Projects</h2>
+            <p class="sec-sub">Systems and sites I've built, from a mobile app to a client website.</p>
           </header>
 
           <!-- Each whole card is one link to that project's own page (project.html?p=<id>). -->
@@ -489,16 +498,16 @@
             <article class="proj-card reveal">
               <a class="proj-link" href="project.html?p=smartfine">
                 <div class="proj-thumb thumb-shot" aria-hidden="true">
-                  <span class="proj-tag" data-i18n="tag.mobile">Mobile app</span>
+                  <span class="proj-tag">Mobile app</span>
                   <img src="images/smartfine-overview-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
                 </div>
                 <div class="proj-body">
                   <h3>SmartFine</h3>
-                  <p data-i18n="card.sf">A student fines system for schools: officers scan a QR code, students see the fine instantly and pay through GCash.</p>
+                  <p>A student fines system for schools: officers scan a QR code, students see the fine instantly and pay through GCash.</p>
                   <ul class="tags">
                     <li>React Native</li><li>Expo</li><li>SQLite</li><li>PayMongo</li>
                   </ul>
-                  <span class="proj-more"><span data-i18n="projects.view">View project</span><svg aria-hidden="true"><use href="#i-arrow-right" /></svg></span>
+                  <span class="proj-more"><span>View project</span><svg aria-hidden="true"><use href="#i-arrow-right" /></svg></span>
                 </div>
               </a>
             </article>
@@ -506,16 +515,16 @@
             <article class="proj-card reveal">
               <a class="proj-link" href="project.html?p=underground">
                 <div class="proj-thumb thumb-shot" aria-hidden="true">
-                  <span class="proj-tag" data-i18n="tag.web">Web system</span>
+                  <span class="proj-tag">Web system</span>
                   <img src="images/pos-sale-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
                 </div>
                 <div class="proj-body">
                   <h3>Underground Apparel POS</h3>
-                  <p data-i18n="card.ug">A point-of-sale and business system for a clothing shop: sales, inventory by color and size, suppliers and payroll.</p>
+                  <p>A point-of-sale and business system for a clothing shop: sales, inventory by color and size, suppliers and payroll.</p>
                   <ul class="tags">
-                    <li>PHP 8</li><li>SQLite</li><li>JavaScript</li><li data-i18n="tag.team2">Team of 2</li>
+                    <li>PHP 8</li><li>SQLite</li><li>JavaScript</li><li>Team of 2</li>
                   </ul>
-                  <span class="proj-more"><span data-i18n="projects.view">View project</span><svg aria-hidden="true"><use href="#i-arrow-right" /></svg></span>
+                  <span class="proj-more"><span>View project</span><svg aria-hidden="true"><use href="#i-arrow-right" /></svg></span>
                 </div>
               </a>
             </article>
@@ -523,16 +532,16 @@
             <article class="proj-card reveal">
               <a class="proj-link" href="project.html?p=rubens">
                 <div class="proj-thumb thumb-shot" aria-hidden="true">
-                  <span class="proj-tag" data-i18n="tag.client">Client website</span>
+                  <span class="proj-tag">Client website</span>
                   <img src="images/rubens-home-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
                 </div>
                 <div class="proj-body">
                   <h3>Ruben's Photography</h3>
-                  <p data-i18n="card.rp">A one-page showcase site for a photographer in Palompon, where every "Book" button opens Messenger.</p>
+                  <p>A one-page showcase site for a photographer in Palompon, where every "Book" button opens Messenger.</p>
                   <ul class="tags">
                     <li>Astro</li><li>Tailwind CSS</li><li>TypeScript</li>
                   </ul>
-                  <span class="proj-more"><span data-i18n="projects.view">View project</span><svg aria-hidden="true"><use href="#i-arrow-right" /></svg></span>
+                  <span class="proj-more"><span>View project</span><svg aria-hidden="true"><use href="#i-arrow-right" /></svg></span>
                 </div>
               </a>
             </article>
@@ -545,8 +554,8 @@
         <div class="glow glow-right" aria-hidden="true"></div>
         <div class="wrap">
           <header class="sec-head reveal">
-            <h2 id="experience-title" data-i18n="exp.title">Journey Timeline</h2>
-            <p class="sec-sub" data-i18n="exp.sub">The schooling, training, projects and roles that shaped what I do.</p>
+            <h2 id="experience-title">Journey Timeline</h2>
+            <p class="sec-sub">The schooling, training, projects and roles that shaped what I do.</p>
           </header>
 
           <!-- Newest first. On wide screens the cards alternate left and right of the line. -->
@@ -554,20 +563,20 @@
             <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-globe" /></svg></span>
               <article class="tl-card">
-                <p class="tl-date" data-i18n="tl.rp.date">Nov 2026</p>
-                <h3 data-i18n="tl.rp.title">Ruben's Photography website</h3>
-                <p class="tl-org" data-i18n="tl.rp.org">Client website · Solo</p>
-                <p data-i18n="tl.rp.desc">A one-page showcase site for a photographer in Palompon.</p>
+                <p class="tl-date">Nov 2026</p>
+                <h3>Ruben's Photography website</h3>
+                <p class="tl-org">Client website · Solo</p>
+                <p>A one-page showcase site for a photographer in Palompon.</p>
                 <ul class="tags"><li>Astro</li><li>Tailwind CSS</li></ul>
               </article>
             </li>
             <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-phone" /></svg></span>
               <article class="tl-card">
-                <p class="tl-date" data-i18n="tl.sf.date">Oct 2026</p>
-                <h3 data-i18n="tl.sf.title">SmartFine working prototype</h3>
-                <p class="tl-org" data-i18n="tl.sf.org">Application Development + Information Assurance and Security 1</p>
-                <p data-i18n="tl.sf.desc">A mobile app with a web version that replaces paper fine records in schools.</p>
+                <p class="tl-date">Oct 2026</p>
+                <h3>SmartFine working prototype</h3>
+                <p class="tl-org">Application Development + Information Assurance and Security 1</p>
+                <p>A mobile app with a web version that replaces paper fine records in schools.</p>
                 <ul class="tags"><li>React Native</li><li>SQLite</li></ul>
               </article>
             </li>
@@ -576,8 +585,8 @@
               <article class="tl-card">
                 <p class="tl-date">2026</p>
                 <h3>Underground Apparel POS</h3>
-                <p class="tl-org" data-i18n="tl.ug.org">Team of 2</p>
-                <p data-i18n="tl.ug.desc">A point-of-sale and business system for a clothing shop, built with a classmate.</p>
+                <p class="tl-org">Team of 2</p>
+                <p>A point-of-sale and business system for a clothing shop, built with a classmate.</p>
                 <ul class="tags"><li>PHP 8</li><li>SQLite</li></ul>
               </article>
             </li>
@@ -586,26 +595,26 @@
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-award" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2026</p>
-                <h3 data-i18n="tl.css.title">Computer Systems Servicing NC II</h3>
+                <h3>Computer Systems Servicing NC II</h3>
                 <p class="tl-org">TESDA</p>
-                <p data-i18n="tl.css.desc">Assembling, setting up and troubleshooting computers, plus networking.</p>
-                <ul class="tags"><li data-i18n="tag.hardware">Hardware</li><li data-i18n="tag.networking">Networking</li></ul>
+                <p>Assembling, setting up and troubleshooting computers, plus networking.</p>
+                <ul class="tags"><li>Hardware</li><li>Networking</li></ul>
               </article>
             </li>
             <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-cap" /></svg></span>
               <article class="tl-card">
-                <p class="tl-date" data-i18n="tl.bsit.date">2024 – present</p>
+                <p class="tl-date">2024 – present</p>
                 <h3>BS Information Technology</h3>
                 <p class="tl-org">Western Leyte College</p>
-                <p data-i18n="tl.bsit.desc">3rd year, class of 2028.</p>
+                <p>3rd year, class of 2028.</p>
               </article>
             </li>
             <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-cap" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2024</p>
-                <h3 data-i18n="tl.grad.title">Graduated with honors</h3>
+                <h3>Graduated with honors</h3>
                 <p class="tl-org">Isabel National Comprehensive School</p>
               </article>
             </li>
@@ -613,7 +622,7 @@
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-award" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2023</p>
-                <h3 data-i18n="tl.award.title">Best Home Economics Student and Best Presenter</h3>
+                <h3>Best Home Economics Student and Best Presenter</h3>
                 <p class="tl-org">Isabel National Comprehensive School</p>
               </article>
             </li>
@@ -621,25 +630,25 @@
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-chef" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2023</p>
-                <h3 data-i18n="tl.bpp.title">Bread and Pastry Production NC II</h3>
+                <h3>Bread and Pastry Production NC II</h3>
                 <p class="tl-org">TESDA</p>
-                <p data-i18n="tl.bpp.desc">Baking, costing and food safety.</p>
+                <p>Baking, costing and food safety.</p>
               </article>
             </li>
             <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-briefcase" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2022</p>
-                <h3 data-i18n="tl.hailey.title">Page admin</h3>
-                <p class="tl-org" data-i18n="tl.hailey.org">Hailey Facebook page</p>
+                <h3>Page admin</h3>
+                <p class="tl-org">Hailey Facebook page</p>
               </article>
             </li>
             <li class="tl-item reveal">
               <span class="tl-node" aria-hidden="true"><svg><use href="#i-video" /></svg></span>
               <article class="tl-card">
                 <p class="tl-date">2021 – 2022</p>
-                <h3 data-i18n="tl.kira.title">Editor</h3>
-                <p class="tl-org" data-i18n="tl.kira.org">Kira, an anime fan page</p>
+                <h3>Editor</h3>
+                <p class="tl-org">Kira, an anime fan page</p>
               </article>
             </li>
           </ol>
@@ -651,8 +660,8 @@
         <div class="glow glow-left" aria-hidden="true"></div>
         <div class="wrap">
           <header class="sec-head reveal">
-            <h2 id="contact-title" data-i18n="contact.title">Contact Me</h2>
-            <p class="sec-sub" data-i18n="contact.sub">Have a project, a question or an opportunity? Send me a message and I'll reply within a day.</p>
+            <h2 id="contact-title">Contact Me</h2>
+            <p class="sec-sub">Have a project, a question or an opportunity? Send me a message and I'll reply within a day.</p>
           </header>
 
           <div class="contact-grid">
@@ -661,10 +670,10 @@
               <div class="contact-item">
                 <span class="ic"><svg aria-hidden="true"><use href="#i-mail" /></svg></span>
                 <div class="ci-text">
-                  <span class="ci-label" data-i18n="contact.email">Email</span>
+                  <span class="ci-label">Email</span>
                   <a class="ci-value" id="email-text" href="mailto:willrdgzbitoy015@gmail.com">willrdgzbitoy015@gmail.com</a>
                 </div>
-                <button class="iconbtn sm" type="button" id="copy-email" aria-label="Copy email address" title="Copy email address" data-i18n-attr="aria-label:contact.copy, title:contact.copy">
+                <button class="iconbtn sm" type="button" id="copy-email" aria-label="Copy email address" title="Copy email address">
                   <svg aria-hidden="true"><use href="#i-copy" /></svg>
                 </button>
               </div>
@@ -690,37 +699,41 @@
               </a>
               <div class="contact-item">
                 <span class="ic"><svg aria-hidden="true"><use href="#i-pin" /></svg></span>
-                <div class="ci-text"><span class="ci-label" data-i18n="contact.location">Location</span><span class="ci-value" data-i18n="contact.locationValue">Palompon, Leyte, Philippines</span></div>
+                <div class="ci-text"><span class="ci-label">Location</span><span class="ci-value">Palompon, Leyte, Philippines</span></div>
               </div>
             </div>
 
             <!-- The form. "novalidate" switches off the browser's own pop-up messages so
-                 js/contact.js can show our translated ones under each field instead. -->
+                 js/contact.js can show its own, under each field. -->
             <div class="form-card reveal">
               <form id="ticket-form" novalidate>
+                <div class="form-head full">
+                  <h3>Send a message</h3>
+                  <p>All fields are required.</p>
+                </div>
                 <div class="field">
-                  <label for="t-name" data-i18n="form.name">Name</label>
+                  <label for="t-name">Name</label>
                   <input id="t-name" name="name" autocomplete="name" placeholder="Juan Dela Cruz" aria-describedby="e-name" required />
                   <span class="err" id="e-name"></span>
                 </div>
                 <div class="field">
-                  <label for="t-email" data-i18n="contact.email">Email</label>
+                  <label for="t-email">Email</label>
                   <input id="t-email" name="email" type="email" autocomplete="email" placeholder="juan@example.com" aria-describedby="e-email" required />
                   <span class="err" id="e-email"></span>
                 </div>
-                <div class="field full">
-                  <label for="t-topic" data-i18n="form.topic">Topic</label>
-                  <!-- value = what gets emailed to me (always English); the visible text is translated -->
-                  <select id="t-topic" name="topic">
-                    <option value="A project idea" data-i18n="form.topic1">A project idea</option>
-                    <option value="Job or internship" data-i18n="form.topic2">Job or internship</option>
-                    <option value="Question about technologies" data-i18n="form.topic3">Question about technologies</option>
-                    <option value="Just saying hi" data-i18n="form.topic4">Just saying hi</option>
-                  </select>
-                </div>
-                <div class="field full">
-                  <label for="t-msg" data-i18n="form.message">Message</label>
-                  <textarea id="t-msg" name="message" placeholder="Tell me about your project or idea…" data-i18n-attr="placeholder:form.messagePh" aria-describedby="e-msg" required></textarea>
+                <!-- Topic: real radio buttons drawn as chips. Only one can be picked, and the arrow
+                     keys move between them, because they share name="topic". -->
+                <fieldset class="field full topic">
+                  <legend>Topic</legend>
+                  <div class="chips">
+                    <label class="chip"><input type="radio" name="topic" value="A project idea" checked /><span>A project idea</span></label>
+                    <label class="chip"><input type="radio" name="topic" value="Question about technologies" /><span>Question about technologies</span></label>
+                    <label class="chip"><input type="radio" name="topic" value="Just saying hi" /><span>Just saying hi</span></label>
+                  </div>
+                </fieldset>
+                <div class="field full msg-field">
+                  <label for="t-msg">Message</label>
+                  <textarea id="t-msg" name="message" placeholder="Tell me about your project or idea…" aria-describedby="e-msg" required></textarea>
                   <span class="err" id="e-msg"></span>
                 </div>
                 <!-- HONEYPOT: a field people never see. Spam bots fill in every field they find,
@@ -732,20 +745,20 @@
                 <!-- Shown by js/contact.js when sending fails -->
                 <p class="form-error full" id="form-error" role="alert" hidden></p>
                 <div class="form-foot full">
-                  <p class="form-note" data-i18n="form.note">I only use your details to reply to you.</p>
+                  <p class="form-note">I only use your details to reply to you.</p>
                   <button class="btn btn-primary" type="submit" id="ticket-send">
                     <svg aria-hidden="true"><use href="#i-send" /></svg>
-                    <span data-i18n="form.send">Send Message</span>
+                    <span>Send Message</span>
                   </button>
                 </div>
               </form>
               <!-- Replaces the form after a successful send -->
               <div class="form-ok" id="ticket-ok" tabindex="-1" hidden>
                 <span class="ok-ic"><svg aria-hidden="true"><use href="#i-send" /></svg></span>
-                <h3 data-i18n="form.okLabel">Message sent!</h3>
-                <p data-i18n="form.okText">Thanks! Your message is in my inbox and I'll reply within a day.</p>
-                <p class="ok-ref"><span data-i18n="form.ref">Reference</span> <span id="ticket-num">#WRB-0000</span></p>
-                <button class="btn btn-ghost" type="button" id="ticket-again" data-i18n="form.again">Send another</button>
+                <h3>Message sent!</h3>
+                <p>Thanks! Your message is in my inbox and I'll reply within a day.</p>
+                <p class="ok-ref"><span>Reference</span> <span id="ticket-num">#WRB-0000</span></p>
+                <button class="btn btn-ghost" type="button" id="ticket-again">Send another</button>
               </div>
             </div>
           </div>
@@ -754,47 +767,56 @@
     </main>
 
     <!-- ============ FOOTER ============ -->
+    <!-- Top part: who I am, the section links and where else to find me.
+         Bottom bar: copyright, a thank-you in Bisaya (with the English next to it) and "back to top". -->
     <footer class="footer">
-      <div class="wrap foot-row">
-        <p class="copy">
-          <span>© 2026 Will R. Bitoy.</span> <span data-i18n="footer.rights">All rights reserved.</span>
-          <!-- Stays in Bisaya in both languages -->
-          <span class="bis" lang="ceb">Salamat sa pagbisita!</span>
-        </p>
-        <nav class="socials" aria-label="Elsewhere" data-i18n-attr="aria-label:footer.elsewhere">
-          <a class="iconbtn sm" href="https://github.com/willrdgzbitoy015-ops" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github" /></svg></a>
-          <a class="iconbtn sm" href="https://www.linkedin.com/in/will-bitoy-637305417/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg aria-hidden="true"><use href="#i-linkedin" /></svg></a>
-          <a class="iconbtn sm" href="https://www.facebook.com/willrdrgzbitoy001" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg aria-hidden="true"><use href="#i-facebook" /></svg></a>
-          <a class="iconbtn sm" href="https://www.instagram.com/_cheeze.dogg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg aria-hidden="true"><use href="#i-instagram" /></svg></a>
-          <a class="iconbtn sm" href="https://www.youtube.com/@guren.325" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg aria-hidden="true"><use href="#i-youtube" /></svg></a>
+      <div class="wrap foot-main">
+        <div class="foot-brand">
+          <a class="foot-logo" href="#home">Will<span class="dot">.</span></a>
+          <p>I build systems that replace paper: web and mobile systems that make everyday tasks faster and easier.</p>
+          <p class="foot-place"><svg aria-hidden="true"><use href="#i-pin" /></svg>Palompon, Leyte, Philippines</p>
+        </div>
+        <nav class="foot-col" aria-labelledby="foot-explore">
+          <h2 class="foot-title" id="foot-explore">Explore</h2>
+          <ul class="foot-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
         </nav>
-        <a class="iconbtn to-top" href="#home" aria-label="Back to top" title="Back to top" data-i18n-attr="aria-label:footer.backToTop, title:footer.backToTop">
+        <div class="foot-col">
+          <h2 class="foot-title" id="foot-connect">Connect</h2>
+          <nav class="socials" aria-labelledby="foot-connect">
+            <a class="iconbtn sm" href="https://github.com/willrdgzbitoy015-ops" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github" /></svg></a>
+            <a class="iconbtn sm" href="https://www.linkedin.com/in/will-bitoy-637305417/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg aria-hidden="true"><use href="#i-linkedin" /></svg></a>
+            <a class="iconbtn sm" href="https://www.facebook.com/willrdrgzbitoy001" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg aria-hidden="true"><use href="#i-facebook" /></svg></a>
+            <a class="iconbtn sm" href="https://www.instagram.com/_cheeze.dogg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg aria-hidden="true"><use href="#i-instagram" /></svg></a>
+            <a class="iconbtn sm" href="https://www.youtube.com/@guren.325" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg aria-hidden="true"><use href="#i-youtube" /></svg></a>
+          </nav>
+          <a class="foot-mail" href="mailto:willrdgzbitoy015@gmail.com"><svg aria-hidden="true"><use href="#i-mail" /></svg>willrdgzbitoy015@gmail.com</a>
+        </div>
+      </div>
+      <div class="wrap foot-bottom">
+        <p class="copy">© 2026 Will R. Bitoy. All rights reserved.</p>
+        <p class="thanks"><span lang="ceb">Salamat sa pagbisita!</span> Thanks for visiting.</p>
+        <a class="iconbtn to-top" href="#home" aria-label="Back to top" title="Back to top">
           <svg aria-hidden="true"><use href="#i-arrow-up" /></svg>
         </a>
       </div>
     </footer>
 
     <!-- Lightbox for project screenshots. Filled in by js/lightbox.js. -->
-    <dialog class="lightbox" id="lightbox" aria-label="Preview" data-i18n-attr="aria-label:lb.label">
-      <button class="iconbtn lb-close" type="button" id="lb-close" aria-label="Close" data-i18n-attr="aria-label:lb.close"><svg aria-hidden="true"><use href="#i-x" /></svg></button>
-      <button class="iconbtn lb-prev" type="button" id="lb-prev" aria-label="Previous" data-i18n-attr="aria-label:lb.prev"><svg aria-hidden="true"><use href="#i-chevron-left" /></svg></button>
+    <dialog class="lightbox" id="lightbox" aria-label="Preview">
+      <button class="iconbtn lb-close" type="button" id="lb-close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x" /></svg></button>
+      <button class="iconbtn lb-prev" type="button" id="lb-prev" aria-label="Previous"><svg aria-hidden="true"><use href="#i-chevron-left" /></svg></button>
       <figure class="lb-figure">
         <div class="lb-stage" id="lb-stage"></div>
         <figcaption class="lb-caption" id="lb-caption"></figcaption>
       </figure>
-      <button class="iconbtn lb-next" type="button" id="lb-next" aria-label="Next" data-i18n-attr="aria-label:lb.next"><svg aria-hidden="true"><use href="#i-chevron-right" /></svg></button>
-    </dialog>
-
-    <!-- Command palette (Ctrl+K). The list is filled in by js/palette.js. -->
-    <dialog class="cmdk" id="cmdk" aria-label="Command palette" data-i18n-attr="aria-label:cmdk.label">
-      <div class="cmdk-top">
-        <svg aria-hidden="true"><use href="#i-search" /></svg>
-        <!-- role="combobox": a text box that controls the list below it -->
-        <input id="cmdk-input" type="text" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Jump to a section or run a command" aria-label="Command" data-i18n-attr="placeholder:cmdk.placeholder, aria-label:cmdk.inputLabel" />
-        <kbd class="cmdk-kbd">Esc</kbd>
-      </div>
-      <ul class="cmdk-list" id="cmdk-list" role="listbox" aria-label="Commands" data-i18n-attr="aria-label:cmdk.listLabel"></ul>
-      <div class="cmdk-foot" data-i18n="cmdk.foot">↑ ↓ to move · Enter to run · Esc to close</div>
+      <button class="iconbtn lb-next" type="button" id="lb-next" aria-label="Next"><svg aria-hidden="true"><use href="#i-chevron-right" /></svg></button>
     </dialog>
 
     <!-- Small message bar. role="status" makes screen readers announce it. -->

@@ -38,59 +38,57 @@
     <!--
       NO-FLASH SCRIPT. Runs before the page paints:
       1) theme: what the visitor picked before, otherwise the device setting
-      2) language: Bisaya if picked before
-      3) preloader: only on the first page of a visit, never with reduced motion
+      2) entrance: the preloader on the first page of a visit and on every refresh (F5);
+         otherwise the navbar and the hero just glide in ("intro"). Neither with reduced motion.
       localStorage / sessionStorage can throw (private mode), so everything sits in try/catch.
     -->
     <script>
       ;(function () {
         var root = document.documentElement
         var theme = null
-        var lang = null
         var seen = false
         try {
           theme = localStorage.getItem('wb-theme')
-          lang = localStorage.getItem('wb-lang')
           seen = sessionStorage.getItem('wb-seen') === '1'
         } catch (e) {}
         if (theme !== 'dark' && theme !== 'light') {
           theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
         }
         root.setAttribute('data-theme', theme)
-        if (lang === 'ceb') root.lang = 'ceb'
-        if (!seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          root.classList.add('preload')
-        }
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+        // Was the page opened with Refresh (F5)? The browser notes how each page was reached.
+        var nav = window.performance && performance.getEntriesByType
+          ? performance.getEntriesByType('navigation')[0]
+          : null
+        var refreshed = !!nav && nav.type === 'reload'
+        root.classList.add(!seen || refreshed ? 'preload' : 'intro')
       })()
     </script>
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026-11-26l" />
     <!--
       CACHE VERSION: the "?v=..." after each CSS and JS file. Browsers keep old copies of
       these files; a new version text forces them to fetch the new ones. After changing
       any CSS or JS, change the version in BOTH index.html and project.html.
     -->
-    <link rel="stylesheet" href="css/fonts.css?v=2026-11-21c" />
-    <link rel="stylesheet" href="css/styles.css?v=2026-11-21c" />
+    <link rel="stylesheet" href="css/fonts.css?v=2026-11-26l" />
+    <link rel="stylesheet" href="css/styles.css?v=2026-11-26l" />
 
     <!--
       Scripts. "defer" = download now, run in this order after the HTML is read.
-      Text first (dictionaries), then data, then the code that uses them.
+      Data first, then the code that uses it.
     -->
-    <script defer src="js/i18n/en.js?v=2026-11-21c"></script>
-    <script defer src="js/i18n/ceb.js?v=2026-11-21c"></script>
-    <script defer src="js/data/projects.js?v=2026-11-21c"></script>
-    <script defer src="js/core.js?v=2026-11-21c"></script>
-    <script defer src="js/layout.js?v=2026-11-21c"></script>
-    <script defer src="js/lightbox.js?v=2026-11-21c"></script>
-    <script defer src="js/project-page.js?v=2026-11-21c"></script>
-    <script defer src="js/palette.js?v=2026-11-21c"></script>
+    <script defer src="js/data/projects.js?v=2026-11-26l"></script>
+    <script defer src="js/core.js?v=2026-11-26l"></script>
+    <script defer src="js/layout.js?v=2026-11-26l"></script>
+    <script defer src="js/lightbox.js?v=2026-11-26l"></script>
+    <script defer src="js/project-page.js?v=2026-11-26l"></script>
   </head>
 
   <body data-page="project">
     <!--
       PROJECT PAGE. One file for every project: project.html?p=smartfine, ?p=underground,
-      ?p=rubens. The navbar, footer, lightbox and command palette are the same as on
+      ?p=rubens. The navbar, footer and lightbox are the same as on
       index.html (copied from it); the content in <main> is built by js/project-page.js.
     -->
 
@@ -301,18 +299,6 @@
             stroke-linejoin="round"
           >
             <path d="M6 6l12 12M18 6L6 18" />
-          </g>
-        </symbol>
-        <symbol id="i-search" viewBox="0 0 24 24">
-          <g
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="6.5" />
-            <path d="M16 16l4 4" />
           </g>
         </symbol>
         <symbol id="i-cap" viewBox="0 0 24 24">
@@ -563,24 +549,6 @@
             <path d="M6 17h12" />
           </g>
         </symbol>
-        <symbol id="i-bike" viewBox="0 0 24 24">
-          <g fill="currentColor" fill-opacity=".22">
-            <circle cx="18.5" cy="17.5" r="3.5" />
-            <circle cx="5.5" cy="17.5" r="3.5" />
-          </g>
-          <g
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="18.5" cy="17.5" r="3.5" />
-            <circle cx="5.5" cy="17.5" r="3.5" />
-            <circle cx="15" cy="5" r="1" />
-            <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
-          </g>
-        </symbol>
         <symbol id="i-game" viewBox="0 0 24 24">
           <g fill="currentColor" fill-opacity=".22">
             <rect x="2" y="6" width="20" height="12" rx="2" />
@@ -627,12 +595,15 @@
       </g>
     </svg>
 
-    <!-- PRELOADER: shown only on the first page of a visit (see the script in <head>).
-         It hides itself after a moment even if JavaScript fails (css/styles.css, section 3). -->
+    <!-- PRELOADER: on the first page of a visit and on every refresh (script in <head>).
+         js/layout.js moves the bar and the number with the real loading progress, then lifts
+         the panel like a curtain. Without JavaScript it lifts by itself after 3 s (css section 3). -->
     <div class="preloader" aria-hidden="true">
       <div class="pl-inner">
-        <span class="pl-logo">Will<span class="dot">.</span></span>
+        <!-- one span per letter, so they can rise one after another (--i = its turn) -->
+        <span class="pl-logo"><span style="--i: 0">W</span><span style="--i: 1">i</span><span style="--i: 2">l</span><span style="--i: 3">l</span><span class="dot" style="--i: 4">.</span></span>
         <span class="pl-bar"><i></i></span>
+        <span class="pl-pct">0%</span>
       </div>
     </div>
 
@@ -641,50 +612,25 @@
       <span class="cursor-dot"></span><span class="cursor-ring"></span>
     </div>
 
-    <a class="skip" href="#main" data-i18n="a11y.skip">Skip to content</a>
+    <a class="skip" href="#main">Skip to content</a>
 
     <!-- ============ NAVBAR: a floating glass pill ============ -->
     <header class="nav" id="top">
       <div class="nav-bar">
-        <a
-          class="brand"
-          href="index.html#home"
-          aria-label="Will R. Bitoy, back to top"
-          data-i18n-attr="aria-label:nav.home"
-        >
+        <a class="brand" href="index.html#home" aria-label="Will R. Bitoy, back to top">
           <span class="brand-name">Will<span class="dot">.</span></span>
         </a>
 
-        <nav class="links" aria-label="Sections" data-i18n-attr="aria-label:nav.sections">
-          <a href="index.html#home" data-i18n="nav.homeLink">Home</a>
-          <a href="index.html#about" data-i18n="nav.about">About</a>
-          <a href="index.html#skills" data-i18n="nav.skills">Skills</a>
-          <a href="index.html#projects" data-i18n="nav.projects">Projects</a>
-          <a href="index.html#experience" data-i18n="nav.experience">Experience</a>
-          <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+        <nav class="links" aria-label="Sections">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#skills">Skills</a>
+          <a href="index.html#projects">Projects</a>
+          <a href="index.html#experience">Experience</a>
+          <a href="index.html#contact">Contact</a>
         </nav>
 
         <div class="tools">
-          <!-- aria-pressed tells screen readers which language is on -->
-          <div
-            class="seg"
-            role="group"
-            aria-label="Language"
-            data-i18n-attr="aria-label:nav.language"
-          >
-            <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
-            <button type="button" data-lang="ceb" lang="ceb" aria-pressed="false">BIS</button>
-          </div>
-          <button
-            class="iconbtn"
-            type="button"
-            id="cmdk-btn"
-            aria-label="Open command palette (Ctrl+K)"
-            data-i18n-attr="aria-label:nav.openPalette, title:nav.openPalette"
-            title="Open command palette (Ctrl+K)"
-          >
-            <svg aria-hidden="true"><use href="#i-search" /></svg>
-          </button>
           <!-- The sun/moon icon and the label are filled in by js/core.js -->
           <button class="iconbtn" type="button" id="theme-btn" aria-label="Switch theme"></button>
           <!-- The hamburger / close icon is filled in by js/layout.js -->
@@ -701,16 +647,16 @@
 
       <!-- Mobile menu. "hidden" removes it from the page until the hamburger opens it. -->
       <div class="panel" id="menu-panel" hidden>
-        <nav aria-label="Sections (mobile)" data-i18n-attr="aria-label:nav.sectionsMobile">
-          <a href="index.html#home" data-i18n="nav.homeLink">Home</a>
-          <a href="index.html#about" data-i18n="nav.about">About</a>
-          <a href="index.html#skills" data-i18n="nav.skills">Skills</a>
-          <a href="index.html#projects" data-i18n="nav.projects">Projects</a>
-          <a href="index.html#experience" data-i18n="nav.experience">Experience</a>
-          <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+        <nav aria-label="Sections (mobile)">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#skills">Skills</a>
+          <a href="index.html#projects">Projects</a>
+          <a href="index.html#experience">Experience</a>
+          <a href="index.html#contact">Contact</a>
           <button class="btn btn-primary" type="button" data-resume>
             <svg aria-hidden="true"><use href="#i-download" /></svg>
-            <span data-i18n="cta.resume">Download CV</span>
+            <span>Download CV</span>
           </button>
         </nav>
       </div>
@@ -728,146 +674,109 @@
     </main>
 
     <!-- ============ FOOTER ============ -->
+    <!-- Top part: who I am, the section links and where else to find me.
+         Bottom bar: copyright, a thank-you in Bisaya (with the English next to it) and "back to top". -->
     <footer class="footer">
-      <div class="wrap foot-row">
-        <p class="copy">
-          <span>© 2026 Will R. Bitoy.</span>
-          <span data-i18n="footer.rights">All rights reserved.</span>
-          <!-- Stays in Bisaya in both languages -->
-          <span class="bis" lang="ceb">Salamat sa pagbisita!</span>
-        </p>
-        <nav class="socials" aria-label="Elsewhere" data-i18n-attr="aria-label:footer.elsewhere">
-          <a
-            class="iconbtn sm"
-            href="https://github.com/willrdgzbitoy015-ops"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-            title="GitHub"
-            ><svg aria-hidden="true"><use href="#i-github" /></svg
-          ></a>
-          <a
-            class="iconbtn sm"
-            href="https://www.linkedin.com/in/will-bitoy-637305417/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-            title="LinkedIn"
-            ><svg aria-hidden="true"><use href="#i-linkedin" /></svg
-          ></a>
-          <a
-            class="iconbtn sm"
-            href="https://www.facebook.com/willrdrgzbitoy001"
-            target="_blank"
-            rel="noopener"
-            aria-label="Facebook"
-            title="Facebook"
-            ><svg aria-hidden="true"><use href="#i-facebook" /></svg
-          ></a>
-          <a
-            class="iconbtn sm"
-            href="https://www.instagram.com/_cheeze.dogg/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-            title="Instagram"
-            ><svg aria-hidden="true"><use href="#i-instagram" /></svg
-          ></a>
-          <a
-            class="iconbtn sm"
-            href="https://www.youtube.com/@guren.325"
-            target="_blank"
-            rel="noopener"
-            aria-label="YouTube"
-            title="YouTube"
-            ><svg aria-hidden="true"><use href="#i-youtube" /></svg
-          ></a>
+      <div class="wrap foot-main">
+        <div class="foot-brand">
+          <a class="foot-logo" href="index.html#home">Will<span class="dot">.</span></a>
+          <p>
+            I build systems that replace paper: web and mobile systems that make everyday tasks
+            faster and easier.
+          </p>
+          <p class="foot-place">
+            <svg aria-hidden="true"><use href="#i-pin" /></svg>Palompon, Leyte, Philippines
+          </p>
+        </div>
+        <nav class="foot-col" aria-labelledby="foot-explore">
+          <h2 class="foot-title" id="foot-explore">Explore</h2>
+          <ul class="foot-links">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#skills">Skills</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="index.html#experience">Experience</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
         </nav>
-        <a
-          class="iconbtn to-top"
-          href="#top"
-          aria-label="Back to top"
-          title="Back to top"
-          data-i18n-attr="aria-label:footer.backToTop, title:footer.backToTop"
-        >
+        <div class="foot-col">
+          <h2 class="foot-title" id="foot-connect">Connect</h2>
+          <nav class="socials" aria-labelledby="foot-connect">
+            <a
+              class="iconbtn sm"
+              href="https://github.com/willrdgzbitoy015-ops"
+              target="_blank"
+              rel="noopener"
+              aria-label="GitHub"
+              title="GitHub"
+              ><svg aria-hidden="true"><use href="#i-github" /></svg
+            ></a>
+            <a
+              class="iconbtn sm"
+              href="https://www.linkedin.com/in/will-bitoy-637305417/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+              ><svg aria-hidden="true"><use href="#i-linkedin" /></svg
+            ></a>
+            <a
+              class="iconbtn sm"
+              href="https://www.facebook.com/willrdrgzbitoy001"
+              target="_blank"
+              rel="noopener"
+              aria-label="Facebook"
+              title="Facebook"
+              ><svg aria-hidden="true"><use href="#i-facebook" /></svg
+            ></a>
+            <a
+              class="iconbtn sm"
+              href="https://www.instagram.com/_cheeze.dogg/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Instagram"
+              title="Instagram"
+              ><svg aria-hidden="true"><use href="#i-instagram" /></svg
+            ></a>
+            <a
+              class="iconbtn sm"
+              href="https://www.youtube.com/@guren.325"
+              target="_blank"
+              rel="noopener"
+              aria-label="YouTube"
+              title="YouTube"
+              ><svg aria-hidden="true"><use href="#i-youtube" /></svg
+            ></a>
+          </nav>
+          <a class="foot-mail" href="mailto:willrdgzbitoy015@gmail.com"
+            ><svg aria-hidden="true"><use href="#i-mail" /></svg>willrdgzbitoy015@gmail.com</a
+          >
+        </div>
+      </div>
+      <div class="wrap foot-bottom">
+        <p class="copy">© 2026 Will R. Bitoy. All rights reserved.</p>
+        <p class="thanks"><span lang="ceb">Salamat sa pagbisita!</span> Thanks for visiting.</p>
+        <a class="iconbtn to-top" href="#top" aria-label="Back to top" title="Back to top">
           <svg aria-hidden="true"><use href="#i-arrow-up" /></svg>
         </a>
       </div>
     </footer>
 
     <!-- Lightbox for project screenshots. Filled in by js/lightbox.js. -->
-    <dialog
-      class="lightbox"
-      id="lightbox"
-      aria-label="Preview"
-      data-i18n-attr="aria-label:lb.label"
-    >
-      <button
-        class="iconbtn lb-close"
-        type="button"
-        id="lb-close"
-        aria-label="Close"
-        data-i18n-attr="aria-label:lb.close"
-      >
+    <dialog class="lightbox" id="lightbox" aria-label="Preview">
+      <button class="iconbtn lb-close" type="button" id="lb-close" aria-label="Close">
         <svg aria-hidden="true"><use href="#i-x" /></svg>
       </button>
-      <button
-        class="iconbtn lb-prev"
-        type="button"
-        id="lb-prev"
-        aria-label="Previous"
-        data-i18n-attr="aria-label:lb.prev"
-      >
+      <button class="iconbtn lb-prev" type="button" id="lb-prev" aria-label="Previous">
         <svg aria-hidden="true"><use href="#i-chevron-left" /></svg>
       </button>
       <figure class="lb-figure">
         <div class="lb-stage" id="lb-stage"></div>
         <figcaption class="lb-caption" id="lb-caption"></figcaption>
       </figure>
-      <button
-        class="iconbtn lb-next"
-        type="button"
-        id="lb-next"
-        aria-label="Next"
-        data-i18n-attr="aria-label:lb.next"
-      >
+      <button class="iconbtn lb-next" type="button" id="lb-next" aria-label="Next">
         <svg aria-hidden="true"><use href="#i-chevron-right" /></svg>
       </button>
-    </dialog>
-
-    <!-- Command palette (Ctrl+K). The list is filled in by js/palette.js. -->
-    <dialog
-      class="cmdk"
-      id="cmdk"
-      aria-label="Command palette"
-      data-i18n-attr="aria-label:cmdk.label"
-    >
-      <div class="cmdk-top">
-        <svg aria-hidden="true"><use href="#i-search" /></svg>
-        <!-- role="combobox": a text box that controls the list below it -->
-        <input
-          id="cmdk-input"
-          type="text"
-          role="combobox"
-          aria-expanded="true"
-          aria-controls="cmdk-list"
-          aria-autocomplete="list"
-          autocomplete="off"
-          spellcheck="false"
-          placeholder="Jump to a section or run a command"
-          aria-label="Command"
-          data-i18n-attr="placeholder:cmdk.placeholder, aria-label:cmdk.inputLabel"
-        />
-        <kbd class="cmdk-kbd">Esc</kbd>
-      </div>
-      <ul
-        class="cmdk-list"
-        id="cmdk-list"
-        role="listbox"
-        aria-label="Commands"
-        data-i18n-attr="aria-label:cmdk.listLabel"
-      ></ul>
-      <div class="cmdk-foot" data-i18n="cmdk.foot">↑ ↓ to move · Enter to run · Esc to close</div>
     </dialog>
 
     <!-- Small message bar. role="status" makes screen readers announce it. -->

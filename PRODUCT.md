@@ -12,7 +12,7 @@ web
 - **After the battle (confirmed 2026-11-17):**
   - **Internships and jobs:** OJT coordinators, recruiters and employers. They read the projects, download the resume and get in touch.
   - **Local clients:** people and small businesses in Leyte who might hire Will to build a website or system, as Ruben's Photography did.
-- Bisaya speakers are first-class visitors. Every visible line and every aria label can switch between English and Bisaya.
+- The site is in English (the English/Bisaya toggle was removed on 2026-11-26, Will's request). Local touches stay as plain text: the Tagalog phrase "wala nang papel-papel" in About and the Bisaya thank-you in the footer, shown with its English.
 
 ## Product Purpose
 
@@ -21,7 +21,7 @@ Will R. Bitoy's personal portfolio. He is a 3rd-year BS Information Technology s
 Success means:
 
 1. Will wins the Portfolio Battle on 2026-11-22.
-2. Every feature works on the live site, on a phone, in both themes and both languages.
+2. Every feature works on the live site, on a phone, in both themes.
 3. After the battle, visitors download the resume or send a message about an internship, a job or a project.
 
 ## Positioning
@@ -32,7 +32,7 @@ Success means:
 - **Underground Apparel POS:** a clothing shop's sales, stock by color and size, suppliers and payroll.
 - **Ruben's Photography:** a Palompon photographer's showcase site, where every "Book" button opens Messenger.
 
-What another portfolio cannot honestly copy: these are real projects for real users in Palompon, Leyte; the whole site works in English and Bisaya; the photos are of Will himself. The current headline line, "I build systems that replace paper.", states this. Its final wording is still open.
+What another portfolio cannot honestly copy: these are real projects for real users in Palompon, Leyte; the photos are of Will himself. The current headline line, "I build systems that replace paper.", states this. Its final wording is still open.
 
 ## Operating Context
 
@@ -44,7 +44,7 @@ What another portfolio cannot honestly copy: these are real projects for real us
 
 ## Capabilities and Constraints
 
-**On the site now:** Day and Night themes (Night by default), the English/Bisaya toggle, a first-visit preloader, a custom cursor, skill filter pills, a page for each project with a gallery and lightbox, the Journey Timeline, a contact form (validation, honeypot, Web3Forms), copy email, the resume download, a Ctrl+K command palette, a console greeting and a link preview image.
+**On the site now:** Day and Night themes (Night by default), a preloader (first visit and every refresh) with a hero entrance, a custom cursor, skill filter pills, a page for each project with a gallery and lightbox, the Journey Timeline, a contact form (validation, honeypot, Web3Forms), copy email, the resume download, a console greeting and a link preview image.
 
 **Technical (Will's decisions; details in `CLAUDE.md`):**
 
@@ -65,27 +65,26 @@ What another portfolio cannot honestly copy: these are real projects for real us
 
 - The final headline.
 - The Interests list.
-- Whether the Ctrl+K palette counts as the "hard feature".
+- Which feature, if any, is the "hard feature" (the Ctrl+K palette was the candidate until it was removed on 2026-11-26).
 - Whether the Journey Timeline keeps its certificate and honors text entries.
 - The year of the Home Economics award.
 - Whether the POS teammate can be named.
 - The SmartFine Administrator's duties, and what the "10" means.
-- The Ruben's Photography live link.
 - Whether to show the second GitHub account.
 - The Web3Forms key.
 - Will's own drawing of the logo.
 
 ## Brand Commitments
 
-- **Name:** Will R. Bitoy. The short mark is "Will." and it is the only brand in the navbar: the bird-shaped "W" logo was removed from the site on 2026-11-21 (Will's request). The browser-tab icon (`favicon.svg`) still uses that "W" for now.
-- **Voice: playful and honest** (confirmed 2026-11-17). Friendly English with a few local Taglish jokes: "Anong gentle gentle?" (styled subtitle text, never the screenshot) and "debugging at 2 AM". Facts stay plain and accurate, with no hype and no made-up claims.
+- **Name:** Will R. Bitoy. The short mark is "Will." and it is the only brand in the navbar: the bird-shaped "W" logo was removed from the site on 2026-11-21 (Will's request). Since 2026-11-26 the browser-tab icon (`favicon.svg`) is "W." in the same style as "Will." (white W, violet dot, navy tile).
+- **Voice: playful and honest** (confirmed 2026-11-17). Friendly English with a light local touch: "wala nang papel-papel" (no more paperwork) in About, and the "lumpia recipe" fun fact. "Anong gentle gentle?" and the "Why IT?" quote were removed on 2026-11-26 (Will's request). Facts stay plain and accurate, with no hype and no made-up claims.
 - **Photos:** only Will's own. The hero is the gloves photo; don't swap it unless Will asks.
 - **Binding reference:** the structure and interactions follow a reference portfolio Will chose, except its lanyard / hanging ID card (see "Scope changes" in `CLAUDE.md`). Every word, photo, project and the logo are Will's own, so the site has to read as inspired by the reference, not a clone of it.
 
 ## Evidence on Hand
 
-- **Project facts:** `js/data/projects.js`, with project text in `js/i18n/en.js` and `index.html`.
-- **Real screenshots:** Ruben's Photography only (`images/rubens-*.webp`). SmartFine and the POS use drawn covers until Will sends screenshots made with dummy data.
+- **Project facts:** `js/data/projects.js` (structure and words) and `index.html`.
+- **Real screenshots:** all three projects (`images/`). SmartFine and the POS were captured from scratch copies with made-up demo data (2026-11-21); Ruben's Photography from its live site (retaken 2026-11-26).
 - **Resume:** `will-bitoy-resume.pdf`. It is Will's own document and names employers; the site's own text still uses job titles only.
 - **Photos:** the hero gloves cut-out (`images/hero-*.webp`) and the About sunset photo.
 - **Link preview image:** `og-image.png`.
@@ -97,15 +96,15 @@ What another portfolio cannot honestly copy: these are real projects for real us
 1. **Real over impressive.** Every claim traces back to a fact Will gave. A gap becomes a visible placeholder, never a guess.
 2. **It all works.** Quality and polish matter more than the number of features. A feature that is half-working costs more points than a missing one.
 3. **Will can explain all of it.** Code stays readable, with comments on the tricky parts, and nothing he didn't choose gets added.
-4. **Local and bilingual is the point.** Palompon, Leyte and the English/Bisaya toggle are part of who Will is, not decoration.
+4. **Local is the point.** Palompon, Leyte, the Tagalog phrase in About and the Bisaya thank-you are part of who Will is, not decoration.
 5. **Private by default.** Certificates, employers and anything Will calls confidential stay off the site.
 
 ## Accessibility & Inclusion
 
 - Text meets WCAG AA contrast in both themes. Gradients are decoration only.
 - The whole site works by keyboard, with visible focus styles.
-- `prefers-reduced-motion` is fully respected: no preloader, custom cursor, reveal animation or floating then.
+- `prefers-reduced-motion` is fully respected: no preloader, entrance, custom cursor, reveal animation or floating then.
 - Content is never hidden waiting for JavaScript or an animation.
-- Every image and icon button has a label in both languages.
+- Every image and icon button has a label.
 - No sideways scrolling at any width from 360 to 1440 px.
 - Lighthouse mobile scores 90+ in every category once the site is on a server.

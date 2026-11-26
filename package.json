@@ -4,11 +4,12 @@
   "version": "1.0.0",
   "description": "Will R. Bitoy's portfolio. Plain HTML, CSS and JavaScript: no build step.",
   "scripts": {
-    "dev": "python -m http.server 5173",
+    "dev": "node scripts/serve.mjs",
     "images": "node scripts/optimize-images.mjs",
     "format": "prettier --write .",
     "og": "node scripts/make-og-image.mjs",
-    "aura": "node scripts/make-aura-points.mjs"
+    "aura": "node scripts/make-aura-points.mjs",
+    "tunnel": "ngrok http 127.0.0.1:5173"
   },
   "devDependencies": {
     "prettier": "^3.10.1",

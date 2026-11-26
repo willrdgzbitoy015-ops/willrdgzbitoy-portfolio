@@ -10,7 +10,7 @@
   it can't read anything), so it is not a secret.
 */
 ;(function () {
-  const { $, el, t, toast, onLangChange } = WB
+  const { $, el, toast } = WB
 
   // Paste the key from web3forms.com between the quotes. While it is empty, the form
   // still checks the input but tells the visitor to email me instead of pretending to send.
@@ -23,7 +23,7 @@
     try {
       // The modern way. It needs a secure page (https or localhost)...
       await navigator.clipboard.writeText(EMAIL)
-      toast(t('toast.copied'))
+      toast('Email address copied.')
     } catch (error) {
       // ...so here is the old way as a backup: select hidden text and "press copy".
       const helper = el('textarea', { readonly: '', style: 'position:fixed;opacity:0' })
@@ -32,14 +32,17 @@
       helper.select()
       const copied = document.execCommand('copy')
       helper.remove()
-      toast(t(copied ? 'toast.copied' : 'toast.copyFailed'))
+      toast(
+        copied
+          ? 'Email address copied.'
+          : "Couldn't copy. Please select the address and copy it yourself.",
+      )
     }
   }
   $('#copy-email').addEventListener('click', copyEmail)
-  WB.copyEmail = copyEmail // the command palette uses it too
 
   /* ---------- 2. Validation ----------
-     Each field has a test and the dictionary key of its error message.
+     Each field has a test and the message to show when the test fails.
      The message is shown in the <span class="err"> under the field, and
      aria-invalid marks the field for screen readers and for the red border. */
   const form = $('#ticket-form')
@@ -52,20 +55,20 @@
     {
       input: $('#t-name'),
       error: $('#e-name'),
-      messageKey: 'form.errName',
+      message: 'Please enter your name.',
       isValid: (value) => value.length >= 2,
     },
     {
       input: $('#t-email'),
       error: $('#e-email'),
-      messageKey: 'form.errEmail',
+      message: 'Please enter a valid email address, like juan@example.com.',
       // something@something.something, with no spaces
       isValid: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     },
     {
       input: $('#t-msg'),
       error: $('#e-msg'),
-      messageKey: 'form.errMessage',
+      message: 'Please write a message of at least 10 characters.',
       isValid: (value) => value.length >= 10,
     },
   ]
@@ -73,7 +76,7 @@
   /** Checks one field, shows or clears its message, and returns true if it is fine. */
   function checkField(field) {
     const valid = field.isValid(field.input.value.trim())
-    field.error.textContent = valid ? '' : t(field.messageKey)
+    field.error.textContent = valid ? '' : field.message
     if (valid) field.input.removeAttribute('aria-invalid')
     else field.input.setAttribute('aria-invalid', 'true')
     return valid
@@ -88,20 +91,18 @@
 
   /* ---------- 3. Sending ---------- */
   let sending = false
-  let lastErrorKey = null // remembered so the error can be re-written when the language changes
 
   function setSending(isSending) {
     sending = isSending
     sendButton.disabled = isSending
-    sendLabel.textContent = t(isSending ? 'form.sending' : 'form.send')
+    sendLabel.textContent = isSending ? 'Sending…' : 'Send Message'
   }
 
   /** Shows the red error box with my email as a fallback, or hides it with null. */
-  function showError(messageKey) {
-    lastErrorKey = messageKey
-    errorBox.hidden = messageKey === null
-    if (messageKey === null) return
-    errorBox.replaceChildren(t(messageKey), ' ', el('a', { href: 'mailto:' + EMAIL }, EMAIL))
+  function showError(message) {
+    errorBox.hidden = message === null
+    if (message === null) return
+    errorBox.replaceChildren(message, ' ', el('a', { href: 'mailto:' + EMAIL }, EMAIL))
   }
 
   function showSuccess() {
@@ -133,10 +134,12 @@
     }
 
     if (!WEB3FORMS_KEY) {
-      showError('form.notConnected')
+      showError("The form isn't connected yet. Please email me directly:")
       return
     }
 
+    // The checked topic chip. form.elements.topic is the group of radio buttons named "topic".
+    const topic = form.elements.topic.value
     setSending(true)
     try {
       const response = await fetch(WEB3FORMS_URL, {
@@ -144,11 +147,11 @@
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: 'Portfolio ticket: ' + $('#t-topic').value,
+          subject: 'Portfolio ticket: ' + topic,
           from_name: 'Will R. Bitoy · Portfolio',
           name: $('#t-name').value.trim(),
           email: $('#t-email').value.trim(),
-          topic: $('#t-topic').value,
+          topic,
           message: $('#t-msg').value.trim(),
         }),
       })
@@ -157,7 +160,9 @@
       showSuccess()
     } catch (error) {
       // No internet, the service is down, or it said no. The typed message stays in the form.
-      showError('form.failed')
+      showError(
+        "The message couldn't be sent. Please check your connection and try again, or email me directly:",
+      )
     } finally {
       setSending(false)
     }
@@ -173,14 +178,5 @@
     okCard.hidden = true
     form.hidden = false
     FIELDS[0].input.focus()
-  })
-
-  /* ---------- Language switch: re-write the messages this file created ---------- */
-  onLangChange(() => {
-    for (const field of FIELDS) {
-      if (field.input.hasAttribute('aria-invalid')) checkField(field)
-    }
-    setSending(sending)
-    if (lastErrorKey) showError(lastErrorKey)
   })
 })()

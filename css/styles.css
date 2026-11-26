@@ -18,7 +18,7 @@
   12. Preview overlay
   13. Contact
   14. Footer
-  15. Lightbox, command palette, toast
+  15. Lightbox, toast
   16. Project page
   17. Reduced motion
 */
@@ -64,6 +64,8 @@
   --logo-plate: #f6f7fc;
   --logo-adapt: none;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* fast start, long soft landing */
+  /* slow start, fast middle, slow stop: the preloader curtain */
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
   --ok: #047857;
   --ok-bg: #d1fae5;
   --bad: #be123c;
@@ -262,10 +264,14 @@ ol {
 }
 
 /* ---------- 3. PRELOADER AND CUSTOM CURSOR ---------- */
+/* The preloader. The script in <head> puts "preload" on <html> on the first page of a
+   visit and on every refresh. The story: the letters of "Will." rise one by one, the bar
+   and the number follow the real loading progress (js/layout.js), then the words float
+   away and the whole panel slides up like a curtain. Its bottom edge carries a thin
+   gradient line and a soft shadow, so you can see the curtain move. */
 .preloader {
   display: none;
 }
-/* The class "preload" is put on <html> by the script in <head> (first page of a visit only). */
 .preload .preloader {
   position: fixed;
   inset: 0;
@@ -273,30 +279,66 @@ ol {
   display: grid;
   place-items: center;
   background: var(--bg);
-  /* Safety net: even if JavaScript never runs, it fades away after 2.6 s. */
-  animation: pl-out 0.45s ease 2.6s forwards;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.55);
+  /* Safety net: even if JavaScript never runs, the curtain lifts by itself after 3 s. */
+  animation: pl-lift 0.85s var(--ease-in-out) 3s forwards;
 }
+/* A different animation name on purpose: if this reused "pl-lift", the browser would treat
+   it as the safety-net animation (running since the page opened) with a new delay, count it
+   as already finished, and the curtain would vanish instead of sliding. */
 .preload .preloader.done {
-  animation: pl-out 0.45s ease forwards;
+  animation: pl-curtain 0.85s var(--ease-in-out) 0.1s forwards;
+}
+/* The curtain's bottom edge: shown only while the curtain moves. */
+.preloader::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--grad);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.preloader.done::after {
+  opacity: 1;
 }
 .pl-inner {
   display: grid;
   justify-items: center;
-  gap: 18px;
+  gap: 16px;
 }
+.preloader.done .pl-inner {
+  animation: pl-away 0.4s ease-in forwards;
+}
+/* overflow: hidden makes the word a window: each letter starts just below it and rises in. */
 .pl-logo {
-  font-size: clamp(2.2rem, 7vw, 3.2rem);
+  display: flex;
+  overflow: hidden;
+  padding: 0.06em 0.04em;
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 700;
+  line-height: 1.05;
   letter-spacing: -0.03em;
-  animation: pl-in 0.6s ease both;
+}
+.pl-logo > span {
+  display: inline-block;
+  animation: pl-letter 0.6s var(--ease-out) both;
+  animation-delay: calc(0.05s + var(--i) * 55ms);
+}
+.pl-logo > .dot {
+  animation-name: pl-dot;
 }
 .pl-bar {
-  width: 140px;
+  width: 160px;
   height: 2px;
   border-radius: 2px;
   background: var(--line);
   overflow: hidden;
 }
+/* Without JavaScript the bar just fills in 1.1 s. With it ("live"), js/layout.js sets the
+   width from the real progress, and the number under it shows the same value. */
 .pl-bar i {
   display: block;
   height: 100%;
@@ -304,10 +346,34 @@ ol {
   transform-origin: left;
   animation: pl-bar 1.1s ease-in-out forwards;
 }
-@keyframes pl-in {
+.preloader.live .pl-bar i {
+  animation: none;
+  transform: scaleX(0);
+}
+.pl-pct {
+  min-width: 4ch;
+  color: var(--faint);
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums; /* every digit the same width, so the number doesn't jiggle */
+  text-align: center;
+  visibility: hidden;
+}
+.preloader.live .pl-pct {
+  visibility: visible;
+}
+@keyframes pl-letter {
   from {
-    opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(110%);
+  }
+}
+@keyframes pl-dot {
+  0%,
+  30% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.4);
   }
 }
 @keyframes pl-bar {
@@ -318,10 +384,91 @@ ol {
     transform: scaleX(1);
   }
 }
-@keyframes pl-out {
+@keyframes pl-away {
   to {
     opacity: 0;
+    transform: translateY(-16px);
+    filter: blur(4px);
+  }
+}
+/* The panel slides up by its own height (plus a little, so the shadow leaves too). */
+@keyframes pl-lift {
+  to {
+    transform: translateY(calc(-100% - 80px));
     visibility: hidden;
+  }
+}
+@keyframes pl-curtain {
+  to {
+    transform: translateY(calc(-100% - 80px));
+    visibility: hidden;
+  }
+}
+
+/* The entrance right after it: the navbar drops in and the hero rises in, one piece after
+   another, while the curtain lifts. On a normal page change there is no preloader, so the
+   same entrance runs sooner ("intro" without "preload"; --intro-wait is shorter).
+   Until it starts, those pieces wait invisible under the preloader. Safety net: they show
+   by themselves after 3.4 s if JavaScript never starts the entrance. */
+.preload:not(.intro) :is(.nav-bar, .hero-copy > *, .hero-visual, .back-link, .pp-head > *) {
+  opacity: 0;
+  animation: pl-show 0s 3.4s forwards;
+}
+.intro {
+  --intro-wait: 0.05s;
+}
+.intro.preload {
+  --intro-wait: 0.3s; /* the curtain is a third of the way up */
+}
+.intro .nav-bar {
+  animation: intro-drop 0.8s var(--ease-out) var(--intro-wait) both;
+}
+.intro.preload .nav-bar {
+  animation-delay: 0.6s; /* the rising curtain uncovers the top of the page last */
+}
+.intro :is(.hero-copy, .pp-head) > *,
+.intro .back-link {
+  animation: intro-rise 0.9s var(--ease-out) both;
+  animation-delay: var(--intro-wait);
+}
+.intro :is(.hero-copy, .pp-head) > :nth-child(2) {
+  animation-delay: calc(var(--intro-wait) + 0.08s);
+}
+.intro :is(.hero-copy, .pp-head) > :nth-child(3) {
+  animation-delay: calc(var(--intro-wait) + 0.16s);
+}
+.intro :is(.hero-copy, .pp-head) > :nth-child(4) {
+  animation-delay: calc(var(--intro-wait) + 0.24s);
+}
+.intro :is(.hero-copy, .pp-head) > :nth-child(n + 5) {
+  animation-delay: calc(var(--intro-wait) + 0.32s);
+}
+.intro .hero-visual {
+  animation: intro-visual 1.2s var(--ease-out) calc(var(--intro-wait) + 0.1s) both;
+}
+@keyframes pl-show {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes intro-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+}
+@keyframes intro-visual {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(12px);
   }
 }
 
@@ -335,13 +482,11 @@ ol {
 }
 .has-cursor,
 .has-cursor a,
-.has-cursor button,
-.has-cursor [role='option'] {
+.has-cursor button {
   cursor: none;
 }
 .has-cursor input,
-.has-cursor textarea,
-.has-cursor select {
+.has-cursor textarea {
   cursor: auto;
 }
 .cursor-dot,
@@ -453,27 +598,6 @@ ol {
   align-items: center;
   gap: 6px;
 }
-/* EN / BIS toggle */
-.seg {
-  display: flex;
-  padding: 3px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-}
-.seg button {
-  padding: 4px 10px;
-  border: 0;
-  border-radius: 999px;
-  background: none;
-  color: var(--muted);
-  font: 600 12px var(--f-mono);
-  cursor: pointer;
-}
-.seg button[aria-pressed='true'] {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
 /* (".nav" makes this stronger than the .iconbtn rule further down, which sets display) */
 .nav .menu-btn {
   display: none;
@@ -532,9 +656,6 @@ ol {
   .nav-bar {
     padding-left: 12px;
     gap: 6px;
-  }
-  .seg button {
-    padding: 4px 8px;
   }
 }
 
@@ -801,17 +922,33 @@ ol {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+/* Course · role on one line; on phones the two parts stack and the dot hides. */
 .hero-role {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
   margin-top: 16px;
   color: var(--cyan);
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   font-weight: 600;
+}
+.hero-role .sep {
+  opacity: 0.6;
+}
+@media (max-width: 560px) {
+  .hero-role {
+    flex-direction: column;
+  }
+  .hero-role .sep {
+    display: none;
+  }
 }
 .hero-sub {
   max-width: 560px;
   margin-top: 16px;
   color: var(--muted);
   font-size: 16.5px;
+  text-wrap: pretty; /* the browser avoids leaving one lonely word on the last line */
 }
 .hero-sub strong {
   color: var(--ink);
@@ -1023,22 +1160,6 @@ ol {
 .about-main > p + p {
   margin-top: 14px;
 }
-/* "Anong gentle gentle?" styled like an anime dub subtitle: white letters with a thin
-   black outline. The dark strip behind keeps it readable on the light theme. */
-.subtitle {
-  display: inline-block;
-  padding: 0 0.4em;
-  border-radius: 4px;
-  background: #11142b;
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-}
 .about-main em {
   color: var(--ink);
 }
@@ -1114,32 +1235,6 @@ ol {
     transform: translateY(1px);
   }
 }
-.why {
-  margin: 20px 0 0;
-  padding: 18px 20px;
-  border: 1px dashed var(--accent-line);
-  border-radius: var(--r);
-  background: var(--accent-soft);
-}
-.why figcaption {
-  color: var(--accent-text);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-.why blockquote {
-  margin: 8px 0 0;
-  font-size: 16px;
-  font-weight: 500;
-}
-/* Quote marks are added here, so the translations stay clean. */
-.why blockquote::before {
-  content: '“';
-}
-.why blockquote::after {
-  content: '”';
-}
 .interests {
   padding: 24px;
   border: 1px solid var(--line);
@@ -1186,6 +1281,10 @@ ol {
     border-color 0.3s,
     transform 0.4s var(--ease-out);
 }
+/* An odd number of interests: the last one spans both columns instead of leaving a hole. */
+.interest-grid li:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
 .interest-grid li:hover {
   border-color: var(--accent-line);
   transform: translateY(-2px);
@@ -1213,11 +1312,120 @@ ol {
   }
 }
 
-/* ---------- 9. SKILLS ---------- */
-.skill-grid {
+/* ---------- 9. SKILLS ----------
+   Two blocks: "Core stack" (6 big cards: what I did with the skill and where) and
+   "More tools and skills" (the filterable grid of small cards). */
+.block-head {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.block-head h3 {
+  font-size: 22px;
+  font-weight: 700;
+}
+.block-head p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 15px;
+}
+.core-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 88px; /* a clear break before the second block */
+}
+/* A core card is a .skill-card too (same border, hover lift, brand light and logo
+   glow), laid out left-aligned with room for a sentence and project links. */
+.skill-card.core-card {
+  align-items: stretch;
   gap: 14px;
+  padding: 22px 22px 20px;
+  text-align: left;
+}
+/* Subgrid: each card's three parts (name, sentence, "Used in") use rows shared with the
+   other cards in the same row, so the sentences and the divider lines line up. */
+@supports (grid-template-rows: subgrid) {
+  .skill-card.core-card {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 14px;
+  }
+  /* The shared row already lines them up; pushing to the bottom would undo that. */
+  .core-card .used {
+    margin-top: 0;
+    align-self: start;
+  }
+}
+.core-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.core-top h4 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.core-top .skill-cat {
+  display: block;
+  margin-top: 3px;
+}
+.core-card > p:not(.used) {
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+/* "Used in" sits on the card's bottom edge, so the cards in a row line up. */
+.used {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--faint);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.used a {
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.used a:hover {
+  border-color: color-mix(in srgb, var(--brand) 60%, var(--line));
+}
+@media (max-width: 960px) {
+  .core-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .core-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin-bottom: 64px;
+  }
+}
+/* Flex instead of grid, so a row that isn't full (the last one, or a filtered set) sits
+   centered under the full rows. Each card is 1/--cols of the row, minus the gaps. */
+.skill-grid {
+  --cols: 4;
+  --gap: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
+}
+.skill-grid > .skill-card {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  min-width: 0;
 }
 /* Each card carries its brand color in style="--brand: ..." (index.html). It tints the hover
    border, the glow under the logo and a soft light that follows the mouse: js/sections.js
@@ -1333,16 +1541,13 @@ ol {
 }
 @media (max-width: 960px) {
   .skill-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    --cols: 3;
   }
 }
 @media (max-width: 640px) {
   .skill-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .pills {
-    justify-content: flex-start;
+    --cols: 2;
+    --gap: 10px;
   }
 }
 
@@ -1597,15 +1802,16 @@ ol {
 }
 
 /* ---------- 13. CONTACT ---------- */
+/* Both columns stretch to the taller one, so the form card and the list end on one line. */
 .contact-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 28px;
-  align-items: start;
 }
 .contact-list {
   display: grid;
   gap: 10px;
+  align-content: start; /* keep the rows their own height when the column stretches */
 }
 .contact-item {
   display: flex;
@@ -1651,16 +1857,34 @@ a.contact-item:hover .ic {
   overflow-wrap: anywhere;
 }
 .form-card {
+  display: flex;
+  flex-direction: column;
   padding: 28px;
   border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--card-bg);
   box-shadow: var(--card-shadow);
 }
+/* Rows: heading, name + email, topic, message (1fr: it takes any extra height, so the
+   message box grows when the card is stretched), then the error box and the send row. */
 #ticket-form {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto auto 1fr;
   gap: 16px;
+}
+.form-head {
+  margin-bottom: 4px;
+}
+.form-head h3 {
+  font-size: 19px;
+  font-weight: 700;
+}
+.form-head p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 14px;
 }
 .field {
   display: grid;
@@ -1675,7 +1899,6 @@ a.contact-item:hover .ic {
   font-weight: 600;
 }
 .field input,
-.field select,
 .field textarea {
   width: 100%;
   padding: 12px 14px;
@@ -1691,8 +1914,89 @@ a.contact-item:hover .ic {
   min-height: 150px;
   resize: vertical;
 }
+/* The message field fills its stretched row: label on top, the box takes the rest. */
+.msg-field {
+  grid-template-rows: auto 1fr;
+  align-content: stretch;
+}
+.msg-field textarea {
+  height: 100%;
+}
+/* Topic: a <fieldset> of radio buttons drawn as chips. The radio itself is invisible but
+   still there (clicks on the label pick it, Tab and the arrow keys reach it); the <span>
+   after it is what you see, so "input:checked + span" styles the picked chip. */
+fieldset.field {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.field legend {
+  margin-bottom: 7px;
+  padding: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  position: relative;
+}
+.chip input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--field-bg);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    border-color 0.2s;
+}
+/* The small ring in front of the words, like a radio button; it gets a dot when picked. */
+.chip span::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 50%;
+  transition: border-color 0.2s;
+}
+.chip:hover span {
+  border-color: var(--accent-line);
+  color: var(--ink);
+}
+.chip input:checked + span {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+.chip input:checked + span::before {
+  border-color: var(--accent);
+  background: radial-gradient(circle, var(--accent) 0 3.5px, transparent 4px);
+}
+.chip input:focus-visible + span {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
 .field input:focus,
-.field select:focus,
 .field textarea:focus {
   outline: none;
   border-color: var(--accent);
@@ -1795,43 +2099,141 @@ a.contact-item:hover .ic {
   }
 }
 
-/* ---------- 14. FOOTER ---------- */
+/* ---------- 14. FOOTER ----------
+   Top: the brand with a short line, the section links, then socials and email.
+   Bottom bar: copyright, the thank-you and "back to top". The footer sits on --bg-2,
+   a shade off the page, so it reads as the end of the page. */
 .footer {
   border-top: 1px solid var(--line);
+  background: var(--bg-2);
 }
-.foot-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-block: 28px;
+.foot-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto auto;
+  gap: 40px 72px;
+  padding-block: 56px 44px;
 }
-.copy {
+.foot-logo {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+.foot-brand p {
+  max-width: 40ch;
+  margin-top: 12px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 15px;
 }
-.copy .bis {
-  margin-left: 6px;
-  color: var(--accent-text);
+.foot-brand .foot-place {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--cyan);
+  font-size: 14px;
   font-weight: 600;
+}
+.foot-place svg,
+.foot-mail svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+.foot-title {
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+/* Links fill each column top to bottom (Home, About, Skills | Projects, ...), the way
+   people read a footer list. */
+.foot-links {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  grid-template-rows: repeat(3, auto);
+  justify-content: start;
+  gap: 10px 36px;
+}
+.foot-links a,
+.foot-mail {
+  color: var(--muted);
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.foot-links a:hover,
+.foot-mail:hover {
+  color: var(--ink);
 }
 .socials {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
-@media (max-width: 640px) {
-  .foot-row {
-    flex-direction: column;
-    text-align: center;
+.foot-mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  overflow-wrap: anywhere;
+}
+.foot-bottom {
+  display: flex;
+  align-items: center;
+  gap: 12px 24px;
+  padding-block: 20px 28px;
+  border-top: 1px solid var(--line);
+}
+.copy,
+.thanks {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.copy {
+  margin-right: auto;
+}
+/* "Salamat sa pagbisita!" is Bisaya for the English that follows it. */
+.thanks span {
+  color: var(--ink);
+  font-weight: 600;
+}
+/* Tablets: the brand on its own row, the two link groups side by side under it. */
+@media (max-width: 860px) {
+  .foot-main {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .copy .bis {
-    display: block;
-    margin: 4px 0 0;
+  .foot-brand {
+    grid-column: 1 / -1;
+  }
+}
+/* Phones: everything in one column; the bottom bar puts "back to top" beside the text. */
+@media (max-width: 560px) {
+  .foot-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-block: 44px 32px;
+  }
+  .foot-links {
+    grid-template-rows: repeat(2, auto);
+    gap: 10px 28px;
+  }
+  .foot-bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 16px;
+  }
+  .thanks {
+    grid-row: 2;
+  }
+  .to-top {
+    grid-column: 2;
+    grid-row: 1 / 3;
   }
 }
 
-/* ---------- 15. LIGHTBOX, COMMAND PALETTE, TOAST ---------- */
+/* ---------- 15. LIGHTBOX, TOAST ---------- */
 dialog {
   color: var(--ink);
 }
@@ -1915,87 +2317,6 @@ dialog {
   .lb-next {
     right: calc(50% - 50px);
   }
-}
-
-.cmdk {
-  width: min(580px, calc(100vw - 24px));
-  margin: 14vh auto auto;
-  padding: 0;
-  border: 1px solid var(--line-strong);
-  border-radius: 18px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.cmdk::backdrop {
-  background: var(--overlay);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-.cmdk-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--line);
-}
-.cmdk-top > svg {
-  width: 18px;
-  height: 18px;
-  color: var(--faint);
-  flex: none;
-}
-.cmdk-top input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  background: none;
-  font-size: 16px;
-  outline: none;
-}
-.cmdk-kbd {
-  padding: 2px 7px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  color: var(--faint);
-  font: 600 11px var(--f-mono);
-}
-.cmdk-list {
-  max-height: min(380px, 55vh);
-  overflow-y: auto;
-  padding: 8px;
-}
-.cmdk-list [role='option'] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 11px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14.5px;
-}
-.cmdk-list [role='option'] span {
-  color: var(--faint);
-  font-size: 12px;
-  font-weight: 600;
-  flex: none;
-}
-/* The highlighted command (moved with the arrow keys or the mouse) */
-.cmdk-list [aria-selected='true'] {
-  background: var(--accent-soft);
-  box-shadow: inset 0 0 0 1px var(--accent-line);
-}
-.cmdk-empty {
-  padding: 14px 12px;
-  color: var(--muted);
-  font-size: 14px;
-}
-.cmdk-foot {
-  padding: 10px 16px;
-  border-top: 1px solid var(--line);
-  color: var(--faint);
-  font: 500 12px var(--f-mono);
 }
 
 .toast {

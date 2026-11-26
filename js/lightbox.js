@@ -9,7 +9,7 @@
     { node, caption }       an element to show a bigger copy of.
 */
 ;(function () {
-  const { $, el, t } = WB
+  const { $, el } = WB
 
   const dialog = $('#lightbox')
   if (!dialog) return
@@ -61,10 +61,4 @@
     if (event.target === dialog || event.target === stage) dialog.close()
   })
   dialog.addEventListener('close', () => document.body.classList.remove('locked'))
-
-  // Keep the Previous / Next labels in the current language.
-  WB.onLangChange(() => {
-    prevButton.setAttribute('aria-label', t('lb.prev'))
-    nextButton.setAttribute('aria-label', t('lb.next'))
-  })
 })()

@@ -1,17 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
-  <!-- Bird-shaped "W" (kalanggaman = bird). Swap this file for Will's own drawing later. -->
-  <style>
-    .bg { fill: #EFEBF7 } .dot { fill: #7C3AED }
-    @media (prefers-color-scheme: dark) { .bg { fill: #271E42 } .dot { fill: #C4B5FD } }
-  </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    Browser-tab icon: "W." in the style of the navbar's "Will." mark (navy tile, white W,
+    violet dot). The full "Will." is unreadable at tab size (16 px), so the icon keeps the
+    first letter and the dot. The letters are drawn as shapes, not text, so the icon looks
+    the same on every computer, with or without the Inter font.
+  -->
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#A78BFA"/>
-      <stop offset=".55" stop-color="#E9A8F2"/>
-      <stop offset="1" stop-color="#8EE3CF"/>
-    </linearGradient>
+    <!-- Cuts the W's pointed corners flat at the top and the bottom, like Inter Bold -->
+    <clipPath id="cap"><rect x="0" y="9" width="32" height="14" /></clipPath>
   </defs>
-  <rect class="bg" x="1" y="1" width="38" height="38" rx="11"/>
-  <path d="M6 13 C9 22 11.5 28 14 28 C16.6 28 18 21 20 17 C22 21 23.4 28 26 28 C28.5 28 31 22 34 13" fill="none" stroke="url(#g)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle class="dot" cx="20" cy="11.5" r="2.3"/>
+  <rect width="32" height="32" rx="7.5" fill="#0F1430" />
+  <g transform="translate(0.3 0)">
+    <!-- The W is one thick zig-zag line; its tips poke past the clip box and get cut flat. -->
+    <polyline
+      points="5.25,6.2 9.75,23 13.5,9 17.25,23 21.75,6.2"
+      fill="none"
+      stroke="#EEF1FF"
+      stroke-width="3.3"
+      stroke-linejoin="miter"
+      stroke-miterlimit="10"
+      clip-path="url(#cap)"
+    />
+    <circle cx="25.4" cy="21.35" r="1.65" fill="#9B6BFF" />
+  </g>
 </svg>

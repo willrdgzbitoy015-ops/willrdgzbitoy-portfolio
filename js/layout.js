@@ -8,25 +8,72 @@
     6. Custom cursor
 */
 ;(function () {
-  const { $, $$, t, toast, reducedMotion, onLangChange } = WB
+  const { $, $$, toast, reducedMotion } = WB
   const root = document.documentElement
 
-  /* ---------- 1. Preloader ----------
-     The script in <head> adds "preload" on the first page of a visit. We let the little
-     intro play for at least 0.9 s (and at most until the page has loaded), then fade it
-     out and remember it for this visit, so it doesn't replay on every page. */
+  /* ---------- 1. Preloader and entrance ----------
+     The script in <head> adds "preload" on the first page of a visit and on every refresh
+     (otherwise "intro": just the entrance, see css/styles.css section 3).
+     While the preloader shows, its bar and number follow the real loading progress: we
+     count the fonts plus every image that loads right away (not the lazy ones), and the
+     number glides toward that share. It stops at 90% until the browser says the whole page
+     has loaded, then runs to 100%. After that (and at least MIN_TIME after this script
+     started, so the letters can finish rising) the curtain lifts and the hero comes in. */
   const preloader = $('.preloader')
   if (root.classList.contains('preload') && preloader) {
+    const MIN_TIME = 1000 // ms
     const started = performance.now()
-    const finish = () => {
-      const wait = Math.max(0, 900 - (performance.now() - started))
-      setTimeout(() => {
-        preloader.classList.add('done')
-        setTimeout(() => root.classList.remove('preload'), 450)
-      }, wait)
+    const SAFETY_NET = 2900 // ms: about when the CSS lifts the curtain by itself
+    const bar = $('.pl-bar i', preloader)
+    const number = $('.pl-pct', preloader)
+    preloader.classList.add('live') // from now on this script moves the bar, not the CSS
+
+    const images = $$('img').filter((img) => img.loading !== 'lazy')
+    const total = images.length + 1 // + 1 for the fonts
+    let ready = 0
+    const oneMore = () => {
+      ready += 1
     }
-    if (document.readyState === 'complete') finish()
-    else window.addEventListener('load', finish, { once: true })
+    if (document.fonts) document.fonts.ready.then(oneMore)
+    else oneMore()
+    for (const img of images) {
+      if (img.complete) oneMore()
+      else {
+        img.addEventListener('load', oneMore, { once: true })
+        img.addEventListener('error', oneMore, { once: true }) // a broken image still counts as done
+      }
+    }
+    let pageLoaded = document.readyState === 'complete'
+    window.addEventListener('load', () => (pageLoaded = true), { once: true })
+
+    let shown = 0 // what the bar shows now (0 to 1)
+    function step() {
+      const real = pageLoaded ? 1 : Math.min(ready / total, 0.9)
+      shown += (real - shown) * 0.12 // move 12% of the way each frame: a smooth glide
+      if (real - shown < 0.005) shown = real
+      bar.style.transform = `scaleX(${shown})`
+      number.textContent = Math.round(shown * 100) + '%'
+      if (shown === 1 && performance.now() - started >= MIN_TIME) finish()
+      else requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+
+    function finish() {
+      // performance.now() counts from the moment the page started loading. If the CSS
+      // safety net already lifted the curtain (a very slow load, or the tab was in the
+      // background), don't play it again: just tidy up.
+      if (performance.now() > SAFETY_NET) {
+        root.classList.remove('preload')
+        return
+      }
+      preloader.classList.add('done') // CSS: the words float away, the curtain lifts
+      root.classList.add('intro') // CSS: navbar and hero come in, one after another
+      setTimeout(() => root.classList.remove('preload'), 1000)
+      setTimeout(() => root.classList.remove('intro'), 2600)
+    }
+  } else if (root.classList.contains('intro')) {
+    // No preloader: the entrance started on its own; tidy up when it's over.
+    setTimeout(() => root.classList.remove('intro'), 2200)
   }
   try {
     sessionStorage.setItem('wb-seen', '1')
@@ -48,7 +95,7 @@
     panel.hidden = !open
     // aria-expanded tells screen readers whether the menu is open.
     menuButton.setAttribute('aria-expanded', String(open))
-    menuButton.setAttribute('aria-label', t(open ? 'nav.closeMenu' : 'nav.openMenu'))
+    menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu')
     menuButton.innerHTML = open ? ICON_CLOSE : ICON_MENU // fixed icon markup, not user text
     // The page behind must not scroll while the menu covers it.
     document.body.classList.toggle('locked', open)
@@ -72,7 +119,6 @@
   window.matchMedia('(min-width: 1101px)').addEventListener('change', (event) => {
     if (event.matches && menuIsOpen()) setMenu(false)
   })
-  onLangChange(() => setMenu(menuIsOpen())) // refresh the button's label in the new language
   setMenu(false)
 
   /* ---------- 3. Resume buttons ----------
@@ -85,7 +131,7 @@
   function downloadResume() {
     if (menuIsOpen()) setMenu(false)
     if (!RESUME_READY) {
-      toast(t('toast.resumeSoon'))
+      toast('The resume PDF is not uploaded yet.')
       return
     }
     // A temporary <a download> link is the standard way to start a download from JS.
@@ -102,10 +148,6 @@
     link.remove()
   }
   for (const button of $$('[data-resume]')) button.addEventListener('click', downloadResume)
-
-  // Other scripts (the command palette) need these two.
-  WB.downloadResume = downloadResume
-  WB.closeMenu = () => setMenu(false)
 
   /* ---------- 4. Navbar shadow + active link ----------
      The pill gets a shadow once the page has scrolled. requestAnimationFrame limits the
@@ -214,7 +256,7 @@
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`
       cursor.classList.remove('hidden')
       // Grow the ring over anything clickable.
-      cursor.classList.toggle('hover', !!event.target.closest('a, button, [role=option], label'))
+      cursor.classList.toggle('hover', !!event.target.closest('a, button, label'))
     },
     { passive: true },
   )
