@@ -34,7 +34,7 @@ WB.PROJECTS = {
       { label: 'Mobile app + web version' },
     ],
     tech: ['React Native (Expo)', 'SQLite', 'PayMongo', 'bcrypt', 'AES-256-GCM'],
-    repo: null, // [public GitHub repo link] still to come from Will
+    repo: 'https://github.com/willrdgzbitoy015-ops/Smartfine',
     cover: 'images/smartfine-overview-1200.webp',
     sections: [
       {
@@ -109,7 +109,7 @@ WB.PROJECTS = {
       {
         kind: 'text',
         heading: 'Status',
-        body: 'Working prototype, finished October 2026: a mobile app with a web version. Payments run in PayMongo test mode, so no real money moves. Tested by classmates, teachers and friends. Built for Application Development and Information Assurance and Security 1. Code: [public GitHub repo link]',
+        body: 'Working prototype, finished October 2026: a mobile app with a web version. Payments run in PayMongo test mode, so no real money moves. Tested by classmates, teachers and friends. Built for Application Development and Information Assurance and Security 1. Code on GitHub: github.com/willrdgzbitoy015-ops/Smartfine.',
       },
       {
         kind: 'gallery',

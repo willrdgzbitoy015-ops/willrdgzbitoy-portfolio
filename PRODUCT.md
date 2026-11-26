@@ -88,7 +88,7 @@ What another portfolio cannot honestly copy: these are real projects for real us
 - **Resume:** `will-bitoy-resume.pdf`. It is Will's own document and names employers; the site's own text still uses job titles only.
 - **Photos:** the hero gloves cut-out (`images/hero-*.webp`) and the About sunset photo.
 - **Link preview image:** `og-image.png`.
-- **Public code:** the POS has a public repo. SmartFine has no public repo link yet.
+- **Public code:** both have public repos (POS: `kishakylepc-ui/CompAcc_POS`, SmartFine: `willrdgzbitoy015-ops/Smartfine`).
 - **Do not make these up:** testimonials or reviews of Will, client quotes, usage numbers or other metrics, live links that don't exist yet, certificate images, or employer names.
 
 ## Product Principles
